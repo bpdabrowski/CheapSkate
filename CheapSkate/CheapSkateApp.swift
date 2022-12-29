@@ -11,7 +11,8 @@ import SwiftUI
 struct CheapSkateApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let viewModel = ExpenseViewModel()
+            ExpenseView(viewModel: viewModel)
         }
     }
 }

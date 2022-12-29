@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */; };
-		F284F83F295D5EC500EB7E7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83E295D5EC500EB7E7C /* ContentView.swift */; };
+		F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83E295D5EC500EB7E7C /* ExpenseView.swift */; };
 		F284F841295D5EC700EB7E7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F284F840295D5EC700EB7E7C /* Assets.xcassets */; };
 		F284F844295D5EC700EB7E7C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */; };
+		F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F284F839295D5EC500EB7E7C /* CheapSkate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheapSkate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateApp.swift; sourceTree = "<group>"; };
-		F284F83E295D5EC500EB7E7C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F284F83E295D5EC500EB7E7C /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
 		F284F840295D5EC700EB7E7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */,
-				F284F83E295D5EC500EB7E7C /* ContentView.swift */,
+				F284F83E295D5EC500EB7E7C /* ExpenseView.swift */,
+				F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */,
 				F284F840295D5EC700EB7E7C /* Assets.xcassets */,
 				F284F842295D5EC700EB7E7C /* Preview Content */,
 			);
@@ -137,7 +140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F284F83F295D5EC500EB7E7C /* ContentView.swift in Sources */,
+				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
+				F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
