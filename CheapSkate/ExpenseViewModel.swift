@@ -7,11 +7,13 @@
 
 import Foundation
 
+enum ExpenseCategory: String, CaseIterable {
+    case groceries
+    case food
+    case gas
+    case misc
+}
+
 class ExpenseViewModel: ObservableObject {
-    enum ExpenseCategory: String, CaseIterable {
-        case groceries
-        case food
-        case gas
-        case misc
-    }
+
 }

@@ -6,13 +6,21 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct CheapSkateApp: App {
     var body: some Scene {
         WindowGroup {
-            let viewModel = ExpenseViewModel()
-            ExpenseView(viewModel: viewModel)
+            let rootStore = Store(
+              initialState: RootState(),
+              reducer: rootReducer,
+              environment: .live(environment: RootEnvironment()))
+            let store = rootStore.scope(
+               state: \.expenseState,
+               action: RootAction.expenseAction
+            )
+            ExpenseView(store: store)
         }
     }
 }
