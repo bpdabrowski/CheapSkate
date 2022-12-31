@@ -12,6 +12,7 @@ import Foundation
 struct ExpenseState: Equatable, Encodable {
     var category: ExpenseCategory = .groceries
     @BindableState var amount: Double = 0.00
+    var date: Date = Date()
 }
 
 enum ExpenseAction: BindableAction {
@@ -37,6 +38,7 @@ let expenseReducer = Reducer<
         state.category = category
         return .none
     case .submitExpense:
+        state.date = Date()
         return environment.saveExpense(state)
             .receive(on: environment.mainQueue())
             .catchToEffect()
