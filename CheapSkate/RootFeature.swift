@@ -27,6 +27,10 @@ let rootReducer = Reducer<
     state: \.expenseState,
     action: /RootAction.expenseAction,
     environment: { _ in
-      .live(environment: ExpenseEnvironment(putExpenseRequest: putExpenseEffect))
+      .live(
+        environment: ExpenseEnvironment(
+            saveExpense: ExpenseRepository().saveExpense
+        )
+      )
     }))
 // swiftlint:enable trailing_closure

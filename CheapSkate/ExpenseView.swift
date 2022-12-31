@@ -9,9 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseView: View {
-    @State private var amount: String = ""
-    @FocusState private var amountInFocus: Bool
     let store: Store<ExpenseState, ExpenseAction>
+    let viewModel = ExpenseViewModel()
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -24,29 +23,39 @@ struct ExpenseView: View {
                                 Capsule()
                                     .frame(width: 105, height: 55)
                                     .foregroundColor(.mint)
-                                Button(action: { viewStore.send(.selectCategory(category)) }, label: {
+                                Button(action: {
+                                    viewStore.send(.selectCategory(category))
+                                }, label: {
                                     Text(category.rawValue.capitalized)
-                                        .foregroundColor(.black)
+                                        .foregroundColor(
+                                            viewModel.tabTextColor(
+                                                cellCategory: viewStore.category,
+                                                selectedCategory: category
+                                            )
+                                        )
                                         .font(.body)
                                 })
                                 .frame(width: 100, height: 50)
-                                .background(.white)
+                                .background(
+                                    viewModel.tabFillColor(
+                                        cellCategory: viewStore.category,
+                                        selectedCategory: category
+                                    )
+                                )
                                 .clipShape(Capsule())
                             }
                         }
                     }
                 }
-                HStack {
-                    Text("$")
-                        .font(.system(size: 75))
-                    TextField("0.00", text: $amount)
-                        .font(.system(size: 75))
-                        .focused($amountInFocus)
-                        .tint(.black)
-                        .keyboardType(.decimalPad)
-                }
+
+                CurrencyTextField(
+                    numberFormatter: viewModel.formatter,
+                    value: viewStore.binding(\.$amount)
+                ).frame(maxWidth: .infinity, maxHeight: 90)
                 
-                Button(action: { viewStore.send(.submitAmount(amount)) }, label: {
+                Button(action: {
+                    viewStore.send(.submitExpense)
+                }, label: {
                     Text("Submit")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -57,9 +66,6 @@ struct ExpenseView: View {
                 
             }
             .padding()
-            .onAppear {
-                self.amountInFocus = true
-            }
         }
     }
 }
@@ -72,8 +78,8 @@ struct ExpenseView_Previews: PreviewProvider {
                 reducer: expenseReducer,
                 environment: .live(
                     environment: ExpenseEnvironment(
-                        putExpenseRequest: { _ in
-                            putExpenseEffect(state: ExpenseState())
+                        saveExpense: { _ in
+                            ExpenseRepository().saveExpense(state: ExpenseState())
                         })
                     )
                 )

@@ -9,20 +9,20 @@ import Combine
 import ComposableArchitecture
 import Foundation
 
-struct ExpenseState: Equatable {
+struct ExpenseState: Equatable, Encodable {
     var category: ExpenseCategory = .groceries
-    var amount: String = ""
+    @BindableState var amount: Double = 0.00
 }
 
-enum ExpenseAction {
+enum ExpenseAction: BindableAction {
+    case binding(BindingAction<ExpenseState>)
     case selectCategory(ExpenseCategory)
-    case submitAmount(String)
     case submitExpense
     case resetState(Result<Void, APIError>)
 }
 
 struct ExpenseEnvironment {
-    var putExpenseRequest: (ExpenseState) -> Effect<Void, APIError>
+    var saveExpense: (ExpenseState) -> Effect<Void, APIError>
 }
 
 let expenseReducer = Reducer<
@@ -31,14 +31,13 @@ let expenseReducer = Reducer<
   SystemEnvironment<ExpenseEnvironment>
 > { state, action, environment in
     switch action {
+    case .binding:
+        return .none
     case .selectCategory(let category):
         state.category = category
         return .none
-    case .submitAmount(let amount):
-        state.amount = amount
-        return EffectTask(value: ExpenseAction.submitExpense)
     case .submitExpense:
-        return environment.putExpenseRequest(state)
+        return environment.saveExpense(state)
             .receive(on: environment.mainQueue())
             .catchToEffect()
             .map(ExpenseAction.resetState)
@@ -46,11 +45,11 @@ let expenseReducer = Reducer<
         switch result {
         case .success:
             state.category = .groceries
-            state.amount = ""
+            state.amount = 0.00
         case .failure:
             // send some sort of message back to the UI letting the user know that there was a failure.
             break
         }
         return .none
     }
-}
+}.binding()

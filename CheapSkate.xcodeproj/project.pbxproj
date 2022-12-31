@@ -18,7 +18,10 @@
 		F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */; };
 		F284F856295D653600EB7E7C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIError.swift */; };
 		F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F857295D658000EB7E7C /* SystemEnvironment.swift */; };
-		F284F85A295D686000EB7E7C /* ExpenseEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F859295D686000EB7E7C /* ExpenseEffects.swift */; };
+		F284F85A295D686000EB7E7C /* ExpenseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F859295D686000EB7E7C /* ExpenseClient.swift */; };
+		F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */; };
+		F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */; };
+		F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +35,10 @@
 		F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseFeature.swift; sourceTree = "<group>"; };
 		F284F855295D653600EB7E7C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		F284F857295D658000EB7E7C /* SystemEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemEnvironment.swift; sourceTree = "<group>"; };
-		F284F859295D686000EB7E7C /* ExpenseEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseEffects.swift; sourceTree = "<group>"; };
+		F284F859295D686000EB7E7C /* ExpenseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseClient.swift; sourceTree = "<group>"; };
+		F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
+		F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
+		F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +82,10 @@
 				F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */,
 				F284F855295D653600EB7E7C /* APIError.swift */,
 				F284F857295D658000EB7E7C /* SystemEnvironment.swift */,
-				F284F859295D686000EB7E7C /* ExpenseEffects.swift */,
+				F284F859295D686000EB7E7C /* ExpenseClient.swift */,
+				F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */,
+				F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */,
+				F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */,
 			);
 			path = CheapSkate;
 			sourceTree = "<group>";
@@ -167,13 +176,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F284F852295D638E00EB7E7C /* RootFeature.swift in Sources */,
+				F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */,
 				F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */,
+				F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */,
 				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
 				F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIError.swift in Sources */,
 				F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */,
-				F284F85A295D686000EB7E7C /* ExpenseEffects.swift in Sources */,
+				F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */,
+				F284F85A295D686000EB7E7C /* ExpenseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
