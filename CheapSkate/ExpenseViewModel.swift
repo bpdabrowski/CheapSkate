@@ -31,4 +31,20 @@ class ExpenseViewModel {
     func tabFillColor(cellCategory: ExpenseCategory, selectedCategory: ExpenseCategory) -> Color {
         return cellCategory == selectedCategory ? .mint : .white
     }
+    
+    func submitButtonColor(viewState: ExpenseViewState) -> Color {
+        var color = Color.mint
+        
+        switch viewState {
+        case .idle,
+            .submitSuccessful:
+            break
+        case .submitInProgress:
+            color = .gray
+        case .submitError:
+            color = .red
+        }
+        
+        return color
+    }
 }

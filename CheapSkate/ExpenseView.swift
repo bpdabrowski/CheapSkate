@@ -29,7 +29,7 @@ struct ExpenseView: View {
                                     Text(category.rawValue.capitalized)
                                         .foregroundColor(
                                             viewModel.tabTextColor(
-                                                cellCategory: viewStore.category,
+                                                cellCategory: viewStore.data.category,
                                                 selectedCategory: category
                                             )
                                         )
@@ -38,7 +38,7 @@ struct ExpenseView: View {
                                 .frame(width: 100, height: 50)
                                 .background(
                                     viewModel.tabFillColor(
-                                        cellCategory: viewStore.category,
+                                        cellCategory: viewStore.data.category,
                                         selectedCategory: category
                                     )
                                 )
@@ -50,20 +50,48 @@ struct ExpenseView: View {
 
                 CurrencyTextField(
                     numberFormatter: viewModel.formatter,
-                    value: viewStore.binding(\.$amount)
+                    value: viewStore.binding(\.data.$amount)
                 ).frame(maxWidth: .infinity, maxHeight: 90)
                 
                 Button(action: {
                     viewStore.send(.submitExpense)
                 }, label: {
-                    Text("Submit")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
+                    if viewStore.viewState == .idle {
+                        Text("Submit")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                    } else if viewStore.viewState == .submitSuccessful {
+                        HStack {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.white)
+                                .task {
+                                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                                    viewStore.send(.resetState)
+                                }
+                            Text("Success")
+                                .foregroundColor(.white)
+                        }.frame(maxWidth: .infinity)
+                    } else if viewStore.viewState == .submitInProgress {
+                        ProgressView()
+                            .tint(.white)
+                            .frame(maxWidth: .infinity)
+                    } else if viewStore.viewState == .submitError {
+                        HStack {
+                            Image(systemName: "xmark.circle")
+                                .foregroundColor(.white)
+                                .task {
+                                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                                    viewStore.send(.resetState)
+                                }
+                            Text("Error")
+                                .foregroundColor(.white)
+                        }.frame(maxWidth: .infinity)
+                    }
                 })
                 .padding()
-                .background(.mint)
+                .background(viewModel.submitButtonColor(viewState: viewStore.viewState))
+                .disabled(viewStore.viewState != .idle)
                 .clipShape(Capsule())
-                
             }
             .padding()
         }
@@ -79,7 +107,7 @@ struct ExpenseView_Previews: PreviewProvider {
                 environment: .live(
                     environment: ExpenseEnvironment(
                         saveExpense: { _ in
-                            ExpenseRepository().saveExpense(state: ExpenseState())
+                            ExpenseRepository().saveExpense(state: ExpenseState().data)
                         })
                     )
                 )

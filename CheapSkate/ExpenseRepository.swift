@@ -12,7 +12,7 @@ class ExpenseRepository {
     
     let expenseClient = ExpenseClient()
     
-    func saveExpense(state: ExpenseState) -> Effect<Void, APIError> {
+    func saveExpense(state: ExpenseData) -> Effect<Void, APIError> {
         guard state.amount != 0 else {
             return Effect(error: APIError.invalidValue)
         }

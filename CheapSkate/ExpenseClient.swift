@@ -21,7 +21,7 @@ class ExpenseClient {
         return urlComponents.url
     }
     
-    func saveExpense(state: ExpenseState) -> Effect<Void, APIError> {
+    func saveExpense(state: ExpenseData) -> Effect<Void, APIError> {
         guard let url = Self.url else {
             return Effect(error: APIError.requestError)
         }
@@ -34,9 +34,7 @@ class ExpenseClient {
         }
         
         return URLSession.shared.dataTaskPublisher(for: request(url: url, httpMethod: "POST", data: data))
-          .mapError { _ in
-              APIError.requestError
-          }
+          .mapError { _ in APIError.requestError }
           .map { _,_ in }
           .eraseToEffect()
     }
