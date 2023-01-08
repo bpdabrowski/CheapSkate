@@ -29,8 +29,10 @@ let rootReducer = Reducer<
     environment: { _ in
       .live(
         environment: ExpenseEnvironment(
-            saveExpense: ExpenseRepository().saveExpense
+            saveExpense: expenseRepository.saveExpense,
+            getExpenses: expenseRepository.getExpenses
         )
       )
     }))
 // swiftlint:enable trailing_closure
+fileprivate let expenseRepository = ExpenseRepository()

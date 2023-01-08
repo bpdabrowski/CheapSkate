@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */; };
+		F219739D2962D49C00EB8C62 /* ExpenseChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */; };
 		F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */; };
 		F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83E295D5EC500EB7E7C /* ExpenseView.swift */; };
 		F284F841295D5EC700EB7E7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F284F840295D5EC700EB7E7C /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
+		F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartViewModel.swift; sourceTree = "<group>"; };
 		F284F839295D5EC500EB7E7C /* CheapSkate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheapSkate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateApp.swift; sourceTree = "<group>"; };
 		F284F83E295D5EC500EB7E7C /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 				F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */,
 				F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */,
 				F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */,
+				F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */,
+				F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */,
 			);
 			path = CheapSkate;
 			sourceTree = "<group>";
@@ -179,8 +185,10 @@
 				F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */,
 				F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */,
 				F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */,
+				F219739D2962D49C00EB8C62 /* ExpenseChartViewModel.swift in Sources */,
 				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
 				F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */,
+				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIError.swift in Sources */,
 				F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */,

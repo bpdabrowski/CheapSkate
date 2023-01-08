@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-enum ExpenseCategory: String, CaseIterable, Encodable {
-    case groceries
+enum ExpenseCategory: String, CaseIterable, Codable {
     case food
     case gas
+    case groceries
     case misc
 }
 

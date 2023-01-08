@@ -15,6 +15,10 @@ struct ExpenseView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack(alignment: .center, spacing: 4.0) {
+                ExpenseChartView(store: store)
+                    .onAppear {
+                        viewStore.send(.getExpenses)
+                    }
                 Spacer()
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
@@ -106,9 +110,13 @@ struct ExpenseView_Previews: PreviewProvider {
                 reducer: expenseReducer,
                 environment: .live(
                     environment: ExpenseEnvironment(
-                        saveExpense: { _ in
-                            ExpenseRepository().saveExpense(state: ExpenseState().data)
-                        })
+                            saveExpense: { _ in
+                                ExpenseRepository().saveExpense(state: ExpenseState().data)
+                            },
+                            getExpenses: { _ in
+                                ExpenseRepository().getExpenses(for: 12)
+                            }
+                        )
                     )
                 )
             )

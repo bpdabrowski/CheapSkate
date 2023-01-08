@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 class ExpenseClient {
     
-    static var url: URL? {
+    static var urlComponents: URLComponents? {
         let baseURL = "localhost"
         let endpoint = "/api/expenses"
         var urlComponents = URLComponents()
@@ -18,11 +18,11 @@ class ExpenseClient {
         urlComponents.host = baseURL
         urlComponents.port = 8080
         urlComponents.path = endpoint
-        return urlComponents.url
+        return urlComponents
     }
     
     func saveExpense(state: ExpenseData) -> Effect<Void, APIError> {
-        guard let url = Self.url else {
+        guard let url = Self.urlComponents?.url else {
             return Effect(error: APIError.requestError)
         }
 
@@ -37,6 +37,26 @@ class ExpenseClient {
           .mapError { _ in APIError.requestError }
           .map { _,_ in }
           .eraseToEffect()
+    }
+    
+    func getExpenses() -> Effect<[ExpenseData], APIError> {
+        let baseURL = "localhost"
+        let endpoint = "/api/expenses/search"
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "http"
+        urlComponents.host = baseURL
+        urlComponents.port = 8080
+        urlComponents.path = endpoint
+        urlComponents.queryItems = [URLQueryItem(name: "month", value: "1")]
+        guard let url = urlComponents.url else {
+            return Effect(error: APIError.requestError)
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: [ExpenseData].self, decoder: JSONDecoder())
+            .mapError { _ in APIError.requestError }
+            .eraseToEffect()
     }
     
     private func request(url: URL, httpMethod: String, data: Data) -> URLRequest {
