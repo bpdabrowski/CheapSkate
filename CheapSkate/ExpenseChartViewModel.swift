@@ -8,13 +8,12 @@
 import Foundation
 
 class ExpenseChartViewModel {
-    func chartableDate(from date: Date) -> Date {
-        let components = Calendar.current.dateComponents([.day], from: date)
-//        let day = Calendar.current.date(from: components)!
-//        let dayString = "\(day)"
-//        return dayString
-//        let dayInt = components.day
-//        return dayInt!
-        return Calendar.current.date(from: components)!
+    func measurementsByMonth(_ month: Date?) -> String {
+        guard let month = month else {
+            return "No Expenses This Month"
+        }
+        
+        let thisMonth = Calendar.current.component(.month, from: month)
+        return Calendar.current.monthSymbols[thisMonth - 1]
     }
 }

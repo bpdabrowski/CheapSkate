@@ -55,10 +55,7 @@ let expenseReducer = Reducer<
         state.data.category = category
         return .none
     case .submitExpense:
-        let minute: TimeInterval = 60.0
-        let hour: TimeInterval = 60.0 * minute
-        let day: TimeInterval = 24 * hour
-        state.data.date = Date(timeIntervalSinceNow: day * 24)//Date()
+        state.data.date = Date()
         state.viewState = .submitInProgress
         return environment.saveExpense(state.data)
             .receive(on: environment.mainQueue())

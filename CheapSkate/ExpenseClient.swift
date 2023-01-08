@@ -40,14 +40,18 @@ class ExpenseClient {
     }
     
     func getExpenses() -> Effect<[ExpenseData], APIError> {
-        let baseURL = "localhost"
-        let endpoint = "/api/expenses/search"
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "http"
-        urlComponents.host = baseURL
-        urlComponents.port = 8080
-        urlComponents.path = endpoint
-        urlComponents.queryItems = [URLQueryItem(name: "month", value: "1")]
+        guard var urlComponents = Self.urlComponents else {
+            return Effect(error: APIError.requestError)
+        }
+        
+        urlComponents.path = "\(urlComponents.path)/search"
+        urlComponents.queryItems = [
+            URLQueryItem(
+                name: "month",
+                value: String(Calendar.current.component(.month, from: Date()))
+            )
+        ]
+        
         guard let url = urlComponents.url else {
             return Effect(error: APIError.requestError)
         }

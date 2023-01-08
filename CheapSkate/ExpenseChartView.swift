@@ -20,24 +20,27 @@ struct ExpenseChartView: View {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundColor(.white)
                     .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
-                Chart {
-                    ForEach(viewStore.chartData, id: \.date) { series in
-                        BarMark(
-                            x: .value("Date", series.date, unit: .day),
-                            y: .value("Amount", series.amount)
-                        ).foregroundStyle(by: .value("Category", series.category.rawValue.capitalized))
+                VStack {
+                    Text(viewModel.measurementsByMonth(viewStore.chartData.first?.date))
+                    Chart {
+                        ForEach(viewStore.chartData, id: \.date) { series in
+                            BarMark(
+                                x: .value("Date", series.date, unit: .day),
+                                y: .value("Amount", series.amount)
+                            ).foregroundStyle(by: .value("Category", series.category.rawValue.capitalized))
+                        }
                     }
-                }
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
-                .frame(height: 200)
-                .chartXAxis {
-                    AxisMarks(values: .stride(by: .day)) { axisValue in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel(
-                            format: .dateTime.day()
-                        )
-                  }
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
+                    .frame(height: 200)
+                    .chartXAxis {
+                        AxisMarks(values: .automatic(minimumStride: 7)) { axisValue in
+                            AxisGridLine()
+                            AxisTick()
+                            AxisValueLabel(
+                                format: .dateTime.week(.weekOfMonth)
+                            )
+                        }
+                    }
                 }
             }
         }
