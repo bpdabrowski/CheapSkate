@@ -29,7 +29,7 @@ class CurrencyUITextField: UITextField {
         addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         addTarget(self, action: #selector(resetSelection), for: .allTouchEvents)
         keyboardType = .numberPad
-        textAlignment = .right
+        textAlignment = .left
         sendActions(for: .editingChanged)
     }
     
@@ -40,7 +40,10 @@ class CurrencyUITextField: UITextField {
     
     private func setupViews() {
         tintColor = .clear
-        font = .systemFont(ofSize: 75, weight: .regular)
+        font = .systemFont(ofSize: 60, weight: .regular)
+        adjustsFontSizeToFitWidth = true
+        becomeFirstResponder()
+        setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     @objc private func editingChanged() {

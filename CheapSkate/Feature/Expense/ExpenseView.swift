@@ -19,86 +19,93 @@ struct ExpenseView: View {
                     .onAppear {
                         viewStore.send(.getExpenses)
                     }
+
                 Spacer()
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
-                            ZStack {
-                                Capsule()
-                                    .frame(width: 105, height: 55)
-                                    .foregroundColor(.mint)
-                                Button(action: {
-                                    viewStore.send(.selectCategory(category))
-                                }, label: {
-                                    Text(category.rawValue.capitalized)
-                                        .foregroundColor(
-                                            viewModel.tabTextColor(
-                                                cellCategory: viewStore.data.category,
-                                                selectedCategory: category
-                                            )
-                                        )
-                                        .font(.body)
-                                })
-                                .frame(width: 100, height: 50)
-                                .background(
-                                    viewModel.tabFillColor(
+                VStack {
+                    categorySelector(viewStore: viewStore)
+                    HStack {
+                        CurrencyTextField(
+                            numberFormatter: viewModel.formatter,
+                            value: viewStore.binding(\.data.$amount)
+                        )
+                        .frame(maxHeight: 50)
+                        .truncationMode(.tail)
+                        submitButton(viewStore: viewStore)
+                    }
+                }
+            }
+            .padding()
+        }
+    }
+    
+    private func categorySelector(viewStore: ViewStore<ExpenseState, ExpenseAction>) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
+                    ZStack {
+                        Capsule()
+                            .frame(width: 105, height: 35)
+                            .foregroundColor(.mint)
+                        Button(action: {
+                            viewStore.send(.selectCategory(category))
+                        }, label: {
+                            Text(category.rawValue.capitalized)
+                                .foregroundColor(
+                                    viewModel.tabTextColor(
                                         cellCategory: viewStore.data.category,
                                         selectedCategory: category
                                     )
                                 )
-                                .clipShape(Capsule())
-                            }
-                        }
+                                .font(.caption)
+                        })
+                        .frame(width: 100, height: 30)
+                        .background(
+                            viewModel.tabFillColor(
+                                cellCategory: viewStore.data.category,
+                                selectedCategory: category
+                            )
+                        )
+                        .clipShape(Capsule())
                     }
                 }
-
-                CurrencyTextField(
-                    numberFormatter: viewModel.formatter,
-                    value: viewStore.binding(\.data.$amount)
-                ).frame(maxWidth: .infinity, maxHeight: 90)
-                
-                Button(action: {
-                    viewStore.send(.submitExpense)
-                }, label: {
-                    if viewStore.viewState == .idle {
-                        Text("Submit")
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                    } else if viewStore.viewState == .submitSuccessful {
-                        HStack {
-                            Image(systemName: "checkmark.circle")
-                                .foregroundColor(.white)
-                                .task {
-                                    try? await Task.sleep(nanoseconds: 1_000_000_000)
-                                    viewStore.send(.resetState)
-                                }
-                            Text("Success")
-                                .foregroundColor(.white)
-                        }.frame(maxWidth: .infinity)
-                    } else if viewStore.viewState == .submitInProgress {
-                        ProgressView()
-                            .tint(.white)
-                            .frame(maxWidth: .infinity)
-                    } else if viewStore.viewState == .submitError {
-                        HStack {
-                            Image(systemName: "xmark.circle")
-                                .foregroundColor(.white)
-                                .task {
-                                    try? await Task.sleep(nanoseconds: 1_000_000_000)
-                                    viewStore.send(.resetState)
-                                }
-                            Text("Error")
-                                .foregroundColor(.white)
-                        }.frame(maxWidth: .infinity)
-                    }
-                })
-                .padding()
-                .background(viewModel.submitButtonColor(viewState: viewStore.viewState))
-                .disabled(viewStore.viewState != .idle)
-                .clipShape(Capsule())
-            }
-            .padding()
+            }.padding(.bottom, 10)
         }
+    }
+    
+    private func submitButton(viewStore: ViewStore<ExpenseState, ExpenseAction>) -> some View {
+        Button(action: {
+            viewStore.send(.submitExpense)
+        }, label: {
+            if viewStore.viewState == .idle {
+                Image(systemName: "arrow.up")
+                    .foregroundColor(.white)
+            } else if viewStore.viewState == .submitSuccessful {
+                HStack {
+                    Image(systemName: "checkmark.circle")
+                        .foregroundColor(.white)
+                        .task {
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            viewStore.send(.resetState)
+                        }
+                }
+            } else if viewStore.viewState == .submitInProgress {
+                ProgressView()
+                    .tint(.white)
+            } else if viewStore.viewState == .submitError {
+                HStack {
+                    Image(systemName: "xmark.circle")
+                        .foregroundColor(.white)
+                        .task {
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            viewStore.send(.resetState)
+                        }
+                }
+            }
+        })
+        .padding()
+        .background(viewModel.submitButtonColor(viewState: viewStore.viewState))
+        .disabled(viewStore.viewState != .idle)
+        .clipShape(Capsule())
     }
 }
 

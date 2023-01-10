@@ -20,6 +20,7 @@ struct ExpenseChartView: View {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundColor(.white)
                     .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
+                    .frame(height: 250)
                 VStack {
                     Text(viewModel.measurementsByMonth(viewStore.chartData.first?.date))
                     Chart {
@@ -31,7 +32,7 @@ struct ExpenseChartView: View {
                         }
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
-                    .frame(height: 200)
+                    .frame(height: 175)
                     .chartXAxis {
                         AxisMarks(values: .automatic(minimumStride: 7)) { axisValue in
                             AxisGridLine()

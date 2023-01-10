@@ -20,7 +20,6 @@ struct CurrencyTextField: UIViewRepresentable {
         self.numberFormatter = numberFormatter
         self.value = value
         currencyField = CurrencyUITextField(formatter: numberFormatter, value: value)
-        currencyField.becomeFirstResponder()
     }
     
     func makeUIView(context: Context) -> CurrencyUITextField {
@@ -30,6 +29,7 @@ struct CurrencyTextField: UIViewRepresentable {
     func updateUIView(_ uiView: CurrencyUITextField, context: Context) {
         if value.wrappedValue == 0 {
             uiView.text = "$0.00"
+            uiView.tintColor = .systemMint
         }
     }
 }
