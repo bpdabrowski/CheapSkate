@@ -14,27 +14,36 @@ struct ExpenseView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack(alignment: .center, spacing: 4.0) {
-                ExpenseChartView(store: store)
-                    .onAppear {
-                        viewStore.send(.getExpenses)
-                    }
+            NavigationStack {
+                VStack(alignment: .center, spacing: 4.0) {
+                    Image("roller-skate")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 34, height: 34)
+                        .padding(.bottom, 10)
 
-                Spacer()
-                VStack {
-                    categorySelector(viewStore: viewStore)
-                    HStack {
-                        CurrencyTextField(
-                            numberFormatter: viewModel.formatter,
-                            value: viewStore.binding(\.data.$amount)
-                        )
-                        .frame(maxHeight: 50)
-                        .truncationMode(.tail)
-                        submitButton(viewStore: viewStore)
+                    ExpenseChartView(store: store)
+                        .onAppear {
+                            viewStore.send(.getExpenses)
+                        }
+
+                    Spacer()
+                    VStack {
+                        categorySelector(viewStore: viewStore)
+                        HStack {
+                            CurrencyTextField(
+                                numberFormatter: viewModel.formatter,
+                                value: viewStore.binding(\.data.$amount)
+                            )
+                            .frame(maxHeight: 50)
+                            .truncationMode(.tail)
+                            
+                            submitButton(viewStore: viewStore)
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
     }
     
@@ -45,7 +54,7 @@ struct ExpenseView: View {
                     ZStack {
                         Capsule()
                             .frame(width: 105, height: 35)
-                            .foregroundColor(.mint)
+                            .foregroundColor(category.color)
                         Button(action: {
                             viewStore.send(.selectCategory(category))
                         }, label: {
@@ -80,26 +89,22 @@ struct ExpenseView: View {
                 Image(systemName: "arrow.up")
                     .foregroundColor(.white)
             } else if viewStore.viewState == .submitSuccessful {
-                HStack {
-                    Image(systemName: "checkmark.circle")
-                        .foregroundColor(.white)
-                        .task {
-                            try? await Task.sleep(nanoseconds: 1_000_000_000)
-                            viewStore.send(.resetState)
-                        }
-                }
+                Image(systemName: "checkmark.circle")
+                    .foregroundColor(.white)
+                    .task {
+                        try? await Task.sleep(nanoseconds: 1_000_000_000)
+                        viewStore.send(.resetState)
+                    }
             } else if viewStore.viewState == .submitInProgress {
                 ProgressView()
                     .tint(.white)
             } else if viewStore.viewState == .submitError {
-                HStack {
-                    Image(systemName: "xmark.circle")
-                        .foregroundColor(.white)
-                        .task {
-                            try? await Task.sleep(nanoseconds: 1_000_000_000)
-                            viewStore.send(.resetState)
-                        }
-                }
+                Image(systemName: "xmark.circle")
+                    .foregroundColor(.white)
+                    .task {
+                        try? await Task.sleep(nanoseconds: 1_000_000_000)
+                        viewStore.send(.resetState)
+                    }
             }
         })
         .padding()

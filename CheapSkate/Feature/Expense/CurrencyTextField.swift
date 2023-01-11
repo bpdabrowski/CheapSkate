@@ -31,5 +31,9 @@ struct CurrencyTextField: UIViewRepresentable {
             uiView.text = "$0.00"
             uiView.tintColor = .systemMint
         }
+        
+        if !uiView.isFocused {
+            uiView.becomeFirstResponder()
+        }
     }
 }

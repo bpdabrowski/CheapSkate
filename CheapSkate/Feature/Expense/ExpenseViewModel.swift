@@ -13,6 +13,19 @@ enum ExpenseCategory: String, CaseIterable, Codable {
     case gas
     case groceries
     case misc
+    
+    var color: Color {
+        switch self {
+        case .food:
+            return .blue
+        case .gas:
+            return .green
+        case .groceries:
+            return .orange
+        case .misc:
+            return .purple
+        }
+    }
 }
 
 class ExpenseViewModel {
@@ -29,7 +42,7 @@ class ExpenseViewModel {
     }
     
     func tabFillColor(cellCategory: ExpenseCategory, selectedCategory: ExpenseCategory) -> Color {
-        return cellCategory == selectedCategory ? .mint : .white
+        return cellCategory == selectedCategory ? cellCategory.color : .white
     }
     
     func submitButtonColor(viewState: ExpenseViewState) -> Color {
@@ -46,5 +59,9 @@ class ExpenseViewModel {
         }
         
         return color
+    }
+    
+    func total(expenses: [ExpenseData]) -> Double {
+        return expenses.map(\.amount).reduce(0, +)
     }
 }
