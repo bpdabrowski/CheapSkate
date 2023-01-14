@@ -17,6 +17,7 @@ enum ExpenseViewState {
 }
 
 struct ExpenseData: Equatable, Codable {
+    var id: UUID?
     var category: ExpenseCategory = .food
     @BindableState var amount: Double = 0.00
     var date: Date = Date()
@@ -34,13 +35,13 @@ enum ExpenseAction: BindableAction {
     case submitExpense
     case handleSubmitResult(Result<Void, APIError>)
     case resetState
-    case getExpenses
+    case getExpenses(Date? = nil)
     case handleGetExpenseResult(Result<[ExpenseData], APIError>)
 }
 
 struct ExpenseEnvironment {
     var saveExpense: (ExpenseData) -> Effect<Void, APIError>
-    var getExpenses: (Int) -> Effect<[ExpenseData], APIError>
+    var getExpenses: (Date?) -> Effect<[ExpenseData], APIError>
 }
 
 let expenseReducer = Reducer<
@@ -74,9 +75,9 @@ let expenseReducer = Reducer<
         state.data.amount = 0.00
         state.viewState = .idle
 
-        return Effect(value: .getExpenses)
-    case .getExpenses:
-        return environment.getExpenses(12)
+        return Effect(value: .getExpenses(Date()))
+    case .getExpenses(let date):
+        return environment.getExpenses(date)
             .receive(on: environment.mainQueue())
             .catchToEffect()
             .map(ExpenseAction.handleGetExpenseResult)

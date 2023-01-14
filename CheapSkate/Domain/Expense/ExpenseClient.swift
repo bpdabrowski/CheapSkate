@@ -39,18 +39,20 @@ class ExpenseClient {
           .eraseToEffect()
     }
     
-    func getExpenses() -> Effect<[ExpenseData], APIError> {
+    func getExpenses(for date: Date? = nil) -> Effect<[ExpenseData], APIError> {
         guard var urlComponents = Self.urlComponents else {
             return Effect(error: APIError.requestError)
         }
         
-        urlComponents.path = "\(urlComponents.path)/search"
-        urlComponents.queryItems = [
-            URLQueryItem(
-                name: "month",
-                value: String(Calendar.current.component(.month, from: Date()))
-            )
-        ]
+        if let date = date {
+            urlComponents.path = "\(urlComponents.path)/search"
+            urlComponents.queryItems = [
+                URLQueryItem(
+                    name: "month",
+                    value: String(Calendar.current.component(.month, from: date))
+                )
+            ]
+        }
         
         guard let url = urlComponents.url else {
             return Effect(error: APIError.requestError)

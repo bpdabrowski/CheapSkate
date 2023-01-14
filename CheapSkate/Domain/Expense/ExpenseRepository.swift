@@ -19,7 +19,7 @@ class ExpenseRepository {
         return expenseClient.saveExpense(state: state)
     }
     
-    func getExpenses(for month: Int) -> Effect<[ExpenseData], APIError> {
-        return expenseClient.getExpenses()
+    func getExpenses(for date: Date? = nil) -> Effect<[ExpenseData], APIError> {
+        return expenseClient.getExpenses(for: date)
     }
 }

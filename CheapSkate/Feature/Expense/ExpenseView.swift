@@ -24,7 +24,7 @@ struct ExpenseView: View {
 
                     ExpenseChartView(store: store)
                         .onAppear {
-                            viewStore.send(.getExpenses)
+                            viewStore.send(.getExpenses(Date()))
                         }
 
                     Spacer()
@@ -126,7 +126,7 @@ struct ExpenseView_Previews: PreviewProvider {
                                 ExpenseRepository().saveExpense(state: ExpenseState().data)
                             },
                             getExpenses: { _ in
-                                ExpenseRepository().getExpenses(for: 12)
+                                ExpenseRepository().getExpenses(for: Date())
                             }
                         )
                     )

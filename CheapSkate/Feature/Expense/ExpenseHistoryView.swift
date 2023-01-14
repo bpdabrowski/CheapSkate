@@ -9,47 +9,59 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseHistoryView: View {
+    let store: Store<ExpenseState, ExpenseAction>
+    let viewModel = ExpenseHistoryViewModel()
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("January")
-                .font(.system(size: 60))
-            categorySelector()
-            Text("January")
-                .font(.system(size: 60))
-            categorySelector()
-            Text("January")
-                .font(.system(size: 60))
-            categorySelector()
-            Spacer()
-        }.padding(.leading, 20)
+        WithViewStore(store) { viewStore in
+            ScrollView() {
+                ForEach(viewModel.monthlyExpenses(expenseData: viewStore.chartData), id: \.key) { key, value in
+                    VStack(alignment: .leading) {
+                        Text(viewModel.formatKey(key))
+                            .font(.title)
+                        expenseList(value.sorted(by: { $0.date > $1.date }))
+                        Spacer()
+                    }.padding(.leading, 20)
+                }
+            }.onAppear {
+                viewStore.send(.getExpenses())
+            }
+        }
     }
     
-    private func categorySelector() -> some View {
+    private func expenseList(_ data: [ExpenseData]) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
+            LazyHStack(spacing: 5) {
+                ForEach(data, id: \.id) { series in
                     ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .frame(width: 210, height: 105)
-                            .foregroundColor(category.color)
-                        RoundedRectangle(cornerRadius: 8)
-                            .frame(width: 205, height: 100)
+                        Capsule()
+                            .frame(width: 115, height: 35)
+                            .foregroundColor(series.category.color)
+                        Capsule()
+                            .frame(width: 110, height: 30)
                             .foregroundColor(.white)
-                        VStack {
-                            HStack {
-                                Text("15.74")
-                                Spacer()
-                                Text(category.rawValue.capitalized)
-                                    .foregroundColor(.black)
-                            }
-                            .padding(.leading, 20)
-                            .padding(.trailing, 20)
-                            Text("January 10, 2023")
-                                .padding(.top, 10)
-                                .padding(.leading, 20)
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack {
+                            Circle()
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(series.category.color)
+                                .overlay {
+                                    Text(viewModel.day(from: series.date))
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 12))
+                                }
+                                .padding(.leading, 5)
+                            Spacer()
                         }
 
+                        
+                        HStack {
+                            Spacer()
+                            Text(viewModel.currency(expense: series.amount))
+                                .foregroundColor(.black)
+                                .font(.system(size: 12))
+                                .frame(alignment: .trailing)
+                                .padding(.trailing, 10)
+                        }
                     }
                 }
             }.padding(.bottom, 10)
@@ -59,6 +71,21 @@ struct ExpenseHistoryView: View {
 
 struct ExpenseHistory_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseHistoryView()
+        ExpenseHistoryView(store:
+            Store(
+                initialState: ExpenseState(),
+                reducer: expenseReducer,
+                environment: .live(
+                    environment: ExpenseEnvironment(
+                            saveExpense: { _ in
+                                ExpenseRepository().saveExpense(state: ExpenseState().data)
+                            },
+                            getExpenses: { _ in
+                                ExpenseRepository().getExpenses(for: Date())
+                            }
+                        )
+                    )
+                )
+        )
     }
 }

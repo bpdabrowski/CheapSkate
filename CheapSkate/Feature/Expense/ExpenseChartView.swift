@@ -39,7 +39,7 @@ struct ExpenseChartView: View {
                     }.padding(.leading, 20)
 
                     Chart {
-                        ForEach(viewStore.chartData, id: \.date) { series in
+                        ForEach(viewStore.chartData, id: \.id) { series in
                             BarMark(
                                 x: .value("Date", series.date, unit: .day),
                                 y: .value("Amount", series.amount)
@@ -78,7 +78,7 @@ struct ExpenseChartView: View {
                         HStack() {
                             Spacer()
                             NavigationLink("View Expense History") {
-                                ExpenseHistoryView()
+                                ExpenseHistoryView(store: store)
                             }.font(.system(size: 16))
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
