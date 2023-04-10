@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ComposableArchitecture
 
 enum AuthResult {
   case success
@@ -43,38 +44,32 @@ class Auth {
       
       // go back to login screen somehow.
   }
-
-  func login(username: String, password: String, completion: @escaping (AuthResult) -> Void) {
-    let path = "http://localhost:8080/api/users/login"
-    guard let url = URL(string: path) else {
-      fatalError("Failed to convert URL")
-    }
-    guard
-      let loginString = "\(username):\(password)"
-        .data(using: .utf8)?
-        .base64EncodedString()
-    else {
-      fatalError("Failed to encode credentials")
-    }
-
-    var loginRequest = URLRequest(url: url)
-    loginRequest.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
-    loginRequest.httpMethod = "POST"
-
-    let dataTask = URLSession.shared.dataTask(with: loginRequest) { data, response, _ in
-      guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
-        completion(.failure)
-        return
+    
+    func login(username: String, password: String) -> Effect<AuthResult, APIError> {
+      let path = "http://localhost:8080/api/users/login"
+      guard let url = URL(string: path) else {
+        fatalError("Failed to convert URL")
+      }
+      guard
+        let loginString = "\(username):\(password)"
+          .data(using: .utf8)?
+          .base64EncodedString()
+      else {
+        fatalError("Failed to encode credentials")
       }
 
-      do {
-        let token = try JSONDecoder().decode(Token.self, from: jsonData)
-        self.token = token.value
-        completion(.success)
-      } catch {
-        completion(.failure)
-      }
+      var loginRequest = URLRequest(url: url)
+      loginRequest.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
+      loginRequest.httpMethod = "POST"
+        
+        return URLSession.shared.dataTaskPublisher(for: loginRequest)
+            .map(\.data)
+            .decode(type: Token.self, decoder: JSONDecoder())
+            .map {
+                self.token = $0.value // maybe should move this into its own auth state and have a separate reducer or something.
+                return AuthResult.success
+            }
+            .mapError { _ in APIError.requestError }
+            .eraseToEffect()
     }
-    dataTask.resume()
-  }
 }
