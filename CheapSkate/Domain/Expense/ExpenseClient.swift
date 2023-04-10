@@ -34,7 +34,9 @@ class ExpenseClient {
         }
         
         return URLSession.shared.dataTaskPublisher(for: request(url: url, httpMethod: "POST", data: data))
-          .mapError { _ in APIError.requestError }
+          .mapError { _ in
+              return APIError.requestError
+          }
           .map { _,_ in }
           .eraseToEffect()
     }
@@ -58,19 +60,30 @@ class ExpenseClient {
             return Effect(error: APIError.requestError)
         }
         
-        return URLSession.shared.dataTaskPublisher(for: url)
+        return URLSession.shared.dataTaskPublisher(for: request(url: url, httpMethod: "GET"))
             .map(\.data)
             .decode(type: [ExpenseData].self, decoder: JSONDecoder())
             .mapError { _ in APIError.requestError }
             .eraseToEffect()
     }
     
-    private func request(url: URL, httpMethod: String, data: Data) -> URLRequest {
+    private func request(url: URL, httpMethod: String, data: Data? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
-        request.httpBody = data
+        
+        if let data = data {
+            request.httpBody = data
+        }
+        
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        if let token = Auth().token {
+            request.addValue(
+              "Bearer \(token)",
+              forHTTPHeaderField: "Authorization")
+        }
+
         return request
     }
 }

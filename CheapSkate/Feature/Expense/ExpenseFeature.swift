@@ -14,6 +14,7 @@ enum ExpenseViewState {
     case submitInProgress
     case submitSuccessful
     case submitError
+    case logout
 }
 
 struct ExpenseData: Equatable, Codable {
@@ -31,12 +32,16 @@ struct ExpenseState: Equatable {
 
 enum ExpenseAction: BindableAction {
     case binding(BindingAction<ExpenseState>)
+    case onAppear
     case selectCategory(ExpenseCategory)
     case submitExpense
     case handleSubmitResult(Result<Void, APIError>)
     case resetState
     case getExpenses(Date? = nil)
     case handleGetExpenseResult(Result<[ExpenseData], APIError>)
+    case submitLogin(String, String)
+    case handleLoginResult(Result<AuthResult, APIError>)
+    case showLogoutView // I think this should be moved into its own state and then scoped in the proper context.
 }
 
 struct ExpenseEnvironment {
@@ -52,6 +57,12 @@ let expenseReducer = Reducer<
     switch action {
     case .binding:
         return .none
+    case .onAppear:
+        if Auth().token == nil {
+            return Effect(value: .showLogoutView)
+        } else {
+            return Effect(value: .getExpenses(Date()))
+        }
     case .selectCategory(let category):
         state.data.category = category
         return .none
@@ -88,6 +99,23 @@ let expenseReducer = Reducer<
         case .failure:
             break
         }
+        return .none
+    case .submitLogin(let username, let password):
+        return Auth().login(username: username, password: password) // probably need to put auth in an environment class.
+            .receive(on: environment.mainQueue())
+            .catchToEffect()
+            .map(ExpenseAction.handleLoginResult)
+    case .handleLoginResult(let result):
+        switch result {
+        case .success:
+            state.viewState = .idle
+        case .failure:
+            state.viewState = .logout
+        }
+        return Effect(value: .getExpenses(Date()))
+    case .showLogoutView:
+        Auth().logout()
+        state.viewState = .logout
         return .none
     }
 }.binding()

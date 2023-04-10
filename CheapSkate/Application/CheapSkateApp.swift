@@ -20,6 +20,7 @@ struct CheapSkateApp: App {
                state: \.expenseState,
                action: RootAction.expenseAction
             )
+            
             ExpenseView(store: store)
         }
     }

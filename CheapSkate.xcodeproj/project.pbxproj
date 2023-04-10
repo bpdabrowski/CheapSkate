@@ -27,6 +27,10 @@
 		F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */; };
 		F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */; };
 		F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */; };
+		F2F8591F29983BA4004F4F96 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8591E29983BA4004F4F96 /* Auth.swift */; };
+		F2F8592129983BD8004F4F96 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592029983BD8004F4F96 /* Token.swift */; };
+		F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592229983C12004F4F96 /* Auth+Keychain.swift */; };
+		F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592429983ED2004F4F96 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
 		F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		F2F8591E29983BA4004F4F96 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		F2F8592029983BD8004F4F96 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		F2F8592229983C12004F4F96 /* Auth+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Keychain.swift"; sourceTree = "<group>"; };
+		F2F8592429983ED2004F4F96 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +84,7 @@
 		F219739F296ABABB00EB8C62 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				F2F8591D29983B92004F4F96 /* Auth */,
 				F21973A2296ABB1900EB8C62 /* Expense */,
 			);
 			path = Feature;
@@ -113,6 +122,7 @@
 				F2203398296E854700027B5F /* ExpenseHistoryView.swift */,
 				F220339A29739FF700027B5F /* ExpenseHistoryViewModel.swift */,
 				F213A5EF2974A8F500EBFAA1 /* NumberFormatter+Extensions.swift */,
+				F2F8592029983BD8004F4F96 /* Token.swift */,
 			);
 			path = Expense;
 			sourceTree = "<group>";
@@ -151,6 +161,16 @@
 				F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F2F8591D29983B92004F4F96 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F2F8591E29983BA4004F4F96 /* Auth.swift */,
+				F2F8592229983C12004F4F96 /* Auth+Keychain.swift */,
+				F2F8592429983ED2004F4F96 /* LoginView.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,12 +252,15 @@
 			files = (
 				F284F852295D638E00EB7E7C /* RootFeature.swift in Sources */,
 				F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */,
+				F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */,
 				F220339B29739FF700027B5F /* ExpenseHistoryViewModel.swift in Sources */,
 				F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */,
 				F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */,
 				F219739D2962D49C00EB8C62 /* ExpenseChartViewModel.swift in Sources */,
 				F213A5F02974A8F500EBFAA1 /* NumberFormatter+Extensions.swift in Sources */,
+				F2F8591F29983BA4004F4F96 /* Auth.swift in Sources */,
 				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
+				F2F8592129983BD8004F4F96 /* Token.swift in Sources */,
 				F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */,
 				F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
@@ -245,6 +268,7 @@
 				F284F856295D653600EB7E7C /* APIError.swift in Sources */,
 				F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */,
 				F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */,
+				F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */,
 				F284F85A295D686000EB7E7C /* ExpenseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

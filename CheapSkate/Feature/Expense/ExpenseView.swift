@@ -15,34 +15,46 @@ struct ExpenseView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             NavigationStack {
-                VStack(alignment: .center, spacing: 4.0) {
-                    Image("roller-skate")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 34, height: 34)
-                        .padding(.bottom, 10)
-
-                    ExpenseChartView(store: store)
-                        .onAppear {
-                            viewStore.send(.getExpenses(Date()))
-                        }
-
-                    Spacer()
-                    VStack {
-                        categorySelector(viewStore: viewStore)
+                ZStack {
+                    VStack(alignment: .center, spacing: 4.0) {
                         HStack {
-                            CurrencyTextField(
-                                numberFormatter: viewModel.formatter,
-                                value: viewStore.binding(\.data.$amount)
-                            )
-                            .frame(maxHeight: 50)
-                            .truncationMode(.tail)
-                            
-                            submitButton(viewStore: viewStore)
+                            ZStack {
+                                Image("roller-skate")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 34, height: 34)
+                                    .frame(maxWidth: .infinity)
+                                Button(action: { viewStore.send(.showLogoutView) }) {
+                                  Image(systemName: "rectangle.portrait.and.arrow.right")
+                                }.frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                        }.padding(.bottom, 10)
+
+                        ExpenseChartView(store: store)
+                        
+                        Spacer()
+                        VStack {
+                            categorySelector(viewStore: viewStore)
+                            HStack {
+                                CurrencyTextField(
+                                    numberFormatter: viewModel.formatter,
+                                    value: viewStore.binding(\.data.$amount)
+                                )
+                                .frame(maxHeight: 50)
+                                .truncationMode(.tail)
+                                
+                                submitButton(viewStore: viewStore)
+                            }
                         }
                     }
+                    .padding()
+                    
+                    if viewStore.viewState == .logout {
+                        LoginView(expenseStore: store)
+                    }
                 }
-                .padding()
+            }.onAppear {
+                viewStore.send(.onAppear)
             }
         }
     }
