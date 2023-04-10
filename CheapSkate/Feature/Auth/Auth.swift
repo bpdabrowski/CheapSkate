@@ -32,17 +32,6 @@ class Auth {
 
   func logout() {
     token = nil
-//    DispatchQueue.main.async {
-//      guard let applicationDelegate =
-//        UIApplication.shared.delegate as? AppDelegate else {
-//          return
-//      }
-//      let rootController =
-//        UIStoryboard(name: "Login", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginNavigation")
-//      applicationDelegate.window?.rootViewController = rootController
-//    }
-      
-      // go back to login screen somehow.
   }
     
     func login(username: String, password: String) -> Effect<AuthResult, APIError> {
