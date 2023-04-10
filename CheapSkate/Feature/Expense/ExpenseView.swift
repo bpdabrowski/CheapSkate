@@ -17,19 +17,20 @@ struct ExpenseView: View {
             NavigationStack {
                 ZStack {
                     VStack(alignment: .center, spacing: 4.0) {
-                        Image("roller-skate")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 34, height: 34)
-                            .padding(.bottom, 10)
-                            .onTapGesture {
-                                viewStore.send(.showLogoutView)
+                        HStack {
+                            ZStack {
+                                Image("roller-skate")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 34, height: 34)
+                                    .frame(maxWidth: .infinity)
+                                Button(action: { viewStore.send(.showLogoutView) }) {
+                                  Image(systemName: "rectangle.portrait.and.arrow.right")
+                                }.frame(maxWidth: .infinity, alignment: .trailing)
                             }
-                        
+                        }.padding(.bottom, 10)
+
                         ExpenseChartView(store: store)
-                            .onAppear {
-                                viewStore.send(.getExpenses(Date()))
-                            }
                         
                         Spacer()
                         VStack {
@@ -52,6 +53,8 @@ struct ExpenseView: View {
                         LoginView(expenseStore: store)
                     }
                 }
+            }.onAppear {
+                viewStore.send(.onAppear)
             }
         }
     }

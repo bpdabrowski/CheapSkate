@@ -20,11 +20,8 @@ struct CheapSkateApp: App {
                state: \.expenseState,
                action: RootAction.expenseAction
             )
-            if Auth().token == nil {
-                LoginView(expenseStore: store)
-            } else {
-                ExpenseView(store: store)
-            }
+            
+            ExpenseView(store: store)
         }
     }
 }

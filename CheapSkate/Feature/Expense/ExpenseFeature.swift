@@ -32,6 +32,7 @@ struct ExpenseState: Equatable {
 
 enum ExpenseAction: BindableAction {
     case binding(BindingAction<ExpenseState>)
+    case onAppear
     case selectCategory(ExpenseCategory)
     case submitExpense
     case handleSubmitResult(Result<Void, APIError>)
@@ -56,6 +57,12 @@ let expenseReducer = Reducer<
     switch action {
     case .binding:
         return .none
+    case .onAppear:
+        if Auth().token == nil {
+            return Effect(value: .showLogoutView)
+        } else {
+            return Effect(value: .getExpenses(Date()))
+        }
     case .selectCategory(let category):
         state.data.category = category
         return .none
@@ -105,7 +112,7 @@ let expenseReducer = Reducer<
         case .failure:
             state.viewState = .logout
         }
-        return .none
+        return Effect(value: .getExpenses(Date()))
     case .showLogoutView:
         Auth().logout()
         state.viewState = .logout
