@@ -47,7 +47,7 @@ class ExpenseClient {
         }
         
         if let date = date {
-            urlComponents.path = "\(urlComponents.path)/search"
+            urlComponents.path = "\(urlComponents.path)/\(Auth.userId ?? UUID())/search"
             urlComponents.queryItems = [
                 URLQueryItem(
                     name: "month",
