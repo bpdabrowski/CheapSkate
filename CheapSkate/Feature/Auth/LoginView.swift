@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct LoginView: View {
-    @State private var username: String = "admin"
+    @State private var username: String = ""
     @State private var password: String = ""
     var expenseStore: Store<ExpenseState, ExpenseAction>
     
@@ -20,8 +20,10 @@ struct LoginView: View {
                     .foregroundColor(.white)
                 
                 VStack {
-                    TextField("Username: ", text: $username)
-                    SecureField("Password: ", text: $password)
+                    TextField("Username", text: $username)
+                        .textInputAutocapitalization(TextInputAutocapitalization.never)
+                    SecureField("Password", text: $password)
+                        .textInputAutocapitalization(TextInputAutocapitalization.never)
                     Button("Login", action: {
                         viewStore.send(.submitLogin(username, password))
                     })

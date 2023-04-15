@@ -16,6 +16,7 @@ enum AuthResult {
 
 class Auth {
     static let keychainKey = "TIL-API-KEY"
+    static let userIdKey = "CS-USER-ID-KEY"
     
     var token: String? {
         get {
@@ -30,7 +31,18 @@ class Auth {
         }
     }
     
-    static var userId: UUID?
+    static var userId: String? {
+        get {
+            UserDefaults.standard.string(forKey: Auth.userIdKey)
+        }
+        set {
+            if let newUserId = newValue {
+                UserDefaults.standard.set(newUserId, forKey: Auth.userIdKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: Auth.userIdKey)
+            }
+        }
+    }
     
     func logout() {
         token = nil
@@ -58,7 +70,7 @@ class Auth {
             .decode(type: Token.self, decoder: JSONDecoder())
             .map {
                 self.token = $0.value // maybe should move this into its own auth state and have a separate reducer or something.
-                Self.userId = $0.user.id
+                Self.userId = $0.user.id?.uuidString ?? "" // this should throw an error if we are unable to get a uuid here and I think we should show the registration screen.
                 return AuthResult.success
             }
             .mapError { _ in APIError.requestError }

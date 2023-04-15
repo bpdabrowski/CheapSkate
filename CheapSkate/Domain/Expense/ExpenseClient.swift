@@ -46,8 +46,10 @@ class ExpenseClient {
             return Effect(error: APIError.requestError)
         }
         
+        urlComponents.path = "\(urlComponents.path)/\(Auth.userId ?? "")"
+        
         if let date = date {
-            urlComponents.path = "\(urlComponents.path)/\(Auth.userId ?? UUID())/search"
+            urlComponents.path = "\(urlComponents.path)/search"
             urlComponents.queryItems = [
                 URLQueryItem(
                     name: "month",
