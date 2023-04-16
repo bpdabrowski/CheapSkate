@@ -11,7 +11,7 @@ import Charts
 import ComposableArchitecture
 
 struct ExpenseChartView: View {
-    let store: StoreOf<ExpenseFeature>
+    let store: StoreOf<Expense>
     let viewModel = ExpenseChartViewModel()
     
     var body: some View {

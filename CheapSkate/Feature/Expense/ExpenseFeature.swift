@@ -14,7 +14,6 @@ enum ExpenseViewState {
     case submitInProgress
     case submitSuccessful
     case submitError
-    case logout
 }
 
 struct ExpenseData: Equatable, Codable {
@@ -24,7 +23,7 @@ struct ExpenseData: Equatable, Codable {
     var date: Date = Date()
 }
 
-struct ExpenseFeature: ReducerProtocol {
+struct Expense: ReducerProtocol {
     struct State: Equatable {
         var data: ExpenseData = ExpenseData()
         var viewState: ExpenseViewState = .idle
@@ -40,9 +39,7 @@ struct ExpenseFeature: ReducerProtocol {
         case resetState
         case getExpenses(Date? = nil)
         case handleGetExpenseResult(Result<[ExpenseData], APIError>)
-        case submitLogin(String, String)
-        case handleLoginResult(Result<AuthResult, APIError>)
-        case showLogoutView // I think this should be moved into its own state and then scoped in the proper context.
+        case logoutButtonTapped
     }
     
     let expenseRepository = ExpenseRepository()
@@ -51,11 +48,7 @@ struct ExpenseFeature: ReducerProtocol {
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .onAppear:
-            if Auth().token == nil {
-                return Effect(value: .showLogoutView)
-            } else {
-                return Effect(value: .getExpenses(Date()))
-            }
+            return Effect(value: .getExpenses(Date()))
         case .selectCategory(let category):
             state.data.category = category
             return .none
@@ -68,7 +61,7 @@ struct ExpenseFeature: ReducerProtocol {
             return expenseRepository.saveExpense(state: state.data)
                 .receive(on: mainQueue)
                 .catchToEffect()
-                .map(ExpenseFeature.Action.handleSubmitResult)
+                .map(Expense.Action.handleSubmitResult)
         case .handleSubmitResult(let result):
             switch result {
             case .success:
@@ -87,7 +80,7 @@ struct ExpenseFeature: ReducerProtocol {
             return expenseRepository.getExpenses(for: date)
                 .receive(on: mainQueue)
                 .catchToEffect()
-                .map(ExpenseFeature.Action.handleGetExpenseResult)
+                .map(Expense.Action.handleGetExpenseResult)
         case .handleGetExpenseResult(let result):
             switch result {
             case .success(let chartData):
@@ -96,22 +89,7 @@ struct ExpenseFeature: ReducerProtocol {
                 break
             }
             return .none
-        case .submitLogin(let username, let password):
-            return Auth().login(username: username, password: password) // probably need to put auth in an environment class.
-                .receive(on: mainQueue)
-                .catchToEffect()
-                .map(ExpenseFeature.Action.handleLoginResult)
-        case .handleLoginResult(let result):
-            switch result {
-            case .success:
-                state.viewState = .idle
-            case .failure:
-                state.viewState = .logout
-            }
-            return Effect(value: .getExpenses(Date()))
-        case .showLogoutView:
-            Auth().logout()
-            state.viewState = .logout
+        case .logoutButtonTapped:
             return .none
         }
     }

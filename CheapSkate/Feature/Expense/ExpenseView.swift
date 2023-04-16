@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseView: View {
-    let store: StoreOf<ExpenseFeature>
+    let store: StoreOf<Expense>
     let viewModel = ExpenseViewModel()
     
     var body: some View {
@@ -24,7 +24,7 @@ struct ExpenseView: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 34, height: 34)
                                     .frame(maxWidth: .infinity)
-                                Button(action: { viewStore.send(.showLogoutView) }) {
+                                Button(action: { viewStore.send(.logoutButtonTapped) }) {
                                   Image(systemName: "rectangle.portrait.and.arrow.right")
                                 }.frame(maxWidth: .infinity, alignment: .trailing)
                             }
@@ -38,7 +38,7 @@ struct ExpenseView: View {
                             HStack {
                                 CurrencyTextField(
                                     numberFormatter: viewModel.formatter,
-                                    value: viewStore.binding(get: \.data.amount, send: ExpenseFeature.Action.amountChanged)
+                                    value: viewStore.binding(get: \.data.amount, send: Expense.Action.amountChanged)
                                 )
                                 .frame(maxHeight: 50)
                                 .truncationMode(.tail)
@@ -48,10 +48,6 @@ struct ExpenseView: View {
                         }
                     }
                     .padding()
-                    
-                    if viewStore.viewState == .logout {
-                        LoginView(expenseStore: store)
-                    }
                 }
             }.onAppear {
                 viewStore.send(.onAppear)
@@ -59,7 +55,7 @@ struct ExpenseView: View {
         }
     }
     
-    private func categorySelector(viewStore: ViewStoreOf<ExpenseFeature>) -> some View {
+    private func categorySelector(viewStore: ViewStoreOf<Expense>) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
@@ -93,7 +89,7 @@ struct ExpenseView: View {
         }
     }
     
-    private func submitButton(viewStore: ViewStoreOf<ExpenseFeature>) -> some View {
+    private func submitButton(viewStore: ViewStoreOf<Expense>) -> some View {
         Button(action: {
             viewStore.send(.submitExpense)
         }, label: {

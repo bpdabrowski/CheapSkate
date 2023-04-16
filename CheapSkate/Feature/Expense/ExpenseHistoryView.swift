@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseHistoryView: View {
-    let store: StoreOf<ExpenseFeature>
+    let store: StoreOf<Expense>
     let viewModel = ExpenseHistoryViewModel()
     
     var body: some View {

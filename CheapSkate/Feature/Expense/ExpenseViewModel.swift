@@ -50,8 +50,7 @@ class ExpenseViewModel {
         
         switch viewState {
         case .idle,
-            .submitSuccessful,
-            .logout:
+            .submitSuccessful:
             break
         case .submitInProgress:
             color = .gray

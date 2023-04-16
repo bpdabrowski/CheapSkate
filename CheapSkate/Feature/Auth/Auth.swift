@@ -46,6 +46,7 @@ class Auth {
     
     func logout() {
         token = nil
+        Self.userId = nil
     }
     
     func login(username: String, password: String) -> Effect<AuthResult, APIError> {
