@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseHistoryView: View {
-    let store: Store<ExpenseState, ExpenseAction>
+    let store: StoreOf<ExpenseFeature>
     let viewModel = ExpenseHistoryViewModel()
     
     var body: some View {
@@ -66,26 +66,5 @@ struct ExpenseHistoryView: View {
                 }
             }.padding(.bottom, 10)
         }
-    }
-}
-
-struct ExpenseHistory_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpenseHistoryView(store:
-            Store(
-                initialState: ExpenseState(),
-                reducer: expenseReducer,
-                environment: .live(
-                    environment: ExpenseEnvironment(
-                            saveExpense: { _ in
-                                ExpenseRepository().saveExpense(state: ExpenseState().data)
-                            },
-                            getExpenses: { _ in
-                                ExpenseRepository().getExpenses(for: Date())
-                            }
-                        )
-                    )
-                )
-        )
     }
 }

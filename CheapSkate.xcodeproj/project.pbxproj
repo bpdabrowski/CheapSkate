@@ -19,7 +19,7 @@
 		F284F84B295D5EFA00EB7E7C /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */; };
 		F284F84E295D617D00EB7E7C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84D295D617D00EB7E7C /* ComposableArchitecture */; };
 		F284F850295D617D00EB7E7C /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84F295D617D00EB7E7C /* Dependencies */; };
-		F284F852295D638E00EB7E7C /* RootFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F851295D638E00EB7E7C /* RootFeature.swift */; };
+		F284F852295D638E00EB7E7C /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F851295D638E00EB7E7C /* AppFeature.swift */; };
 		F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */; };
 		F284F856295D653600EB7E7C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIError.swift */; };
 		F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F857295D658000EB7E7C /* SystemEnvironment.swift */; };
@@ -45,7 +45,7 @@
 		F284F840295D5EC700EB7E7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
-		F284F851295D638E00EB7E7C /* RootFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFeature.swift; sourceTree = "<group>"; };
+		F284F851295D638E00EB7E7C /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseFeature.swift; sourceTree = "<group>"; };
 		F284F855295D653600EB7E7C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		F284F857295D658000EB7E7C /* SystemEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemEnvironment.swift; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */,
-				F284F851295D638E00EB7E7C /* RootFeature.swift */,
+				F284F851295D638E00EB7E7C /* AppFeature.swift */,
 				F284F857295D658000EB7E7C /* SystemEnvironment.swift */,
 			);
 			path = Application;
@@ -250,7 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F284F852295D638E00EB7E7C /* RootFeature.swift in Sources */,
+				F284F852295D638E00EB7E7C /* AppFeature.swift in Sources */,
 				F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */,
 				F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */,
 				F220339B29739FF700027B5F /* ExpenseHistoryViewModel.swift in Sources */,

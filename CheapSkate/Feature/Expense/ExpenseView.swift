@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseView: View {
-    let store: Store<ExpenseState, ExpenseAction>
+    let store: StoreOf<ExpenseFeature>
     let viewModel = ExpenseViewModel()
     
     var body: some View {
@@ -38,7 +38,7 @@ struct ExpenseView: View {
                             HStack {
                                 CurrencyTextField(
                                     numberFormatter: viewModel.formatter,
-                                    value: viewStore.binding(\.data.$amount)
+                                    value: viewStore.binding(get: \.data.amount, send: ExpenseFeature.Action.amountChanged)
                                 )
                                 .frame(maxHeight: 50)
                                 .truncationMode(.tail)
@@ -59,7 +59,7 @@ struct ExpenseView: View {
         }
     }
     
-    private func categorySelector(viewStore: ViewStore<ExpenseState, ExpenseAction>) -> some View {
+    private func categorySelector(viewStore: ViewStoreOf<ExpenseFeature>) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
@@ -93,7 +93,7 @@ struct ExpenseView: View {
         }
     }
     
-    private func submitButton(viewStore: ViewStore<ExpenseState, ExpenseAction>) -> some View {
+    private func submitButton(viewStore: ViewStoreOf<ExpenseFeature>) -> some View {
         Button(action: {
             viewStore.send(.submitExpense)
         }, label: {
@@ -123,26 +123,5 @@ struct ExpenseView: View {
         .background(viewModel.submitButtonColor(viewState: viewStore.viewState))
         .disabled(viewStore.viewState != .idle)
         .clipShape(Capsule())
-    }
-}
-
-struct ExpenseView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpenseView(store:
-            Store(
-                initialState: ExpenseState(),
-                reducer: expenseReducer,
-                environment: .live(
-                    environment: ExpenseEnvironment(
-                            saveExpense: { _ in
-                                ExpenseRepository().saveExpense(state: ExpenseState().data)
-                            },
-                            getExpenses: { _ in
-                                ExpenseRepository().getExpenses(for: Date())
-                            }
-                        )
-                    )
-                )
-            )
     }
 }

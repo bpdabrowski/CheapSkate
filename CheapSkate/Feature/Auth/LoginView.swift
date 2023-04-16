@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
-    var expenseStore: Store<ExpenseState, ExpenseAction>
+    var expenseStore: StoreOf<ExpenseFeature>
     
     var body: some View {
         WithViewStore(expenseStore) { viewStore in

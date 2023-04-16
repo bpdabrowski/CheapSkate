@@ -20,7 +20,7 @@ enum ExpenseViewState {
 struct ExpenseData: Equatable, Codable {
     var id: UUID?
     var category: ExpenseCategory = .food
-    @BindableState var amount: Double = 0.00
+    var amount: Double = 0.00
     var date: Date = Date()
 }
 
@@ -31,10 +31,10 @@ struct ExpenseFeature: ReducerProtocol {
         var chartData: [ExpenseData] = []
     }
     
-    enum Action: BindableAction {
-        case binding(BindingAction<State>)
+    enum Action {
         case onAppear
         case selectCategory(ExpenseCategory)
+        case amountChanged(Double)
         case submitExpense
         case handleSubmitResult(Result<Void, APIError>)
         case resetState
@@ -45,14 +45,11 @@ struct ExpenseFeature: ReducerProtocol {
         case showLogoutView // I think this should be moved into its own state and then scoped in the proper context.
     }
     
-    var saveExpense: (ExpenseData) -> EffectPublisher<Void, APIError>
-    var getExpenses: (Date?) -> EffectPublisher<[ExpenseData], APIError>
+    let expenseRepository = ExpenseRepository()
     @Dependency(\.mainQueue) var mainQueue
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
-        case .binding:
-            return .none
         case .onAppear:
             if Auth().token == nil {
                 return Effect(value: .showLogoutView)
@@ -62,10 +59,13 @@ struct ExpenseFeature: ReducerProtocol {
         case .selectCategory(let category):
             state.data.category = category
             return .none
+        case .amountChanged(let amount):
+            state.data.amount = amount
+            return .none
         case .submitExpense:
             state.data.date = Date()
             state.viewState = .submitInProgress
-            return saveExpense(state.data)
+            return expenseRepository.saveExpense(state: state.data)
                 .receive(on: mainQueue)
                 .catchToEffect()
                 .map(ExpenseFeature.Action.handleSubmitResult)
@@ -84,7 +84,7 @@ struct ExpenseFeature: ReducerProtocol {
             
             return Effect(value: .getExpenses(Date()))
         case .getExpenses(let date):
-            return getExpenses(date)
+            return expenseRepository.getExpenses(for: date)
                 .receive(on: mainQueue)
                 .catchToEffect()
                 .map(ExpenseFeature.Action.handleGetExpenseResult)
