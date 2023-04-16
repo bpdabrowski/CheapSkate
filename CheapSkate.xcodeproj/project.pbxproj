@@ -27,6 +27,7 @@
 		F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */; };
 		F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */; };
 		F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */; };
+		F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F01AC029EBA28D001A4709 /* AppView.swift */; };
 		F2F8591F29983BA4004F4F96 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8591E29983BA4004F4F96 /* Auth.swift */; };
 		F2F8592129983BD8004F4F96 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592029983BD8004F4F96 /* Token.swift */; };
 		F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592229983C12004F4F96 /* Auth+Keychain.swift */; };
@@ -53,6 +54,7 @@
 		F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
 		F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		F2F01AC029EBA28D001A4709 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		F2F8591E29983BA4004F4F96 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		F2F8592029983BD8004F4F96 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F2F8592229983C12004F4F96 /* Auth+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Keychain.swift"; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */,
 				F284F851295D638E00EB7E7C /* AppFeature.swift */,
 				F284F857295D658000EB7E7C /* SystemEnvironment.swift */,
+				F2F01AC029EBA28D001A4709 /* AppView.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIError.swift in Sources */,
 				F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */,
+				F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */,
 				F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */,
 				F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */,
 				F284F85A295D686000EB7E7C /* ExpenseClient.swift in Sources */,

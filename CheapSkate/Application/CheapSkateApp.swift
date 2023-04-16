@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct CheapSkateApp: App {
     var body: some Scene {
         WindowGroup {
-            ExpenseView(store: Store(initialState: ExpenseFeature.State(), reducer: ExpenseFeature()))
+            AppView(store: Store(initialState: AppReducer.State(), reducer: AppReducer()))
         }
     }
 }
