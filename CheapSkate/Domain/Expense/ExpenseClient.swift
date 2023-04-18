@@ -46,8 +46,6 @@ class ExpenseClient {
             return Effect(error: APIError.requestError)
         }
         
-        urlComponents.path = "\(urlComponents.path)/\(Auth.userId ?? "")"
-        
         if let date = date {
             urlComponents.path = "\(urlComponents.path)/search"
             urlComponents.queryItems = [
@@ -80,10 +78,13 @@ class ExpenseClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        if let token = Auth().token {
-            request.addValue(
-              "Bearer \(token)",
-              forHTTPHeaderField: "Authorization")
+        
+        if let token = Auth.shared.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        if let userId = Auth.shared.userId {
+            request.addValue(userId, forHTTPHeaderField: "user-id")
         }
 
         return request

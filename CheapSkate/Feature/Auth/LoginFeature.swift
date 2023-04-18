@@ -9,9 +9,7 @@ import ComposableArchitecture
 import Foundation
 
 struct Login: ReducerProtocol {
-    struct State {
-        
-    }
+    struct State { }
     
     enum Action {
         case submitLogin(String, String)
@@ -24,7 +22,7 @@ struct Login: ReducerProtocol {
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .submitLogin(let username, let password):
-            return Auth().login(username: username, password: password) // probably need to put auth in an environment class.
+            return Auth.shared.login(username: username, password: password)
                 .receive(on: mainQueue)
                 .catchToEffect()
                 .map(Login.Action.handleLoginResult)
@@ -35,7 +33,7 @@ struct Login: ReducerProtocol {
             }
             return .none
         case .showLogoutView:
-            Auth().logout()
+            Auth.shared.logout()
             return .none
         }
     }

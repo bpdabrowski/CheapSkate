@@ -46,7 +46,7 @@ struct AppReducer: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                if Auth().token == nil {
+                if Auth.shared.token == nil {
                     state.login = .init()
                 }
                 return .none

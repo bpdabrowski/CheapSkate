@@ -15,10 +15,15 @@ enum AuthResult {
 }
 
 class Auth {
-    static let keychainKey = "TIL-API-KEY"
-    static let userIdKey = "CS-USER-ID-KEY"
+    private static let keychainKey = "TIL-API-KEY"
+    private static let userIdKey = "CS-USER-ID-KEY"
+    static let shared = Auth()
     
-    var token: String? {
+    private let authClient = AuthClient()
+    
+    private init() { }
+    
+    private(set) var token: String? {
         get {
             Keychain.load(key: Auth.keychainKey)
         }
@@ -31,7 +36,7 @@ class Auth {
         }
     }
     
-    static var userId: String? {
+    private(set) var userId: String? {
         get {
             UserDefaults.standard.string(forKey: Auth.userIdKey)
         }
@@ -46,20 +51,43 @@ class Auth {
     
     func logout() {
         token = nil
-        Self.userId = nil
+        userId = nil
     }
     
     func login(username: String, password: String) -> Effect<AuthResult, APIError> {
-        let path = "http://localhost:8080/api/users/login"
-        guard let url = URL(string: path) else {
-            fatalError("Failed to convert URL")
+        authClient.login(username: username, password: password)
+            .map {
+                self.token = $0.value
+                self.userId = $0.user.id?.uuidString ?? "" // this should throw an error if we are unable to get a uuid here and I think we should show the registration screen.
+                return AuthResult.success
+            }
+    }
+}
+
+
+class AuthClient {
+    
+    static var urlComponents: URLComponents? {
+        let baseURL = "localhost"
+        let endpoint = "/api/users/login"
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "http"
+        urlComponents.host = baseURL
+        urlComponents.port = 8080
+        urlComponents.path = endpoint
+        return urlComponents
+    }
+    
+    func login(username: String, password: String) -> Effect<Token, APIError> {
+        guard let url = Self.urlComponents?.url else {
+            return Effect(error: APIError.requestError)
         }
-        guard
-            let loginString = "\(username):\(password)"
+        
+        guard let loginString = "\(username):\(password)"
                 .data(using: .utf8)?
                 .base64EncodedString()
         else {
-            fatalError("Failed to encode credentials")
+            return Effect(error: APIError.requestError)
         }
         
         var loginRequest = URLRequest(url: url)
@@ -69,11 +97,6 @@ class Auth {
         return URLSession.shared.dataTaskPublisher(for: loginRequest)
             .map(\.data)
             .decode(type: Token.self, decoder: JSONDecoder())
-            .map {
-                self.token = $0.value // maybe should move this into its own auth state and have a separate reducer or something.
-                Self.userId = $0.user.id?.uuidString ?? "" // this should throw an error if we are unable to get a uuid here and I think we should show the registration screen.
-                return AuthResult.success
-            }
             .mapError { _ in APIError.requestError }
             .eraseToEffect()
     }
