@@ -8,32 +8,28 @@
 import ComposableArchitecture
 import Foundation
 
-struct Login: ReducerProtocol {
-    struct State { }
+struct Login: Reducer {
+    struct State: Equatable { }
     
     enum Action {
         case submitLogin(String, String)
-        case handleLoginResult(Result<AuthResult, APIError>)
-        case showLogoutView
+        case handleLoginResult
     }
     
     @Dependency(\.mainQueue) var mainQueue
     
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .submitLogin(let username, let password):
-            return Auth.shared.login(username: username, password: password)
-                .receive(on: mainQueue)
-                .catchToEffect()
-                .map(Login.Action.handleLoginResult)
-        case .handleLoginResult(let result):
-            if case .failure = result {
+            return .run { send in
+                try await Auth.shared.login(username: username, password: password)
+                await send(.handleLoginResult)
+            }
+        case .handleLoginResult:
+            if Auth.shared.token == nil {
                 // put error up on the login view
                 return .none
             }
-            return .none
-        case .showLogoutView:
-            Auth.shared.logout()
             return .none
         }
     }

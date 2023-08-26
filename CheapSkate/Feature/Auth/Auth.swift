@@ -54,19 +54,15 @@ class Auth {
         userId = nil
     }
     
-    func login(username: String, password: String) -> Effect<AuthResult, APIError> {
-        authClient.login(username: username, password: password)
-            .map {
-                self.token = $0.value
-                self.userId = $0.user.id?.uuidString ?? "" // this should throw an error if we are unable to get a uuid here and I think we should show the registration screen.
-                return AuthResult.success
-            }
+    func login(username: String, password: String) async throws {
+            let login = try await authClient.login(username: username, password: password)
+            self.token = login.value
+            self.userId = login.user.id?.uuidString ?? "" // this should throw an error if we are unable to get a uuid here and I think we should show the registration screen.
     }
 }
 
 
 class AuthClient {
-    
     static var urlComponents: URLComponents? {
         let baseURL = "localhost"
         let endpoint = "/api/users/login"
@@ -78,26 +74,24 @@ class AuthClient {
         return urlComponents
     }
     
-    func login(username: String, password: String) -> Effect<Token, APIError> {
+    func login(username: String, password: String) async throws -> Token {
         guard let url = Self.urlComponents?.url else {
-            return Effect(error: APIError.requestError)
+            throw APIError.requestError
         }
         
         guard let loginString = "\(username):\(password)"
                 .data(using: .utf8)?
                 .base64EncodedString()
         else {
-            return Effect(error: APIError.requestError)
+            throw APIError.requestError
         }
         
         var loginRequest = URLRequest(url: url)
         loginRequest.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
         loginRequest.httpMethod = "POST"
         
-        return URLSession.shared.dataTaskPublisher(for: loginRequest)
-            .map(\.data)
-            .decode(type: Token.self, decoder: JSONDecoder())
-            .mapError { _ in APIError.requestError }
-            .eraseToEffect()
+        let (data, _) = try await URLSession.shared.data(for: loginRequest)
+        
+        return try apiDecode(Token.self, from: data)
     }
 }

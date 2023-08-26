@@ -21,7 +21,7 @@
 		F284F850295D617D00EB7E7C /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84F295D617D00EB7E7C /* Dependencies */; };
 		F284F852295D638E00EB7E7C /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F851295D638E00EB7E7C /* AppFeature.swift */; };
 		F284F854295D63ED00EB7E7C /* ExpenseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */; };
-		F284F856295D653600EB7E7C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIError.swift */; };
+		F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIHelpers.swift */; };
 		F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F857295D658000EB7E7C /* SystemEnvironment.swift */; };
 		F284F85A295D686000EB7E7C /* ExpenseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F859295D686000EB7E7C /* ExpenseClient.swift */; };
 		F2D6A32129601F710078A5B2 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */; };
@@ -49,7 +49,7 @@
 		F284F84A295D5EFA00EB7E7C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		F284F851295D638E00EB7E7C /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		F284F853295D63ED00EB7E7C /* ExpenseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseFeature.swift; sourceTree = "<group>"; };
-		F284F855295D653600EB7E7C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		F284F855295D653600EB7E7C /* APIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelpers.swift; sourceTree = "<group>"; };
 		F284F857295D658000EB7E7C /* SystemEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemEnvironment.swift; sourceTree = "<group>"; };
 		F284F859295D686000EB7E7C /* ExpenseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseClient.swift; sourceTree = "<group>"; };
 		F2D6A32029601F710078A5B2 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				F21973A1296ABB0900EB8C62 /* Expense */,
-				F284F855295D653600EB7E7C /* APIError.swift */,
+				F284F855295D653600EB7E7C /* APIHelpers.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 				F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
-				F284F856295D653600EB7E7C /* APIError.swift in Sources */,
+				F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */,
 				F284F858295D658000EB7E7C /* SystemEnvironment.swift in Sources */,
 				F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */,
 				F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */,
@@ -485,7 +485,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.0;
+				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

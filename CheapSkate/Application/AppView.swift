@@ -10,7 +10,6 @@ import SwiftUI
 
 struct AppView: View {
     let store: StoreOf<AppReducer>
-    @ObservedObject var viewStore: ViewStore<ViewState, AppReducer.Action>
 
     struct ViewState: Equatable {
       let isLoginPresented: Bool
@@ -22,21 +21,22 @@ struct AppView: View {
 
     public init(store: StoreOf<AppReducer>) {
       self.store = store
-      self.viewStore = ViewStore(self.store.scope(state: ViewState.init))
     }
     
     var body: some View {
-        Group {
-            if !self.viewStore.isLoginPresented {
-                ExpenseView(store: store.scope(state: \.expense, action: AppReducer.Action.expense))
-            } else {
-                IfLetStore(
-                  self.store.scope(state: \.login, action: AppReducer.Action.login),
-                  then: LoginView.init(store:)
-                )
+        WithViewStore(self.store, observe: ViewState.init(state:)) { viewStore in
+            Group {
+                if !viewStore.isLoginPresented {
+                    ExpenseView(store: store.scope(state: \.expense, action: AppReducer.Action.expense))
+                } else {
+                    IfLetStore(
+                      self.store.scope(state: \.login, action: AppReducer.Action.login),
+                      then: LoginView.init(store:)
+                    )
+                }
+            }.onAppear {
+                viewStore.send(.onAppear)
             }
-        }.onAppear {
-            viewStore.send(.onAppear)
         }
     }
 }

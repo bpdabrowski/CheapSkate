@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import Foundation
 
-struct AppReducer: ReducerProtocol {
+struct AppReducer: Reducer {
     struct State {
         var expense: Expense.State
         var login: Login.State?
@@ -30,7 +30,7 @@ struct AppReducer: ReducerProtocol {
     
     let expenseRepository = ExpenseRepository()
     
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         self.core
           .ifLet(\.login, action: /Action.login) {
             Login()
@@ -38,7 +38,7 @@ struct AppReducer: ReducerProtocol {
     }
     
     @ReducerBuilder<State, Action>
-    var core: some ReducerProtocol<State, Action> {
+    var core: some Reducer<State, Action> {
         Scope(state: \.expense, action: /Action.expense) {
             Expense()
         }
@@ -52,11 +52,12 @@ struct AppReducer: ReducerProtocol {
                 return .none
             case .expense(.logoutButtonTapped):
                 state.login = .init()
-                return Effect(value: .login(.showLogoutView))
-            case .login(.handleLoginResult(let result)):
-                if case .success = result {
+                Auth.shared.logout()
+                return .none
+            case .login(.handleLoginResult):
+                if Auth.shared.token != nil {
                     state.login = nil
-                    return Effect(value: .expense(.getExpenses(Date())))
+                    return .send(.expense(.getExpenses(Date())))
                 } else {
                     return .none
                 }
