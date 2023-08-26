@@ -21,29 +21,28 @@ class ExpenseClient {
         return urlComponents
     }
     
-    func saveExpense(state: ExpenseData) -> Effect<Void, APIError> {
+    func saveExpense(state: ExpenseData) async throws {
         guard let url = Self.urlComponents?.url else {
-            return Effect(error: APIError.requestError)
+            throw APIError.requestError
         }
 
         let data: Data
         do {
             data = try JSONEncoder().encode(state)
         } catch {
-            return Effect(error: APIError.codingError)
+            throw APIError.codingError
         }
         
-        return URLSession.shared.dataTaskPublisher(for: request(url: url, httpMethod: "POST", data: data))
-          .mapError { _ in
-              return APIError.requestError
-          }
-          .map { _,_ in }
-          .eraseToEffect()
+        do {
+            _ = try await URLSession.shared.data(for: request(url: url, httpMethod: "POST", data: data))
+        } catch {
+            throw APIError.requestError
+        }
     }
     
-    func getExpenses(for date: Date? = nil) -> Effect<[ExpenseData], APIError> {
+    func getExpenses(for date: Date? = nil) async throws -> [ExpenseData] {
         guard var urlComponents = Self.urlComponents else {
-            return Effect(error: APIError.requestError)
+            throw APIError.requestError
         }
         
         if let date = date {
@@ -57,14 +56,11 @@ class ExpenseClient {
         }
         
         guard let url = urlComponents.url else {
-            return Effect(error: APIError.requestError)
+            throw APIError.requestError
         }
         
-        return URLSession.shared.dataTaskPublisher(for: request(url: url, httpMethod: "GET"))
-            .map(\.data)
-            .decode(type: [ExpenseData].self, decoder: JSONDecoder())
-            .mapError { _ in APIError.requestError }
-            .eraseToEffect()
+        let (data, _) = try await URLSession.shared.data(for: request(url: url, httpMethod: "GET"))
+        return try apiDecode([ExpenseData].self, from: data)
     }
     
     private func request(url: URL, httpMethod: String, data: Data? = nil) -> URLRequest {

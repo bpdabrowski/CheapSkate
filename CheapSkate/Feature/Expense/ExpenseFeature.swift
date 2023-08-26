@@ -23,7 +23,7 @@ struct ExpenseData: Equatable, Codable {
     var date: Date = Date()
 }
 
-struct Expense: ReducerProtocol {
+struct Expense: Reducer {
     struct State: Equatable {
         var data: ExpenseData = ExpenseData()
         var viewState: ExpenseViewState = .idle
@@ -35,20 +35,20 @@ struct Expense: ReducerProtocol {
         case selectCategory(ExpenseCategory)
         case amountChanged(Double)
         case submitExpense
-        case handleSubmitResult(Result<Void, APIError>)
+        case handleSubmitResult(TaskResult<Void>)
         case resetState
         case getExpenses(Date? = nil)
-        case handleGetExpenseResult(Result<[ExpenseData], APIError>)
+        case handleGetExpenseResult(TaskResult<[ExpenseData]>)
         case logoutButtonTapped
     }
     
     let expenseRepository = ExpenseRepository()
     @Dependency(\.mainQueue) var mainQueue
     
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .onAppear:
-            return Effect(value: .getExpenses(Date()))
+            return .send(.getExpenses(Date()))
         case .selectCategory(let category):
             state.data.category = category
             return .none
@@ -58,10 +58,9 @@ struct Expense: ReducerProtocol {
         case .submitExpense:
             state.data.date = Date()
             state.viewState = .submitInProgress
-            return expenseRepository.saveExpense(state: state.data)
-                .receive(on: mainQueue)
-                .catchToEffect()
-                .map(Expense.Action.handleSubmitResult)
+            return .run { [data = state.data] send in
+                await send(.handleSubmitResult(TaskResult { try await expenseRepository.saveExpense(state: data) }))
+            }
         case .handleSubmitResult(let result):
             switch result {
             case .success:
@@ -74,13 +73,11 @@ struct Expense: ReducerProtocol {
             state.data.category = .food
             state.data.amount = 0.00
             state.viewState = .idle
-            
-            return Effect(value: .getExpenses(Date()))
+            return .send(.getExpenses(Date()))
         case .getExpenses(let date):
-            return expenseRepository.getExpenses(for: date)
-                .receive(on: mainQueue)
-                .catchToEffect()
-                .map(Expense.Action.handleGetExpenseResult)
+            return .run { send in
+                await send(.handleGetExpenseResult(TaskResult { try await expenseRepository.getExpenses(for: date) }))
+            }
         case .handleGetExpenseResult(let result):
             switch result {
             case .success(let chartData):

@@ -15,7 +15,7 @@ struct ExpenseChartView: View {
     let viewModel = ExpenseChartViewModel()
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: \.chartData) { viewStore in
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .foregroundColor(.white)
@@ -27,19 +27,19 @@ struct ExpenseChartView: View {
                             .frame(width: 44, height: 44)
                             .foregroundColor(.blue)
                             .overlay {
-                                Text(viewModel.measurementsByMonth(viewStore.chartData.first?.date))
+                                Text(viewModel.measurementsByMonth(viewStore.state.first?.date))
                                     .padding(.top, 3)
                                     .padding(.bottom, 3)
                                     .foregroundColor(.white)
                             }
-                        Text(viewModel.total(expenseData: viewStore.chartData))
+                        Text(viewModel.total(expenseData: viewStore.state))
                             .padding(.bottom, 3)
                             .foregroundColor(.gray)
                         Spacer()
                     }.padding(.leading, 20)
 
                     Chart {
-                        ForEach(viewStore.chartData, id: \.id) { series in
+                        ForEach(viewStore.state, id: \.id) { series in
                             BarMark(
                                 x: .value("Date", series.date, unit: .day),
                                 y: .value("Amount", series.amount)
@@ -51,12 +51,12 @@ struct ExpenseChartView: View {
                     .chartLegend(position: .bottom, alignment: .leading) {
                         HStack {
                             VStack(alignment: .leading) {
-                                chartKey(category: .food, expenseData: viewStore.chartData)
-                                chartKey(category: .gas, expenseData: viewStore.chartData)
+                                chartKey(category: .food, expenseData: viewStore.state)
+                                chartKey(category: .gas, expenseData: viewStore.state)
                             }
                             VStack(alignment: .leading) {
-                                chartKey(category: .groceries, expenseData: viewStore.chartData)
-                                chartKey(category: .misc, expenseData: viewStore.chartData)
+                                chartKey(category: .groceries, expenseData: viewStore.state)
+                                chartKey(category: .misc, expenseData: viewStore.state)
                             }
                         }
                     }

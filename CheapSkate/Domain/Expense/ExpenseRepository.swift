@@ -12,14 +12,14 @@ class ExpenseRepository {
     
     let expenseClient = ExpenseClient()
     
-    func saveExpense(state: ExpenseData) -> Effect<Void, APIError> {
+    func saveExpense(state: ExpenseData) async throws {
         guard state.amount != 0 else {
-            return Effect(error: APIError.invalidValue)
+            throw APIError.invalidValue
         }
-        return expenseClient.saveExpense(state: state)
+        return try await expenseClient.saveExpense(state: state)
     }
     
-    func getExpenses(for date: Date? = nil) -> Effect<[ExpenseData], APIError> {
-        return expenseClient.getExpenses(for: date)
+    func getExpenses(for date: Date? = nil) async throws -> [ExpenseData] {
+        return try await expenseClient.getExpenses(for: date)
     }
 }

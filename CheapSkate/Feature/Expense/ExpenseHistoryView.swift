@@ -13,9 +13,9 @@ struct ExpenseHistoryView: View {
     let viewModel = ExpenseHistoryViewModel()
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: \.chartData) { viewStore in
             ScrollView() {
-                ForEach(viewModel.monthlyExpenses(expenseData: viewStore.chartData), id: \.key) { key, value in
+                ForEach(viewModel.monthlyExpenses(expenseData: viewStore.state), id: \.key) { key, value in
                     VStack(alignment: .leading) {
                         Text(viewModel.formatKey(key))
                             .font(.title)

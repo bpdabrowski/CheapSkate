@@ -13,7 +13,7 @@ struct ExpenseView: View {
     let viewModel = ExpenseViewModel()
     
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationStack {
                 ZStack {
                     VStack(alignment: .center, spacing: 4.0) {

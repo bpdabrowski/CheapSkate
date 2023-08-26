@@ -12,3 +12,11 @@ enum APIError: Error {
     case codingError
     case invalidValue
 }
+
+public func apiDecode<A: Decodable>(_ type: A.Type, from data: Data) throws -> A {
+  do {
+    return try JSONDecoder().decode(A.self, from: data)
+  } catch {
+      throw APIError.requestError
+  }
+}
