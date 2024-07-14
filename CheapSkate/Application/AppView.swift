@@ -6,7 +6,70 @@
 //
 
 import ComposableArchitecture
+import Dependencies
 import SwiftUI
+
+struct AppReducer: Reducer {
+    struct State {
+        var expense: Expense.State
+        var login: Login.State?
+        
+        init(
+            expense: Expense.State = .init(),
+            login: Login.State? = nil
+        ) {
+            self.expense = expense
+            self.login = login
+        }
+    }
+    
+    enum Action {
+        case onAppear
+        case expense(Expense.Action)
+        case login(Login.Action)
+    }
+    
+    @Dependency(\.auth) var auth
+    
+    var body: some Reducer<State, Action> {
+        self.core
+          .ifLet(\.login, action: /Action.login) {
+            Login()
+          }
+    }
+    
+    @ReducerBuilder<State, Action>
+    var core: some Reducer<State, Action> {
+        Scope(state: \.expense, action: /Action.expense) {
+            Expense()
+        }
+        
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                guard auth.currentUser() != nil else {
+                    state.login = .init()
+                    return .none
+                }
+                return .none
+            case .expense(.logoutButtonTapped):
+                auth.signOut()
+                state.login = .init()
+                return .none
+            case .login(.handleLoginResult):
+                guard auth.currentUser() != nil else {
+                    return .none
+                }
+                
+                state.login = nil
+                return .send(.expense(.getExpenses(Date())))
+            case .expense,
+                .login:
+                return .none
+            }
+        }
+    }
+}
 
 struct AppView: View {
     let store: StoreOf<AppReducer>

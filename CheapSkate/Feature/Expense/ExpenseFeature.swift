@@ -17,10 +17,10 @@ enum ExpenseViewState {
 }
 
 struct ExpenseData: Equatable, Codable {
-    var id: UUID?
+    var id: UUID? = UUID()
     var category: ExpenseCategory = .food
     var amount: Double = 0.00
-    var date: Date = Date()
+    var date: Double = Date().timeIntervalSince1970
 }
 
 struct Expense: Reducer {
@@ -42,8 +42,8 @@ struct Expense: Reducer {
         case logoutButtonTapped
     }
     
-    let expenseRepository = ExpenseRepository()
     @Dependency(\.mainQueue) var mainQueue
+    @Dependency(\.requestManager) var requestManager
     
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
@@ -56,11 +56,16 @@ struct Expense: Reducer {
             state.data.amount = amount
             return .none
         case .submitExpense:
-            state.data.date = Date()
+            state.data.date = Date().timeIntervalSince1970
             state.viewState = .submitInProgress
             return .run { [data = state.data] send in
-                await send(.handleSubmitResult(TaskResult { try await expenseRepository.saveExpense(state: data) }))
-            }
+                await send(.handleSubmitResult(
+                    TaskResult {
+                        try await requestManager.fireAndForget(ExpenseRequest.save(data))
+                    }
+                )
+            )
+        }
         case .handleSubmitResult(let result):
             switch result {
             case .success:
@@ -76,7 +81,13 @@ struct Expense: Reducer {
             return .send(.getExpenses(Date()))
         case .getExpenses(let date):
             return .run { send in
-                await send(.handleGetExpenseResult(TaskResult { try await expenseRepository.getExpenses(for: date) }))
+                await send(
+                    .handleGetExpenseResult(
+                        TaskResult {
+                            try await requestManager.perform(ExpenseRequest.getByMonth(date))
+                        }
+                    )
+                )
             }
         case .handleGetExpenseResult(let result):
             switch result {

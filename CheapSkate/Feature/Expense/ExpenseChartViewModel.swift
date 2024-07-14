@@ -10,12 +10,12 @@ import ComposableArchitecture
 
 class ExpenseChartViewModel {
     
-    func measurementsByMonth(_ month: Date?) -> String {
-        guard let month = month else {
+    func measurementsByMonth(_ interval: Double?) -> String {
+        guard let interval = interval else {
             return ""
         }
         
-        let thisMonth = Calendar.current.component(.month, from: month)
+        let thisMonth = Calendar.current.component(.month, from: Date(timeIntervalSince1970: interval))
         return Calendar.current.veryShortMonthSymbols[thisMonth - 1]
     }
     

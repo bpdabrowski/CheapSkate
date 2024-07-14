@@ -41,7 +41,7 @@ struct ExpenseChartView: View {
                     Chart {
                         ForEach(viewStore.state, id: \.id) { series in
                             BarMark(
-                                x: .value("Date", series.date, unit: .day),
+                                x: .value("Date", Date(timeIntervalSince1970: series.date), unit: .day),
                                 y: .value("Amount", series.amount)
                             ).foregroundStyle(by: .value("Category", series.category.rawValue))
                         }

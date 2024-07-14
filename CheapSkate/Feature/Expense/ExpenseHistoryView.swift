@@ -23,6 +23,23 @@ struct ExpenseHistoryView: View {
                         Spacer()
                     }.padding(.leading, 20)
                 }
+                
+                Spacer(minLength: 10)
+                
+                HStack {
+                    VStack{
+                        Text("Monthly Expenses")
+                        Text(viewModel.sum(of: viewStore.state))
+                    }
+                    VStack{
+                        Text("Average Daily Spend")
+                        Text("\(viewModel.averageDailySpend(from: viewStore.state))")
+                    }
+                    VStack{
+                        Text("Projected Spending")
+                        Text(viewModel.extrapolatedSpend(from: viewStore.state))
+                    }
+                }
             }.onAppear {
                 viewStore.send(.getExpenses())
             }
