@@ -30,7 +30,7 @@ enum ExpenseRequest: RequestProtocol {
         guard case .save(let expenseData) = self else {
             return nil
         }
-        
+        // TODO: See if we can adjust this to not use JSONSerialization and JSONEncoder.
         return try! JSONSerialization.jsonObject(with: try! JSONEncoder().encode(expenseData))
     }
     

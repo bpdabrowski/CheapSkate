@@ -11,11 +11,11 @@ import SwiftUI
 
 struct AppReducer: Reducer {
     struct State {
-        var expense: Expense.State
+        var expense: Expense.State?
         var login: Login.State?
         
         init(
-            expense: Expense.State = .init(),
+            expense: Expense.State? = nil,
             login: Login.State? = nil
         ) {
             self.expense = expense
@@ -36,14 +36,13 @@ struct AppReducer: Reducer {
           .ifLet(\.login, action: /Action.login) {
             Login()
           }
+          .ifLet(\.expense, action: /Action.expense) {
+            Expense()
+          }
     }
     
     @ReducerBuilder<State, Action>
     var core: some Reducer<State, Action> {
-        Scope(state: \.expense, action: /Action.expense) {
-            Expense()
-        }
-        
         Reduce { state, action in
             switch action {
             case .onAppear:
@@ -51,6 +50,7 @@ struct AppReducer: Reducer {
                     state.login = .init()
                     return .none
                 }
+                state.expense = .init()
                 return .none
             case .expense(.logoutButtonTapped):
                 auth.signOut()
@@ -90,7 +90,10 @@ struct AppView: View {
         WithViewStore(self.store, observe: ViewState.init(state:)) { viewStore in
             Group {
                 if !viewStore.isLoginPresented {
-                    ExpenseView(store: store.scope(state: \.expense, action: AppReducer.Action.expense))
+                    IfLetStore(
+                      self.store.scope(state: \.expense, action: AppReducer.Action.expense),
+                      then: ExpenseView.init(store:)
+                    )
                 } else {
                     IfLetStore(
                       self.store.scope(state: \.login, action: AppReducer.Action.login),

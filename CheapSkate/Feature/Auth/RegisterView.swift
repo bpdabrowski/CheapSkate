@@ -47,6 +47,7 @@ struct Register {
 }
 
 struct RegisterView: View {
+    // TODO: See if we can use TCA bindings for these instead of state.
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""

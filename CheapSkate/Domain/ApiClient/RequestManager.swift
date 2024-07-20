@@ -24,7 +24,7 @@ final class RequestManager: RequestManagerProtocol {
     }
 
     init(
-        apiManager: APIManagerProtocol = APIManager(), 
+        apiManager: APIManagerProtocol = APIManager(), // TODO: Use Dependencies for injection instead of this style.
         parser: DataParserProtocol = DataParser()
     ) {
         self.apiManager = apiManager

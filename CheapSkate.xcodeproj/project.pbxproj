@@ -49,6 +49,8 @@
 		F219739D2962D49C00EB8C62 /* ExpenseChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */; };
 		F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2203398296E854700027B5F /* ExpenseHistoryView.swift */; };
 		F220339B29739FF700027B5F /* ExpenseHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F220339A29739FF700027B5F /* ExpenseHistoryViewModel.swift */; };
+		F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */; };
+		F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift */; };
 		F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */; };
 		F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F83E295D5EC500EB7E7C /* ExpenseView.swift */; };
 		F284F841295D5EC700EB7E7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F284F840295D5EC700EB7E7C /* Assets.xcassets */; };
@@ -66,6 +68,16 @@
 		F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592429983ED2004F4F96 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F27CE0E32C445DA0007B4C1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F284F831295D5EC500EB7E7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F284F838295D5EC500EB7E7C;
+			remoteInfo = CheapSkate;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		891C2C942C3089C000A1F99E /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		891C2C962C30C34D00A1F99E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -80,6 +92,9 @@
 		F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartViewModel.swift; sourceTree = "<group>"; };
 		F2203398296E854700027B5F /* ExpenseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryView.swift; sourceTree = "<group>"; };
 		F220339A29739FF700027B5F /* ExpenseHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryViewModel.swift; sourceTree = "<group>"; };
+		F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheapSkateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateTests.swift; sourceTree = "<group>"; };
+		F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryViewModelTests.swift; sourceTree = "<group>"; };
 		F284F839295D5EC500EB7E7C /* CheapSkate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheapSkate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F284F83C295D5EC500EB7E7C /* CheapSkateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateApp.swift; sourceTree = "<group>"; };
 		F284F83E295D5EC500EB7E7C /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
@@ -97,6 +112,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F27CE0DC2C445DA0007B4C1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F284F836295D5EC500EB7E7C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -212,10 +234,36 @@
 			path = Expense;
 			sourceTree = "<group>";
 		};
+		F27CE0E02C445DA0007B4C1E /* CheapSkateTests */ = {
+			isa = PBXGroup;
+			children = (
+				F27CE0E82C445DAB007B4C1E /* Feature */,
+				F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */,
+			);
+			path = CheapSkateTests;
+			sourceTree = "<group>";
+		};
+		F27CE0E82C445DAB007B4C1E /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				F27CE0E92C445DBC007B4C1E /* Expense */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		F27CE0E92C445DBC007B4C1E /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+				F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift */,
+			);
+			path = Expense;
+			sourceTree = "<group>";
+		};
 		F284F830295D5EC500EB7E7C = {
 			isa = PBXGroup;
 			children = (
 				F284F83B295D5EC500EB7E7C /* CheapSkate */,
+				F27CE0E02C445DA0007B4C1E /* CheapSkateTests */,
 				F284F83A295D5EC500EB7E7C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -224,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				F284F839295D5EC500EB7E7C /* CheapSkate.app */,
+				F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -262,6 +311,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F27CE0DE2C445DA0007B4C1E /* CheapSkateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F27CE0E52C445DA0007B4C1E /* Build configuration list for PBXNativeTarget "CheapSkateTests" */;
+			buildPhases = (
+				F27CE0DB2C445DA0007B4C1E /* Sources */,
+				F27CE0DC2C445DA0007B4C1E /* Frameworks */,
+				F27CE0DD2C445DA0007B4C1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F27CE0E42C445DA0007B4C1E /* PBXTargetDependency */,
+			);
+			name = CheapSkateTests;
+			productName = CheapSkateTests;
+			productReference = F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F284F838295D5EC500EB7E7C /* CheapSkate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F284F847295D5EC700EB7E7C /* Build configuration list for PBXNativeTarget "CheapSkate" */;
@@ -319,9 +386,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
+					F27CE0DE2C445DA0007B4C1E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F284F838295D5EC500EB7E7C;
+					};
 					F284F838295D5EC500EB7E7C = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -346,11 +417,19 @@
 			projectRoot = "";
 			targets = (
 				F284F838295D5EC500EB7E7C /* CheapSkate */,
+				F27CE0DE2C445DA0007B4C1E /* CheapSkateTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F27CE0DD2C445DA0007B4C1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F284F837295D5EC500EB7E7C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -364,6 +443,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F27CE0DB2C445DA0007B4C1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift in Sources */,
+				F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F284F835295D5EC500EB7E7C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -396,7 +484,62 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F27CE0E42C445DA0007B4C1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F284F838295D5EC500EB7E7C /* CheapSkate */;
+			targetProxy = F27CE0E32C445DA0007B4C1E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		F27CE0E62C445DA0007B4C1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2T6B5WZ44S;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bdabrowski.CheapSkateTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CheapSkate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CheapSkate";
+			};
+			name = Debug;
+		};
+		F27CE0E72C445DA0007B4C1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2T6B5WZ44S;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bdabrowski.CheapSkateTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CheapSkate.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CheapSkate";
+			};
+			name = Release;
+		};
 		F284F845295D5EC700EB7E7C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -574,6 +717,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F27CE0E52C445DA0007B4C1E /* Build configuration list for PBXNativeTarget "CheapSkateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F27CE0E62C445DA0007B4C1E /* Debug */,
+				F27CE0E72C445DA0007B4C1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F284F834295D5EC500EB7E7C /* Build configuration list for PBXProject "CheapSkate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
