@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 protocol RequestManagerProtocol {
-    func perform<T: Decodable>(_ request: RequestProtocol) async throws -> T
+    func perform(_ request: RequestProtocol) async throws -> [ExpenseData]
     func fireAndForget(_ request: RequestProtocol) async throws
 }
 
@@ -35,14 +35,15 @@ final class RequestManager: RequestManagerProtocol {
         _ = try await apiManager.perform(request, userId: userId!)
     }
 
-    func perform<T: Decodable>(_ request: RequestProtocol) async throws -> T {
+    func perform(_ request: RequestProtocol) async throws -> [ExpenseData] {
         guard let userId else {
             throw NSError()
         }
         let data = try await apiManager.perform(request, userId: userId)
-        print("Hi BD! this is the type of data: \(type(of: data))")
-        let decoded: T = try parser.parse(data: data)
-        return decoded
+        let decoded: [String: ExpenseData] = try parser.parse(data: data)
+        return decoded.map { _, value in
+            ExpenseData(category: value.category, amount: value.amount, date: value.date)
+        }
     }
 }
 

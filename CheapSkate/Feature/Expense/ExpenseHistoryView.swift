@@ -85,3 +85,19 @@ struct ExpenseHistoryView: View {
         }
     }
 }
+
+#Preview {
+    ExpenseHistoryView(store: Store(
+        initialState: Expense.State(
+            chartData: [
+                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date().timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date().timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date().timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date().timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSinceNow: -200_000).timeIntervalSince1970)
+            ]
+        )) {
+        Expense()
+    })
+}
+

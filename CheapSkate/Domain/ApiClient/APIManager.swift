@@ -40,11 +40,12 @@ actor APIManager: APIManagerProtocol {
                         childKey: "date"
                     )
                     .getData()
+                
                 guard let json = snapshot.value as? [String: Any] else {
                     throw NSError()
                 }
-                let expenseData = json.values.map { $0 as? [String: Any] }
-                return try! JSONSerialization.data(withJSONObject: expenseData)
+
+                return try! JSONSerialization.data(withJSONObject: json)
             }
             
         } catch {
@@ -63,10 +64,15 @@ actor APIManager: APIManagerProtocol {
 
 extension Date {
     func startOfMonth() -> Date {
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: Calendar.current.startOfDay(for: self)))!
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.year, .month], from: self)
+        return calendar.date(from: components)!
     }
     
     func endOfMonth() -> Date {
-        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
+        var components = DateComponents()
+        components.month = 1
+        components.second = -1
+        return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth())!
     }
 }

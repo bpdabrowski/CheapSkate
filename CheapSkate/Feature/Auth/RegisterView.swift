@@ -91,6 +91,8 @@ struct RegisterData {
     let confirmPassword: String
 }
 
-//#Preview {
-//    RegisterView()
-//}
+#Preview {
+    RegisterView(store: Store(initialState: Register.State()) {
+        Register()
+    })
+}
