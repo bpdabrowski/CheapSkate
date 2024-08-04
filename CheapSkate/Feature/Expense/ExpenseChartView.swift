@@ -43,7 +43,10 @@ struct ExpenseChartView: View {
                             BarMark(
                                 x: .value("Date", Date(timeIntervalSince1970: series.date), unit: .day),
                                 y: .value("Amount", series.amount)
-                            ).foregroundStyle(by: .value("Category", series.category.rawValue))
+                            )
+                            .foregroundStyle(series.category.color)
+                            .foregroundStyle(by: .value("Category", series.category.rawValue))
+                            
                         }
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
@@ -117,7 +120,10 @@ struct ExpenseChartView: View {
                 ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date(timeIntervalSince1970: 1721556122).timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720951322).timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720346522).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
             ]
         )) {
         Expense()
