@@ -21,11 +21,12 @@ class ExpenseChartViewModel {
     
     func total(for category: ExpenseCategory, expenseData: [ExpenseData]) -> String {
         let dictionary = Dictionary(grouping: expenseData, by: \.category)
+        let formattedCategory = category.rawValue.capitalized
         guard let categoryTotal = dictionary[category]?.map(\.amount).reduce(0, +),
             let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: categoryTotal)) else {
-            return ""
+            return "\(formattedCategory) - \(NumberFormatter.currencyFormatter.string(from: NSNumber(value: 0))!)"
         }
-        return "\(category.rawValue.capitalized) - \(currencyString)"
+        return "\(formattedCategory) - \(currencyString)"
     }
     
     func total(expenseData: [ExpenseData]) -> String {
