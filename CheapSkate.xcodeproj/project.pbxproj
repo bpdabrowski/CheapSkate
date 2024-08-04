@@ -44,6 +44,7 @@
 		89ECF7B32B6D8B3600BC4EFD /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7B22B6D8B3600BC4EFD /* RequestManager.swift */; };
 		89ECF7BC2B6D921600BC4EFD /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7BB2B6D921600BC4EFD /* DataParser.swift */; };
 		89F482DB2B3F4D5800C6CB1A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F482DA2B3F4D5800C6CB1A /* RegisterView.swift */; };
+		F21265DB2C5F07430039DBE9 /* ExpenseChartViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21265DA2C5F07430039DBE9 /* ExpenseChartViewModelTests.swift */; };
 		F213A5F02974A8F500EBFAA1 /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F213A5EF2974A8F500EBFAA1 /* NumberFormatter+Extensions.swift */; };
 		F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */; };
 		F219739D2962D49C00EB8C62 /* ExpenseChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */; };
@@ -87,6 +88,7 @@
 		89ECF7B22B6D8B3600BC4EFD /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		89ECF7BB2B6D921600BC4EFD /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		89F482DA2B3F4D5800C6CB1A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		F21265DA2C5F07430039DBE9 /* ExpenseChartViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartViewModelTests.swift; sourceTree = "<group>"; };
 		F213A5EF2974A8F500EBFAA1 /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
 		F219739C2962D49C00EB8C62 /* ExpenseChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartViewModel.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift */,
+				F21265DA2C5F07430039DBE9 /* ExpenseChartViewModelTests.swift */,
 			);
 			path = Expense;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryViewModelTests.swift in Sources */,
+				F21265DB2C5F07430039DBE9 /* ExpenseChartViewModelTests.swift in Sources */,
 				F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

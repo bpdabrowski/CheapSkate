@@ -35,4 +35,12 @@ class ExpenseChartViewModel {
         }
         return currencyString
     }
+    
+    func xAxisDomain(expenseData: [ExpenseData], defaultDate: Date = Date()) -> ClosedRange<Date> {
+        guard let interval = expenseData.map(\.date).first else {
+            return defaultDate.startOfMonth()...defaultDate.endOfMonth()
+        }
+        let date = Date(timeIntervalSince1970: interval)
+        return date.startOfMonth()...date.endOfMonth()
+    }
 }

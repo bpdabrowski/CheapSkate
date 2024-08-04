@@ -60,13 +60,17 @@ struct ExpenseChartView: View {
                             }
                         }
                     }
+                    .chartXScale(domain: viewModel.xAxisDomain(expenseData: viewStore.state))
                     .chartXAxis {
-                        AxisMarks(values: .automatic(minimumStride: 7)) { _ in
-                            AxisGridLine()
-                            AxisTick()
-                            AxisValueLabel(
-                                format: .dateTime.week(.weekOfMonth)
-                            )
+                        AxisMarks(values: .stride(by: .day)) { value in
+                            if let date = value.as(Date.self) {
+                                let day = Calendar.current.component(.day, from: date)
+                                if ((day % 7) == 0) || day == 1 {
+                                    AxisValueLabel(format: .dateTime.day())
+                                    AxisTick()
+                                    AxisGridLine()
+                                }
+                            }
                         }
                     }
                     
