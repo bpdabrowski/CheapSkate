@@ -28,9 +28,12 @@ struct ExpenseView: View {
                                   Image(systemName: "rectangle.portrait.and.arrow.right")
                                 }.frame(maxWidth: .infinity, alignment: .trailing)
                             }
-                        }.padding(.bottom, 10)
+                        }
+                        .padding(.bottom, 10)
+                        .padding(.horizontal, 20)
 
                         ExpenseChartView(store: store)
+                            .padding()
                         
                         Spacer()
                         VStack {
@@ -45,9 +48,9 @@ struct ExpenseView: View {
                                 
                                 submitButton(viewStore: viewStore)
                             }
+                            .padding()
                         }
                     }
-                    .padding()
                 }
             }.onAppear {
                 viewStore.send(.onAppear)
@@ -85,7 +88,9 @@ struct ExpenseView: View {
                         .clipShape(Capsule())
                     }
                 }
-            }.padding(.bottom, 10)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
         }
     }
     
@@ -120,4 +125,23 @@ struct ExpenseView: View {
         .disabled(viewStore.viewState != .idle)
         .clipShape(Capsule())
     }
+}
+
+#Preview {
+    ExpenseView(store: Store(
+        initialState: Expense.State(
+            chartData: [
+                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date(timeIntervalSince1970: 1722160922).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date(timeIntervalSince1970: 1722420122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date(timeIntervalSince1970: 1721556122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720951322).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720346522).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
+            ]
+        )) {
+        Expense()
+    })
 }

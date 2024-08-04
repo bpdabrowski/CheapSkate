@@ -19,9 +19,10 @@ struct ExpenseHistoryView: View {
                     VStack(alignment: .leading) {
                         Text(viewModel.formatKey(key))
                             .font(.title)
+                            .padding(.leading, 20)
                         expenseList(value.sorted(by: { $0.date > $1.date }))
                         Spacer()
-                    }.padding(.leading, 20)
+                    }
                 }
                 
                 Spacer(minLength: 10)
@@ -81,7 +82,9 @@ struct ExpenseHistoryView: View {
                         }
                     }
                 }
-            }.padding(.bottom, 10)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
         }
     }
 }
