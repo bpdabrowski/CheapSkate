@@ -23,7 +23,8 @@ struct ExpenseData: Equatable, Codable {
     var date: Double = Date().timeIntervalSince1970
 }
 
-struct Expense: Reducer {
+@Reducer
+struct Expense {
     struct State: Equatable {
         var data: ExpenseData = ExpenseData()
         var viewState: ExpenseViewState = .idle

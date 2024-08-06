@@ -9,7 +9,8 @@ import ComposableArchitecture
 import Dependencies
 import SwiftUI
 
-struct AppReducer: Reducer {
+@Reducer
+struct AppReducer {
     struct State {
         var expense: Expense.State?
         var login: Login.State?
@@ -33,10 +34,10 @@ struct AppReducer: Reducer {
     
     var body: some Reducer<State, Action> {
         self.core
-          .ifLet(\.login, action: /Action.login) {
+          .ifLet(\.login, action: \.login) {
             Login()
           }
-          .ifLet(\.expense, action: /Action.expense) {
+          .ifLet(\.expense, action: \.expense) {
             Expense()
           }
     }

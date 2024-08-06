@@ -84,10 +84,9 @@ struct LoginView: View {
                     })
                 }.padding()
             }
-        }.sheet(
-            store: self.store.scope(state: \.$register, action: \.register)
-          ) { store in
+        }
+        .sheet(store: self.store.scope(state: \.$register, action: { .register($0) })) { store in
             RegisterView(store: store)
-          }
+        }
     }
 }
