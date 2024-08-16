@@ -92,13 +92,13 @@ struct AppView: View {
             Group {
                 if !viewStore.isLoginPresented {
                     IfLetStore(
-                      self.store.scope(state: \.expense, action: AppReducer.Action.expense),
-                      then: ExpenseView.init(store:)
+                        self.store.scope(state: \.expense, action: \.expense),
+                        then: ExpenseView.init(store:)
                     )
                 } else {
                     IfLetStore(
-                      self.store.scope(state: \.login, action: AppReducer.Action.login),
-                      then: LoginView.init(store:)
+                        self.store.scope(state: \.login, action: \.login),
+                        then: LoginView.init(store:)
                     )
                 }
             }.onAppear {

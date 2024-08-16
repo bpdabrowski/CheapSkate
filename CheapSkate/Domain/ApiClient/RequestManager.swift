@@ -49,7 +49,7 @@ final class RequestManager: RequestManagerProtocol {
 
 private enum RequestManagerKey: DependencyKey {
     static var liveValue: RequestManagerProtocol = RequestManager()
-    static var testValue: RequestManagerProtocol = unimplemented()
+    static var testValue: RequestManagerProtocol = unimplemented("\(Self.self).RequestManagerProtocol", placeholder: FakeRequestManager())
 }
 
 extension DependencyValues {
@@ -57,4 +57,9 @@ extension DependencyValues {
         get { self[RequestManagerKey.self] }
         set { self[RequestManagerKey.self] = newValue }
     }
+}
+
+private struct FakeRequestManager: RequestManagerProtocol {
+    func perform(_ request: any RequestProtocol) async throws -> [ExpenseData] { [ExpenseData]() }
+    func fireAndForget(_ request: any RequestProtocol) async throws { }
 }

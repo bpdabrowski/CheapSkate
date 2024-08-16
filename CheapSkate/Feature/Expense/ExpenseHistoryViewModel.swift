@@ -50,10 +50,6 @@ class ExpenseHistoryViewModel {
     }
     
     func extrapolatedSpend(from expenseData: [ExpenseData], date: Date = Date()) -> String {
-        let expensesThisMonth = expenseData.filter {
-            Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date))
-        }
-        let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
         let extrapolatedSpend = averageDailySpend(
             from: expenseData,
             dayOfMonth: date, 

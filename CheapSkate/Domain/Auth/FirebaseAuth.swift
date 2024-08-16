@@ -37,10 +37,10 @@ extension FirebaseAuthentication: DependencyKey {
     
     static var testValue: FirebaseAuthentication {
         FirebaseAuthentication(
-            createUser: { _, _ in unimplemented() },
-            signIn: { _, _ in unimplemented() },
-            currentUser: { unimplemented() },
-            signOut: { unimplemented() }
+            createUser: { _, _ in unimplemented("\(Self.self).createHistory", placeholder: ()) },
+            signIn: { _, _ in unimplemented("\(Self.self).signIn", placeholder: ()) },
+            currentUser: { unimplemented("\(Self.self).currentUser", placeholder: nil)  },
+            signOut: { unimplemented("\(Self.self).signOut", placeholder: ()) }
         )
     }
 }
