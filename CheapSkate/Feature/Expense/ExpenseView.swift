@@ -9,56 +9,54 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ExpenseView: View {
-    let store: StoreOf<Expense>
+    @Bindable var store: StoreOf<Expense>
     let viewModel = ExpenseViewModel()
     
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            NavigationStack {
-                ZStack {
-                    VStack(alignment: .center, spacing: 4.0) {
-                        HStack {
-                            ZStack {
-                                Image("roller-skate")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 34, height: 34)
-                                    .frame(maxWidth: .infinity)
-                                Button(action: { viewStore.send(.logoutButtonTapped) }) {
-                                  Image(systemName: "rectangle.portrait.and.arrow.right")
-                                }.frame(maxWidth: .infinity, alignment: .trailing)
-                            }
-                        }
-                        .padding(.bottom, 10)
-                        .padding(.horizontal, 20)
-
-                        ExpenseChartView(store: store)
-                            .padding()
-                        
-                        Spacer()
-                        VStack {
-                            categorySelector(viewStore: viewStore)
-                            HStack {
-                                CurrencyTextField(
-                                    numberFormatter: viewModel.formatter,
-                                    value: viewStore.binding(get: \.data.amount, send: Expense.Action.amountChanged)
-                                )
-                                .frame(maxHeight: 50)
-                                .truncationMode(.tail)
-                                
-                                submitButton(viewStore: viewStore)
-                            }
-                            .padding()
+        NavigationStack {
+            ZStack {
+                VStack(alignment: .center, spacing: 4.0) {
+                    HStack {
+                        ZStack {
+                            Image("roller-skate")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 34, height: 34)
+                                .frame(maxWidth: .infinity)
+                            Button(action: { store.send(.logoutButtonTapped) }) {
+                              Image(systemName: "rectangle.portrait.and.arrow.right")
+                            }.frame(maxWidth: .infinity, alignment: .trailing)
                         }
                     }
+                    .padding(.bottom, 10)
+                    .padding(.horizontal, 20)
+
+                    ExpenseChartView(store: store)
+                        .padding()
+                    
+                    Spacer()
+                    VStack {
+                        categorySelector(store: store)
+                        HStack {
+                            CurrencyTextField(
+                                numberFormatter: viewModel.formatter,
+                                value: $store.data.amount.sending(\.amountChanged)
+                            )
+                            .frame(maxHeight: 50)
+                            .truncationMode(.tail)
+                            
+                            submitButton(store: store)
+                        }
+                        .padding()
+                    }
                 }
-            }.onAppear {
-                viewStore.send(.onAppear)
             }
+        }.onAppear {
+            store.send(.onAppear)
         }
     }
     
-    private func categorySelector(viewStore: ViewStoreOf<Expense>) -> some View {
+    private func categorySelector(store: StoreOf<Expense>) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
@@ -67,12 +65,12 @@ struct ExpenseView: View {
                             .frame(width: 105, height: 35)
                             .foregroundColor(category.color)
                         Button(action: {
-                            viewStore.send(.selectCategory(category))
+                            store.send(.selectCategory(category))
                         }, label: {
                             Text(category.rawValue.capitalized)
                                 .foregroundColor(
                                     viewModel.tabTextColor(
-                                        cellCategory: viewStore.data.category,
+                                        cellCategory: store.data.category,
                                         selectedCategory: category
                                     )
                                 )
@@ -81,7 +79,7 @@ struct ExpenseView: View {
                         .frame(width: 100, height: 30)
                         .background(
                             viewModel.tabFillColor(
-                                cellCategory: viewStore.data.category,
+                                cellCategory: store.data.category,
                                 selectedCategory: category
                             )
                         )
@@ -94,35 +92,35 @@ struct ExpenseView: View {
         }
     }
     
-    private func submitButton(viewStore: ViewStoreOf<Expense>) -> some View {
+    private func submitButton(store: StoreOf<Expense>) -> some View {
         Button(action: {
-            viewStore.send(.submitExpense)
+            store.send(.submitExpense)
         }, label: {
-            if viewStore.viewState == .idle {
+            if store.viewState == .idle {
                 Image(systemName: "arrow.up")
                     .foregroundColor(.white)
-            } else if viewStore.viewState == .submitSuccessful {
+            } else if store.viewState == .submitSuccessful {
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(.white)
                     .task {
                         try? await Task.sleep(nanoseconds: 1_000_000_000)
-                        viewStore.send(.resetState)
+                        store.send(.resetState)
                     }
-            } else if viewStore.viewState == .submitInProgress {
+            } else if store.viewState == .submitInProgress {
                 ProgressView()
                     .tint(.white)
-            } else if viewStore.viewState == .submitError {
+            } else if store.viewState == .submitError {
                 Image(systemName: "xmark.circle")
                     .foregroundColor(.white)
                     .task {
                         try? await Task.sleep(nanoseconds: 1_000_000_000)
-                        viewStore.send(.resetState)
+                        store.send(.resetState)
                     }
             }
         })
         .padding()
-        .background(viewModel.submitButtonColor(viewState: viewStore.viewState))
-        .disabled(viewStore.viewState != .idle)
+        .background(viewModel.submitButtonColor(viewState: store.viewState))
+        .disabled(store.viewState != .idle)
         .clipShape(Capsule())
     }
 }

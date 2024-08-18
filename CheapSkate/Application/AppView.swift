@@ -11,6 +11,7 @@ import SwiftUI
 
 @Reducer
 struct AppReducer {
+    @ObservableState
     struct State {
         var expense: Expense.State?
         var login: Login.State?
@@ -74,36 +75,16 @@ struct AppReducer {
 
 struct AppView: View {
     let store: StoreOf<AppReducer>
-
-    struct ViewState: Equatable {
-      let isLoginPresented: Bool
-
-      init(state: AppReducer.State) {
-        self.isLoginPresented = state.login != nil
-      }
-    }
-
-    public init(store: StoreOf<AppReducer>) {
-      self.store = store
-    }
     
     var body: some View {
-        WithViewStore(self.store, observe: ViewState.init(state:)) { viewStore in
-            Group {
-                if !viewStore.isLoginPresented {
-                    IfLetStore(
-                        self.store.scope(state: \.expense, action: \.expense),
-                        then: ExpenseView.init(store:)
-                    )
-                } else {
-                    IfLetStore(
-                        self.store.scope(state: \.login, action: \.login),
-                        then: LoginView.init(store:)
-                    )
-                }
-            }.onAppear {
-                viewStore.send(.onAppear)
+        Group {
+            if store.login == nil, let expenseStore = store.scope(state: \.expense, action: \.expense) {
+                ExpenseView.init(store: expenseStore)
+            } else if let loginStore = store.scope(state: \.login, action: \.login){
+                LoginView.init(store: loginStore)
             }
+        }.onAppear {
+            store.send(.onAppear)
         }
     }
 }

@@ -13,37 +13,35 @@ struct ExpenseHistoryView: View {
     let viewModel = ExpenseHistoryViewModel()
     
     var body: some View {
-        WithViewStore(store, observe: \.chartData) { viewStore in
-            ScrollView() {
-                ForEach(viewModel.monthlyExpenses(expenseData: viewStore.state), id: \.key) { key, value in
-                    VStack(alignment: .leading) {
-                        Text(viewModel.formatKey(key))
-                            .font(.title)
-                            .padding(.leading, 20)
-                        expenseList(value.sorted(by: { $0.date > $1.date }))
-                        Spacer()
-                    }
+        ScrollView() {
+            ForEach(viewModel.monthlyExpenses(expenseData: store.chartData), id: \.key) { key, value in
+                VStack(alignment: .leading) {
+                    Text(viewModel.formatKey(key))
+                        .font(.title)
+                        .padding(.leading, 20)
+                    expenseList(value.sorted(by: { $0.date > $1.date }))
+                    Spacer()
                 }
-                
-                Spacer(minLength: 10)
-                
-                HStack {
-                    VStack{
-                        Text("Monthly Expenses")
-                        Text(viewModel.sum(of: viewStore.state))
-                    }
-                    VStack{
-                        Text("Average Daily Spend")
-                        Text("\(viewModel.averageDailySpend(from: viewStore.state))")
-                    }
-                    VStack{
-                        Text("Projected Spending")
-                        Text(viewModel.extrapolatedSpend(from: viewStore.state))
-                    }
-                }
-            }.onAppear {
-                viewStore.send(.getExpenses())
             }
+            
+            Spacer(minLength: 10)
+            
+            HStack {
+                VStack{
+                    Text("Monthly Expenses")
+                    Text(viewModel.sum(of: store.chartData))
+                }
+                VStack{
+                    Text("Average Daily Spend")
+                    Text("\(viewModel.averageDailySpend(from: store.chartData))")
+                }
+                VStack{
+                    Text("Projected Spending")
+                    Text(viewModel.extrapolatedSpend(from: store.chartData))
+                }
+            }
+        }.onAppear {
+            store.send(.getExpenses())
         }
     }
     

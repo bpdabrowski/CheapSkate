@@ -10,12 +10,16 @@ import ComposableArchitecture
 
 @Reducer
 struct Login {
-    struct State: Equatable { 
-        @PresentationState var register: Register.State?
+    @ObservableState
+    struct State: Equatable {
+        @Presents var register: Register.State?
+        var username: String = ""
+        var password: String = ""
     }
     
-    enum Action {
-        case submitLogin(String, String)
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case submitLogin
         case handleLoginResult
         case register(PresentationAction<Register.Action>)
         case registerButtonTapped
@@ -26,12 +30,13 @@ struct Login {
     @Dependency(\.auth) var auth
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
-            case .submitLogin(let email, let password):
-                return .run { send in
+            case .submitLogin:
+                return .run { [state] send in
                     do {
-                        try await auth.signIn(email, password)
+                        try await auth.signIn(state.username, state.password)
                         await send(.handleLoginResult)
                     } catch {
                         
@@ -43,8 +48,12 @@ struct Login {
                 state.register = Register.State()
                 return .none
             case .register(.presented(.delegate(.registrationSuccessful(let registerData)))):
-                return .send(.submitLogin(registerData.email, registerData.password))
+                state.username = registerData.email
+                state.password = registerData.password
+                return .send(.submitLogin)
             case .register(_):
+                return .none
+            case .binding:
                 return .none
             }
         }.ifLet(\.$register, action: \.register) {
@@ -54,38 +63,30 @@ struct Login {
 }
 
 struct LoginView: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
-    private let store: StoreOf<Login>
-    
-    init(store: StoreOf<Login>) {
-        self.store = store
-    }
+    @Bindable var store: StoreOf<Login>
     
     var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.white)
-                
-                VStack {
-                    TextField("Username", text: $username)
-                        .disableAutocorrection(true)
-                        .textInputAutocapitalization(TextInputAutocapitalization.never)
-                    SecureField("Password", text: $password)
-                        .disableAutocorrection(true)
-                        .textInputAutocapitalization(TextInputAutocapitalization.never)
-                    Button("Login", action: {
-                        viewStore.send(.submitLogin(username, password))
-                    })
-                    Text("or")
-                    Button("Sign up", action: {
-                        viewStore.send(.registerButtonTapped)
-                    })
-                }.padding()
-            }
+        ZStack {
+            Rectangle()
+                .foregroundColor(.white)
+            
+            VStack {
+                TextField("Username", text: $store.username)
+                    .disableAutocorrection(true)
+                    .textInputAutocapitalization(TextInputAutocapitalization.never)
+                SecureField("Password", text: $store.password)
+                    .disableAutocorrection(true)
+                    .textInputAutocapitalization(TextInputAutocapitalization.never)
+                Button("Login", action: {
+                    store.send(.submitLogin)
+                })
+                Text("or")
+                Button("Sign up", action: {
+                    store.send(.registerButtonTapped)
+                })
+            }.padding()
         }
-        .sheet(store: self.store.scope(state: \.$register, action: { .register($0) })) { store in
+        .sheet(item: $store.scope(state: \.register, action: \.register)) { store in
             RegisterView(store: store)
         }
     }

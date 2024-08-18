@@ -12,10 +12,17 @@ import Firebase
 @Reducer
 struct Register {
     @Dependency(\.auth) var auth
-    struct State: Equatable { }
     
-    enum Action {
-        case signUpButtonTapped(RegisterData)
+    @ObservableState
+    struct State: Equatable {
+        var email: String = ""
+        var password: String = ""
+        var confirmPassword: String = ""
+    }
+    
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case signUpButtonTapped
         case delegate(Delegate)
     }
     
@@ -24,22 +31,29 @@ struct Register {
     }
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
-            case .signUpButtonTapped(let registerData):
-                guard registerData.password == registerData.confirmPassword else {
+            case .signUpButtonTapped:
+                guard state.password == state.confirmPassword else {
                     return .none
                 }
                 
-                return .run { send in
+                return .run { [state] send in
                     do {
-                        try await auth.createUser(registerData.email, registerData.password)
-                        await send(.delegate(.registrationSuccessful(registerData)))
+                        try await auth.createUser(state.email, state.password)
+                        await send(.delegate(.registrationSuccessful(RegisterData(
+                            email: state.email,
+                            password: state.password,
+                            confirmPassword: state.confirmPassword
+                        ))))
                     } catch {
                         // error creating user
                     }
                 }
             case .delegate(_):
+                return .none
+            case .binding:
                 return .none
             }
         }
@@ -47,40 +61,22 @@ struct Register {
 }
 
 struct RegisterView: View {
-    // TODO: See if we can use TCA bindings for these instead of state.
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var confirmPassword: String = ""
-    private let store: StoreOf<Register>
-    
-    init(store: StoreOf<Register>) {
-        self.store = store
-    }
+    @Bindable var store: StoreOf<Register>
     
     var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
-            VStack {
-                TextField("Username", text: $email)
-                    .disableAutocorrection(true)
-                    .textInputAutocapitalization(TextInputAutocapitalization.never)
-                SecureField("Password", text: $password)
-                    .disableAutocorrection(true)
-                    .textInputAutocapitalization(TextInputAutocapitalization.never)
-                SecureField("Confirm Password", text: $confirmPassword)
-                    .disableAutocorrection(true)
-                    .textInputAutocapitalization(TextInputAutocapitalization.never)
-                Button("Sign up", action: {
-                    viewStore.send(
-                        .signUpButtonTapped(
-                            RegisterData(
-                                email: email,
-                                password: password,
-                                confirmPassword: confirmPassword
-                            )
-                        )
-                    )
-                })
-            }
+        VStack {
+            TextField("Username", text: $store.email)
+                .disableAutocorrection(true)
+                .textInputAutocapitalization(TextInputAutocapitalization.never)
+            SecureField("Password", text: $store.password)
+                .disableAutocorrection(true)
+                .textInputAutocapitalization(TextInputAutocapitalization.never)
+            SecureField("Confirm Password", text: $store.confirmPassword)
+                .disableAutocorrection(true)
+                .textInputAutocapitalization(TextInputAutocapitalization.never)
+            Button("Sign up", action: {
+                store.send(.signUpButtonTapped)
+            })
         }
     }
 }
