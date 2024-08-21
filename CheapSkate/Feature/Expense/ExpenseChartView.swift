@@ -10,8 +10,25 @@ import SwiftUI
 import Charts
 import ComposableArchitecture
 
+@Reducer
+struct ExpenseChart {
+    @ObservableState
+    struct State {
+        let chartData: [ExpenseData]
+        
+    }
+    
+    enum Action {
+        case delegate(Delegate)
+        
+        enum Delegate {
+            case viewHistory
+        }
+    }
+}
+
 struct ExpenseChartView: View {
-    let store: StoreOf<Expense>
+    let store: StoreOf<ExpenseChart>
     let viewModel = ExpenseChartViewModel()
     
     var body: some View {
@@ -26,12 +43,12 @@ struct ExpenseChartView: View {
                         .frame(width: 44, height: 44)
                         .foregroundColor(.blue)
                         .overlay {
-                            Text(viewModel.measurementsByMonth(store.chartData.first?.date))
+                            Text(viewModel.measurementsByMonth(store.state.chartData.first?.date))
                                 .padding(.top, 3)
                                 .padding(.bottom, 3)
                                 .foregroundColor(.white)
                         }
-                    Text(viewModel.total(expenseData: store.chartData))
+                    Text(viewModel.total(expenseData: store.state.chartData))
                         .padding(.bottom, 3)
                         .foregroundColor(.gray)
                     Spacer()
@@ -53,16 +70,16 @@ struct ExpenseChartView: View {
                 .chartLegend(position: .bottom, alignment: .leading) {
                     HStack {
                         VStack(alignment: .leading) {
-                            chartKey(category: .food, expenseData: store.chartData)
-                            chartKey(category: .gas, expenseData: store.chartData)
+                            chartKey(category: .food, expenseData: store.state.chartData)
+                            chartKey(category: .gas, expenseData: store.state.chartData)
                         }
                         VStack(alignment: .leading) {
-                            chartKey(category: .groceries, expenseData: store.chartData)
-                            chartKey(category: .misc, expenseData: store.chartData)
+                            chartKey(category: .groceries, expenseData: store.state.chartData)
+                            chartKey(category: .misc, expenseData: store.state.chartData)
                         }
                     }
                 }
-                .chartXScale(domain: viewModel.xAxisDomain(expenseData: store.chartData))
+                .chartXScale(domain: viewModel.xAxisDomain(expenseData: store.state.chartData))
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .day)) { value in
                         if let date = value.as(Date.self) {
@@ -83,9 +100,13 @@ struct ExpenseChartView: View {
                         .foregroundColor(.gray)
                     HStack() {
                         Spacer()
-                        NavigationLink("View Expense History") {
-                            ExpenseHistoryView(store: store)
-                        }.font(.system(size: 16))
+                        Button(
+                            action: { store.send(.delegate(.viewHistory))},
+                            label: {
+                                Text("View Expense History")
+                                    .font(.system(size: 16))
+                            }
+                        )
                         Image(systemName: "chevron.right")
                             .foregroundColor(.gray)
                     }

@@ -8,13 +8,21 @@
 import SwiftUI
 import ComposableArchitecture
 
+@Reducer
+struct ExpenseHistory {
+    @ObservableState
+    struct State {
+        let chartData: [ExpenseData]
+    }
+}
+
 struct ExpenseHistoryView: View {
-    let store: StoreOf<Expense>
+    let store: StoreOf<ExpenseHistory>
     let viewModel = ExpenseHistoryViewModel()
     
     var body: some View {
         ScrollView() {
-            ForEach(viewModel.monthlyExpenses(expenseData: store.chartData), id: \.key) { key, value in
+            ForEach(viewModel.monthlyExpenses(expenseData: store.state.chartData), id: \.key) { key, value in
                 VStack(alignment: .leading) {
                     Text(viewModel.formatKey(key))
                         .font(.title)
@@ -40,8 +48,6 @@ struct ExpenseHistoryView: View {
                     Text(viewModel.extrapolatedSpend(from: store.chartData))
                 }
             }
-        }.onAppear {
-            store.send(.getExpenses())
         }
     }
     

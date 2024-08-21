@@ -31,7 +31,7 @@ struct ExpenseView: View {
                     .padding(.bottom, 10)
                     .padding(.horizontal, 20)
 
-                    ExpenseChartView(store: store)
+                    ExpenseChartView(store: store.scope(state: \.expenseChart, action: \.expenseChart))
                         .padding()
                     
                     Spacer()
@@ -50,6 +50,9 @@ struct ExpenseView: View {
                         .padding()
                     }
                 }
+            }
+            .navigationDestination(item: $store.scope(state: \.destination?.expenseHistory, action: \.destination.expenseHistory)) { store in
+                ExpenseHistoryView(store: store)
             }
         }.onAppear {
             store.send(.onAppear)

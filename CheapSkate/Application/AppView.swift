@@ -80,7 +80,7 @@ struct AppView: View {
         Group {
             if store.login == nil, let expenseStore = store.scope(state: \.expense, action: \.expense) {
                 ExpenseView.init(store: expenseStore)
-            } else if let loginStore = store.scope(state: \.login, action: \.login){
+            } else if let loginStore = store.scope(state: \.login, action: \.login) {
                 LoginView.init(store: loginStore)
             }
         }.onAppear {
