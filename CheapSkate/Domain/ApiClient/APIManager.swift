@@ -6,10 +6,10 @@
 //
 
 import Dependencies
-import Firebase
+@preconcurrency import Firebase
 import Foundation
 
-protocol APIManagerProtocol {
+protocol APIManagerProtocol: Sendable {
   func perform(_ request: RequestProtocol, userId: String) async throws -> Data
 }
 

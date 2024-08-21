@@ -10,13 +10,13 @@ import Foundation
 import Firebase
 
 struct FirebaseAuthentication {
-    var createUser: (String, String) async throws -> Void
-    var signIn: (String, String) async throws -> Void
-    var currentUser: () -> FirebaseAuth.User?
-    var signOut: () -> Void
+    var createUser: @Sendable (String, String) async throws -> Void
+    var signIn: @Sendable (String, String) async throws -> Void
+    var currentUser: @Sendable () -> FirebaseAuth.User?
+    var signOut: @Sendable () -> Void
 }
 
-extension FirebaseAuthentication: DependencyKey {
+extension FirebaseAuthentication: DependencyKey, Sendable {
     static var liveValue: FirebaseAuthentication {
         FirebaseAuthentication(
             createUser: { email, password in
@@ -45,7 +45,7 @@ extension FirebaseAuthentication: DependencyKey {
     }
 }
 
-extension DependencyValues {
+extension DependencyValues: Sendable {
     var auth: FirebaseAuthentication {
         get { self[FirebaseAuthentication.self] }
         set { self[FirebaseAuthentication.self] = newValue }

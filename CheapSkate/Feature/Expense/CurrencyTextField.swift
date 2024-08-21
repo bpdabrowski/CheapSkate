@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
+@MainActor
 struct CurrencyTextField: UIViewRepresentable {
     
     typealias UIViewType = CurrencyUITextField

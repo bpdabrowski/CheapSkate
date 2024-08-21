@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 import Firebase
 
-protocol RequestManagerProtocol {
+protocol RequestManagerProtocol: Sendable {
     func perform(_ request: RequestProtocol) async throws -> [ExpenseData]
     func fireAndForget(_ request: RequestProtocol) async throws
 }
@@ -48,8 +48,8 @@ final class RequestManager: RequestManagerProtocol {
 }
 
 private enum RequestManagerKey: DependencyKey {
-    static var liveValue: RequestManagerProtocol = RequestManager()
-    static var testValue: RequestManagerProtocol = unimplemented("\(Self.self).RequestManagerProtocol", placeholder: FakeRequestManager())
+    static let liveValue: RequestManagerProtocol = RequestManager()
+    nonisolated(unsafe) static var testValue: RequestManagerProtocol = unimplemented("\(Self.self).RequestManagerProtocol", placeholder: FakeRequestManager())
 }
 
 extension DependencyValues {

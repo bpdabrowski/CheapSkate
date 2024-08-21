@@ -9,7 +9,7 @@ import Dependencies
 import Firebase
 import Foundation
 
-protocol RequestProtocol {
+protocol RequestProtocol: Sendable {
     // TODO: Do we need all of these properties or can we slim it down now that we are on firebase?
     var path: String { get }
     var requestType: RequestType { get }
