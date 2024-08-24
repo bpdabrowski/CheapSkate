@@ -10,9 +10,15 @@ import ComposableArchitecture
 
 @Reducer
 struct Login {
+    
+    @Reducer
+    enum Destination {
+        case register(Register)
+    }
+    
     @ObservableState
-    struct State: Equatable {
-        @Presents var register: Register.State?
+    struct State {
+        @Presents var destination: Destination.State?
         var username: String = ""
         var password: String = ""
     }
@@ -21,7 +27,7 @@ struct Login {
         case binding(BindingAction<State>)
         case submitLogin
         case handleLoginResult
-        case register(PresentationAction<Register.Action>)
+        case destination(PresentationAction<Destination.Action>)
         case registerButtonTapped
     }
     
@@ -45,20 +51,19 @@ struct Login {
             case .handleLoginResult:
                 return .none
             case .registerButtonTapped:
-                state.register = Register.State()
+                state.destination = .register(.init())
                 return .none
-            case .register(.presented(.delegate(.registrationSuccessful(let registerData)))):
+            case .destination(.presented(.register(.delegate(.registrationSuccessful(let registerData))))):
                 state.username = registerData.email
                 state.password = registerData.password
                 return .send(.submitLogin)
-            case .register(_):
-                return .none
             case .binding:
                 return .none
+            case .destination:
+                return .none
             }
-        }.ifLet(\.$register, action: \.register) {
-            Register()
         }
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
@@ -86,7 +91,7 @@ struct LoginView: View {
                 })
             }.padding()
         }
-        .sheet(item: $store.scope(state: \.register, action: \.register)) { store in
+        .sheet(item: $store.scope(state: \.destination?.register, action: \.destination.register)) { store in
             RegisterView(store: store)
         }
     }
