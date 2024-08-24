@@ -13,9 +13,44 @@ import ComposableArchitecture
 @Reducer
 struct ExpenseChart {
     @ObservableState
-    struct State {
+    struct State: Equatable {
         let chartData: [ExpenseData]
         
+        var measurementsByMonth: String {
+            guard let interval = chartData.first?.date else {
+                return ""
+            }
+            
+            let thisMonth = Calendar.current.component(.month, from: Date(timeIntervalSince1970: interval))
+            return Calendar.current.veryShortMonthSymbols[thisMonth - 1]
+        }
+
+        var total: String {
+            let totalExpenses = chartData.map(\.amount).reduce(0, +)
+            guard let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: totalExpenses)) else {
+                return ""
+            }
+            return currencyString
+        }
+        
+        var xAxisDomain: ClosedRange<Date> {
+            @Dependency(\.date) var defaultDate
+            guard let interval = chartData.map(\.date).first else {
+                return defaultDate.now.startOfMonth()...defaultDate.now.endOfMonth()
+            }
+            let date = Date(timeIntervalSince1970: interval)
+            return date.startOfMonth()...date.endOfMonth()
+        }
+        
+        func total(for category: ExpenseCategory) -> String {
+            let dictionary = Dictionary(grouping: chartData, by: \.category)
+            let formattedCategory = category.rawValue.capitalized
+            guard let categoryTotal = dictionary[category]?.map(\.amount).reduce(0, +),
+                let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: categoryTotal)) else {
+                return "\(formattedCategory) - \(NumberFormatter.currencyFormatter.string(from: NSNumber(value: 0))!)"
+            }
+            return "\(formattedCategory) - \(currencyString)"
+        }
     }
     
     enum Action {
@@ -29,7 +64,6 @@ struct ExpenseChart {
 
 struct ExpenseChartView: View {
     let store: StoreOf<ExpenseChart>
-    let viewModel = ExpenseChartViewModel()
     
     var body: some View {
         ZStack {
@@ -43,12 +77,12 @@ struct ExpenseChartView: View {
                         .frame(width: 44, height: 44)
                         .foregroundColor(.blue)
                         .overlay {
-                            Text(viewModel.measurementsByMonth(store.state.chartData.first?.date))
+                            Text(store.state.measurementsByMonth)
                                 .padding(.top, 3)
                                 .padding(.bottom, 3)
                                 .foregroundColor(.white)
                         }
-                    Text(viewModel.total(expenseData: store.state.chartData))
+                    Text(store.state.total)
                         .padding(.bottom, 3)
                         .foregroundColor(.gray)
                     Spacer()
@@ -70,16 +104,16 @@ struct ExpenseChartView: View {
                 .chartLegend(position: .bottom, alignment: .leading) {
                     HStack {
                         VStack(alignment: .leading) {
-                            chartKey(category: .food, expenseData: store.state.chartData)
-                            chartKey(category: .gas, expenseData: store.state.chartData)
+                            chartKey(category: .food)
+                            chartKey(category: .gas)
                         }
                         VStack(alignment: .leading) {
-                            chartKey(category: .groceries, expenseData: store.state.chartData)
-                            chartKey(category: .misc, expenseData: store.state.chartData)
+                            chartKey(category: .groceries)
+                            chartKey(category: .misc)
                         }
                     }
                 }
-                .chartXScale(domain: viewModel.xAxisDomain(expenseData: store.state.chartData))
+                .chartXScale(domain: store.state.xAxisDomain)
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .day)) { value in
                         if let date = value.as(Date.self) {
@@ -118,12 +152,12 @@ struct ExpenseChartView: View {
         }
     }
     
-    private func chartKey(category: ExpenseCategory, expenseData: [ExpenseData]) -> some View {
+    private func chartKey(category: ExpenseCategory) -> some View {
         HStack {
             Circle()
                 .foregroundColor(category.color)
                 .frame(width: 10, height: 10)
-            Text(viewModel.total(for: category, expenseData: expenseData))
+            Text(store.state.total(for: category))
                 .foregroundColor(Color.gray)
                 .font(.system(size: 12))
         }
@@ -132,7 +166,7 @@ struct ExpenseChartView: View {
 
 #Preview {
     ExpenseChartView(store: Store(
-        initialState: Expense.State(
+        initialState: .init(
             chartData: [
                 ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date(timeIntervalSince1970: 1722160922).timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date(timeIntervalSince1970: 1722420122).timeIntervalSince1970),
@@ -145,6 +179,6 @@ struct ExpenseChartView: View {
                 ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
             ]
         )) {
-        Expense()
+        ExpenseChart()
     })
 }

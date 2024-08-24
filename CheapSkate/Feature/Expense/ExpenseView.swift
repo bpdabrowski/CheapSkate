@@ -130,7 +130,7 @@ struct ExpenseView: View {
 
 #Preview {
     ExpenseView(store: Store(
-        initialState: Expense.State(
+        initialState: .init(
             chartData: [
                 ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date(timeIntervalSince1970: 1722160922).timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date(timeIntervalSince1970: 1722420122).timeIntervalSince1970),
