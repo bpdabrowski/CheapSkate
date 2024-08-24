@@ -13,14 +13,12 @@ struct CurrencyTextField: UIViewRepresentable {
     
     typealias UIViewType = CurrencyUITextField
     
-    let numberFormatter: NumberFormatter
     let currencyField: CurrencyUITextField
     let value: Binding<Double>
     
-    init(numberFormatter: NumberFormatter, value: Binding<Double>) {
-        self.numberFormatter = numberFormatter
+    init(value: Binding<Double>) {
         self.value = value
-        currencyField = CurrencyUITextField(formatter: numberFormatter, value: value)
+        currencyField = CurrencyUITextField(value: value)
     }
     
     func makeUIView(context: Context) -> CurrencyUITextField {

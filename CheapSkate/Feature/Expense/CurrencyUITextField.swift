@@ -12,10 +12,14 @@ import ComposableArchitecture
 class CurrencyUITextField: UITextField {
     
     @Binding private var value: Double
-    private let formatter: NumberFormatter
+    private let formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
     
-    init(formatter: NumberFormatter, value: Binding<Double>) {
-        self.formatter = formatter
+    init(value: Binding<Double>) {
         self._value = value
         super.init(frame: .zero)
         setupViews()
