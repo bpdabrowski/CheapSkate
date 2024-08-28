@@ -58,6 +58,58 @@ struct Expense {
         var chartData: [ExpenseData] = []
         var expenseChart: ExpenseChart.State = .init(chartData: [])
         @Presents var destination: Destination.State?
+        
+        var sum: String {
+            let expensesThisMonth = chartData.filter {
+                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date))
+            }
+            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
+            let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: expenseSum))
+            return currencyString!
+        }
+        
+        func averageDailySpend(
+            dayOfMonth: Date = Date(),
+            referenceDate: Date = Date()
+        ) -> String {
+            return NumberFormatter.currencyFormatter.string(
+                from: NSNumber(
+                    value: averageDailySpend(dayOfMonth: dayOfMonth, referenceDate: referenceDate)
+                )
+            )!
+        }
+        
+        private func averageDailySpend(
+            dayOfMonth: Date = Date(),
+            referenceDate: Date = Date()
+        ) -> Double {
+            let expensesThisMonth = chartData.filter {
+                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date), referenceDate: referenceDate)
+            }
+            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
+            let dayOfMonth = Double(day(from: dayOfMonth.timeIntervalSince1970))!
+            return expenseSum / dayOfMonth
+        }
+        
+        func day(from date: Double) -> String {
+            return String(Calendar.current.component(.day, from: Date(timeIntervalSince1970: date)))
+        }
+        
+        func extrapolatedSpend(date: Date = Date()) -> String {
+            let extrapolatedSpend = averageDailySpend(
+                dayOfMonth: date,
+                referenceDate: date
+            ) * Double(daysInMonth(for: date))
+            return NumberFormatter.currencyFormatter.string(from: NSNumber(value: extrapolatedSpend))!
+        }
+        
+        private func daysInMonth(for date: Date = Date()) -> Int {
+            let calendar = Calendar.current
+
+            let range = calendar.range(of: .day, in: .month, for: date)!
+            let numDays = range.count
+            return numDays
+        }
     }
     
     enum Action {
@@ -173,6 +225,7 @@ struct ExpenseView: View {
                     
                     Spacer()
                     VStack {
+                        summary(store: store)
                         categorySelector(store: store)
                         HStack {
                             CurrencyTextField(value: $store.data.amount.sending(\.amountChanged))
@@ -190,6 +243,36 @@ struct ExpenseView: View {
             }
         }.onAppear {
             store.send(.onAppear)
+        }
+    }
+    
+    private func summaryCell(title: String, data: String, color: Color) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16)
+                .foregroundColor(color)
+                .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
+                .frame(width: 125, height: 60)
+            VStack{
+                Text(title)
+                    .foregroundColor(.white)
+                    .font(.caption)
+                Text(data)
+                    .foregroundColor(.white)
+                    .font(.caption)
+                    .fontWeight(.bold)
+            }
+        }
+    }
+    
+    private func summary(store: StoreOf<Expense>) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                summaryCell(title: "Monthly Expenses", data: store.state.sum, color: .blue)
+                summaryCell(title: "Daily Average", data: store.state.averageDailySpend(), color: .green)
+                summaryCell(title: "Projected", data: store.state.extrapolatedSpend(), color: .orange)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
         }
     }
     

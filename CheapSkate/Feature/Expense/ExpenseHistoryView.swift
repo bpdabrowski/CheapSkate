@@ -24,56 +24,8 @@ struct ExpenseHistory {
             return Calendar.current.dateComponents([.month, .year], from: date)
         }
         
-        var sum: String {
-            let expensesThisMonth = chartData.filter {
-                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date))
-            }
-            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
-            let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: expenseSum))
-            return currencyString!
-        }
-        
-        func averageDailySpend(
-            dayOfMonth: Date = Date(),
-            referenceDate: Date = Date()
-        ) -> String {
-            return NumberFormatter.currencyFormatter.string(
-                from: NSNumber(
-                    value: averageDailySpend(dayOfMonth: dayOfMonth, referenceDate: referenceDate)
-                )
-            )!
-        }
-        
-        private func averageDailySpend(
-            dayOfMonth: Date = Date(),
-            referenceDate: Date = Date()
-        ) -> Double {
-            let expensesThisMonth = chartData.filter {
-                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date), referenceDate: referenceDate)
-            }
-            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
-            let dayOfMonth = Double(day(from: dayOfMonth.timeIntervalSince1970))!
-            return expenseSum / dayOfMonth
-        }
-        
         func day(from date: Double) -> String {
             return String(Calendar.current.component(.day, from: Date(timeIntervalSince1970: date)))
-        }
-        
-        func extrapolatedSpend(date: Date = Date()) -> String {
-            let extrapolatedSpend = averageDailySpend(
-                dayOfMonth: date,
-                referenceDate: date
-            ) * Double(daysInMonth(for: date))
-            return NumberFormatter.currencyFormatter.string(from: NSNumber(value: extrapolatedSpend))!
-        }
-        
-        private func daysInMonth(for date: Date = Date()) -> Int {
-            let calendar = Calendar.current
-
-            let range = calendar.range(of: .day, in: .month, for: date)!
-            let numDays = range.count
-            return numDays
         }
     }
 }
@@ -94,21 +46,6 @@ struct ExpenseHistoryView: View {
             }
             
             Spacer(minLength: 10)
-            
-            HStack {
-                VStack{
-                    Text("Monthly Expenses")
-                    Text(store.state.sum)
-                }
-                VStack{
-                    Text("Average Daily Spend")
-                    Text("\(store.state.averageDailySpend())")
-                }
-                VStack{
-                    Text("Projected Spending")
-                    Text(store.state.extrapolatedSpend())
-                }
-            }
         }
     }
     
