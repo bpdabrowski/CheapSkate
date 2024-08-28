@@ -70,7 +70,7 @@ struct ExpenseChartView: View {
             RoundedRectangle(cornerRadius: 16)
                 .foregroundColor(.white)
                 .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
-                .frame(height: 300)
+                .frame(height: 260)
             VStack {
                 HStack {
                     Circle()
@@ -126,29 +126,10 @@ struct ExpenseChartView: View {
                         }
                     }
                 }
-                
-                VStack {
-                    Rectangle()
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .padding(.leading, 20)
-                        .foregroundColor(.gray)
-                    HStack() {
-                        Spacer()
-                        Button(
-                            action: { store.send(.delegate(.viewHistory))},
-                            label: {
-                                Text("View Expense History")
-                                    .font(.system(size: 16))
-                            }
-                        )
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.trailing, 24)
-                    .padding(.top, 6)
-                    .padding(.bottom, 6)
-                }
             }
+        }
+        .onTapGesture {
+            store.send(.delegate(.viewHistory))
         }
     }
     
