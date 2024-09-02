@@ -15,17 +15,9 @@ struct ExpenseHistory {
         let chartData: [ExpenseData]
         
         var monthlyExpenses: [(key: DateComponents, value: [Array<ExpenseData>.Element])] {
-            return Dictionary(grouping: chartData, by: { dateKey(Date(timeIntervalSince1970: $0.date)) })
+            return Dictionary(grouping: chartData, by: { $0.date.date.monthAndYear })
                 .sorted { $0.key.month ?? 0 > $1.key.month ?? 0 }
                 .sorted { $0.key.year ?? 0 > $1.key.year ?? 0 }
-        }
-        
-        private func dateKey(_ date: Date) -> DateComponents {
-            return Calendar.current.dateComponents([.month, .year], from: date)
-        }
-        
-        func day(from date: Double) -> String {
-            return String(Calendar.current.component(.day, from: Date(timeIntervalSince1970: date)))
         }
     }
 }
@@ -65,7 +57,7 @@ struct ExpenseHistoryView: View {
                                 .frame(width: 25, height: 25)
                                 .foregroundColor(series.category.color)
                                 .overlay {
-                                    Text(store.state.day(from: series.date))
+                                    Text(String(series.date.date.day))
                                         .foregroundColor(.white)
                                         .font(.system(size: 12))
                                 }
@@ -76,7 +68,7 @@ struct ExpenseHistoryView: View {
                         
                         HStack {
                             Spacer()
-                            Text(currency(expense: series.amount))
+                            Text(series.amount.currency)
                                 .foregroundColor(.black)
                                 .font(.system(size: 12))
                                 .frame(alignment: .trailing)
@@ -100,13 +92,6 @@ extension ExpenseHistoryView {
 
         let monthSymbol = Calendar.current.monthSymbols[month - 1]
         return "\(monthSymbol) \(year)"
-    }
-    
-    func currency(expense: Double) -> String {
-        guard let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: expense)) else {
-            return ""
-        }
-        return currencyString
     }
 }
 

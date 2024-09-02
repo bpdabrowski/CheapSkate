@@ -21,35 +21,25 @@ struct ExpenseChart {
                 return ""
             }
             
-            let thisMonth = Calendar.current.component(.month, from: Date(timeIntervalSince1970: interval))
-            return Calendar.current.veryShortMonthSymbols[thisMonth - 1]
-        }
-
-        var total: String {
-            let totalExpenses = chartData.map(\.amount).reduce(0, +)
-            guard let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: totalExpenses)) else {
-                return ""
-            }
-            return currencyString
+            return Calendar.current.veryShortMonthSymbols[interval.date.month - 1]
         }
         
         var xAxisDomain: ClosedRange<Date> {
             @Dependency(\.date) var defaultDate
             guard let interval = chartData.map(\.date).first else {
-                return defaultDate.now.startOfMonth()...defaultDate.now.endOfMonth()
+                return defaultDate.now.startOfMonth...defaultDate.now.endOfMonth
             }
             let date = Date(timeIntervalSince1970: interval)
-            return date.startOfMonth()...date.endOfMonth()
+            return date.startOfMonth...date.endOfMonth
         }
         
         func total(for category: ExpenseCategory) -> String {
             let dictionary = Dictionary(grouping: chartData, by: \.category)
             let formattedCategory = category.rawValue.capitalized
-            guard let categoryTotal = dictionary[category]?.map(\.amount).reduce(0, +),
-                let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: categoryTotal)) else {
-                return "\(formattedCategory) - \(NumberFormatter.currencyFormatter.string(from: NSNumber(value: 0))!)"
+            guard let categoryTotal = dictionary[category]?.map(\.amount).reduce(0, +) else {
+                return "\(formattedCategory) - \(0.0.currency)"
             }
-            return "\(formattedCategory) - \(currencyString)"
+            return "\(formattedCategory) - \(categoryTotal.currency)"
         }
     }
     
@@ -82,7 +72,7 @@ struct ExpenseChartView: View {
                                 .padding(.bottom, 3)
                                 .foregroundColor(.white)
                         }
-                    Text(store.state.total)
+                    Text(store.state.chartData.sum.currency)
                         .padding(.bottom, 3)
                         .foregroundColor(.gray)
                     Spacer()
@@ -149,15 +139,15 @@ struct ExpenseChartView: View {
     ExpenseChartView(store: Store(
         initialState: .init(
             chartData: [
-                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date(timeIntervalSince1970: 1722160922).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date(timeIntervalSince1970: 1722420122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date(timeIntervalSince1970: 1721556122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720951322).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720346522).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
+                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: 1722160922),
+                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: 1722420122),
+                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: 1721556122),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720951322),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720346522),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: 1719828122)
             ]
         )) {
         ExpenseChart()

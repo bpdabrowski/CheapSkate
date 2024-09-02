@@ -21,7 +21,7 @@ struct ExpenseData: Equatable, Codable {
     var id: UUID? = UUID()
     var category: ExpenseCategory = .food
     var amount: Double = 0.00
-    var date: Double = Date().timeIntervalSince1970
+    var date: TimeInterval = Date().timeIntervalSince1970
 }
 
 enum ExpenseCategory: String, CaseIterable, Codable {
@@ -59,56 +59,24 @@ struct Expense {
         var expenseChart: ExpenseChart.State = .init(chartData: [])
         @Presents var destination: Destination.State?
         
-        var sum: String {
-            let expensesThisMonth = chartData.filter {
-                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date))
-            }
-            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
-            let currencyString = NumberFormatter.currencyFormatter.string(from: NSNumber(value: expenseSum))
-            return currencyString!
+        var monthlyGoal: Double {
+            5_000.00
         }
         
-        func averageDailySpend(
-            dayOfMonth: Date = Date(),
-            referenceDate: Date = Date()
-        ) -> String {
-            return NumberFormatter.currencyFormatter.string(
-                from: NSNumber(
-                    value: averageDailySpend(dayOfMonth: dayOfMonth, referenceDate: referenceDate)
-                )
-            )!
+        var plusMinus: Double {
+            monthlyGoal - chartData.sum
         }
         
-        private func averageDailySpend(
-            dayOfMonth: Date = Date(),
-            referenceDate: Date = Date()
-        ) -> Double {
-            let expensesThisMonth = chartData.filter {
-                Calendar.current.isDateInThisMonth(Date(timeIntervalSince1970: $0.date), referenceDate: referenceDate)
-            }
-            let expenseSum = expensesThisMonth.map(\.amount).reduce(0, +)
-            let dayOfMonth = Double(day(from: dayOfMonth.timeIntervalSince1970))!
-            return expenseSum / dayOfMonth
+        var plusMinusDailyAverage: Double {
+            (monthlyGoal / Double(Date().daysInMonth)) - averageDailySpend()
         }
         
-        func day(from date: Double) -> String {
-            return String(Calendar.current.component(.day, from: Date(timeIntervalSince1970: date)))
+        func averageDailySpend(dayOfMonth: Date = Date()) -> Double {
+            chartData.sum / Double(dayOfMonth.day)
         }
         
-        func extrapolatedSpend(date: Date = Date()) -> String {
-            let extrapolatedSpend = averageDailySpend(
-                dayOfMonth: date,
-                referenceDate: date
-            ) * Double(daysInMonth(for: date))
-            return NumberFormatter.currencyFormatter.string(from: NSNumber(value: extrapolatedSpend))!
-        }
-        
-        private func daysInMonth(for date: Date = Date()) -> Int {
-            let calendar = Calendar.current
-
-            let range = calendar.range(of: .day, in: .month, for: date)!
-            let numDays = range.count
-            return numDays
+        func extrapolatedSpend(date: Date = Date()) -> Double {
+            averageDailySpend(dayOfMonth: date) * Double(date.daysInMonth)
         }
     }
     
@@ -225,7 +193,7 @@ struct ExpenseView: View {
                     
                     Spacer()
                     VStack {
-                        summary(store: store)
+                        summary(store)
                         categorySelector(store: store)
                         HStack {
                             CurrencyTextField(value: $store.data.amount.sending(\.amountChanged))
@@ -246,7 +214,7 @@ struct ExpenseView: View {
         }
     }
     
-    private func summaryCell(title: String, data: String, color: Color) -> some View {
+    private func summaryCell(title: String, data: Double, color: Color) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .foregroundColor(color)
@@ -256,7 +224,7 @@ struct ExpenseView: View {
                 Text(title)
                     .foregroundColor(.white)
                     .font(.caption)
-                Text(data)
+                Text(data.currency)
                     .foregroundColor(.white)
                     .font(.caption)
                     .fontWeight(.bold)
@@ -264,12 +232,14 @@ struct ExpenseView: View {
         }
     }
     
-    private func summary(store: StoreOf<Expense>) -> some View {
+    private func summary(_ store: StoreOf<Expense>) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                summaryCell(title: "Monthly Expenses", data: store.state.sum, color: .blue)
+                summaryCell(title: "Monthly Expenses", data: store.state.chartData.sum, color: .blue)
                 summaryCell(title: "Daily Average", data: store.state.averageDailySpend(), color: .green)
                 summaryCell(title: "Projected", data: store.state.extrapolatedSpend(), color: .orange)
+                summaryCell(title: "+/- Total", data: store.state.plusMinus, color: .purple)
+                summaryCell(title: "+/- Daily Average", data: store.state.plusMinusDailyAverage, color: .blue)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 10)
@@ -367,15 +337,15 @@ extension ExpenseView {
     ExpenseView(store: Store(
         initialState: .init(
             chartData: [
-                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date(timeIntervalSince1970: 1722160922).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date(timeIntervalSince1970: 1722420122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date(timeIntervalSince1970: 1721556122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720951322).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1720346522).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: Date(timeIntervalSince1970: 1719828122).timeIntervalSince1970)
+                ExpenseData(id: UUID(), category: .food, amount: 6.00, date: 1722160922),
+                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: 1722420122),
+                ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: 1721556122),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720951322),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720346522),
+                ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .food, amount: 3.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: 1719828122),
+                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: 1719828122)
             ]
         )) {
         Expense()

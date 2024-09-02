@@ -32,11 +32,11 @@ actor APIManager: APIManagerProtocol {
                 let snapshot = try await databaseRef
                     .queryOrdered(byChild: "date")
                     .queryStarting(
-                        atValue: Date().startOfMonth().timeIntervalSince1970,
+                        atValue: Date().startOfMonth.timeIntervalSince1970,
                         childKey: "date"
                     )
                     .queryEnding(
-                        atValue: Date().endOfMonth().timeIntervalSince1970,
+                        atValue: Date().endOfMonth.timeIntervalSince1970,
                         childKey: "date"
                     )
                     .getData()
@@ -59,20 +59,5 @@ actor APIManager: APIManagerProtocol {
           .reference()
           .child("users")
           .child(userId)
-    }
-}
-
-extension Date {
-    func startOfMonth() -> Date {
-        let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents([.year, .month], from: self)
-        return calendar.date(from: components)!
-    }
-    
-    func endOfMonth() -> Date {
-        var components = DateComponents()
-        components.month = 1
-        components.second = -1
-        return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth())!
     }
 }
