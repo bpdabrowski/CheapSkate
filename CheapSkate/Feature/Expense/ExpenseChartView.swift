@@ -59,7 +59,7 @@ struct ExpenseChartView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .foregroundColor(.white)
-                .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
+                .shadow(color: Color(.lightGray), radius: 5, y: 5)
                 .frame(height: 260)
             VStack {
                 HStack {

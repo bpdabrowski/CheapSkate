@@ -57,27 +57,8 @@ struct Expense {
         var viewState: ExpenseViewState = .idle
         var chartData: [ExpenseData] = []
         var expenseChart: ExpenseChart.State = .init(chartData: [])
+        var expenseSummary: ExpenseSummary.State = .init()
         @Presents var destination: Destination.State?
-        
-        var monthlyGoal: Double {
-            5_000.00
-        }
-        
-        var plusMinus: Double {
-            monthlyGoal - chartData.sum
-        }
-        
-        var plusMinusDailyAverage: Double {
-            (monthlyGoal / Double(Date().daysInMonth)) - averageDailySpend()
-        }
-        
-        func averageDailySpend(dayOfMonth: Date = Date()) -> Double {
-            chartData.sum / Double(dayOfMonth.day)
-        }
-        
-        func extrapolatedSpend(date: Date = Date()) -> Double {
-            averageDailySpend(dayOfMonth: date) * Double(date.daysInMonth)
-        }
     }
     
     enum Action {
@@ -91,6 +72,7 @@ struct Expense {
         case handleGetExpenseResult(TaskResult<[ExpenseData]>)
         case logoutButtonTapped
         case expenseChart(ExpenseChart.Action)
+        case expenseSummary(ExpenseSummary.Action)
         case destination(PresentationAction<Destination.Action>)
     }
     
@@ -147,6 +129,7 @@ struct Expense {
                 case .success(let chartData):
                     state.chartData = chartData.sorted(by: { $0.category.rawValue < $1.category.rawValue })
                     state.expenseChart = .init(chartData: state.chartData)
+                    state.expenseSummary = .init(chartData: state.chartData)
                 case .failure:
                     break
                 }
@@ -193,7 +176,7 @@ struct ExpenseView: View {
                     
                     Spacer()
                     VStack {
-                        summary(store)
+                        ExpenseSummaryView(store: store.scope(state: \.expenseSummary, action: \.expenseSummary))
                         categorySelector(store: store)
                         HStack {
                             CurrencyTextField(value: $store.data.amount.sending(\.amountChanged))
@@ -214,37 +197,6 @@ struct ExpenseView: View {
         }
     }
     
-    private func summaryCell(title: String, data: Double, color: Color) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .foregroundColor(color)
-                .shadow(color: Color(UIColor.lightGray), radius: 5, y: 5)
-                .frame(width: 125, height: 60)
-            VStack{
-                Text(title)
-                    .foregroundColor(.white)
-                    .font(.caption)
-                Text(data.currency)
-                    .foregroundColor(.white)
-                    .font(.caption)
-                    .fontWeight(.bold)
-            }
-        }
-    }
-    
-    private func summary(_ store: StoreOf<Expense>) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                summaryCell(title: "Monthly Expenses", data: store.state.chartData.sum, color: .blue)
-                summaryCell(title: "Daily Average", data: store.state.averageDailySpend(), color: .green)
-                summaryCell(title: "Projected", data: store.state.extrapolatedSpend(), color: .orange)
-                summaryCell(title: "+/- Total", data: store.state.plusMinus, color: .purple)
-                summaryCell(title: "+/- Daily Average", data: store.state.plusMinusDailyAverage, color: .blue)
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 10)
-        }
-    }
     
     private func categorySelector(store: StoreOf<Expense>) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
