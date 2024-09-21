@@ -34,6 +34,6 @@ struct OutlinedTextFieldStyle: TextFieldStyle {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(.mint, lineWidth: 2)
         }
-        .frame(maxWidth: .infinity, maxHeight: 50)
+        .frame(maxWidth: .infinity, minHeight: 50)
     }
 }

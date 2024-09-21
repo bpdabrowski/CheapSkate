@@ -69,14 +69,6 @@ struct Login {
 
 struct LoginView: View {
     @Bindable var store: StoreOf<Login>
-    @State var showPassword = false
-    @FocusState var passwordFocus: Field?
-    
-    enum Field: Hashable {
-        case username
-        case securePassword
-        case visiblePassword
-    }
     
     var body: some View {
         ZStack {
@@ -91,7 +83,6 @@ struct LoginView: View {
                     )
                 TextField("Email", text: $store.username)
                     .credentials()
-                    .focused($passwordFocus, equals: .username)
                     .padding(.bottom, 15)
                 Text("Password")
                     .frame(
@@ -99,14 +90,11 @@ struct LoginView: View {
                         alignment: .init(horizontal: .leading, vertical: .center)
                     )
                 ZStack {
-                    togglableSecureField
-                        .secureCredentials(
-                            showPassword: showPassword,
-                            visibilityAction: {
-                                showPassword.toggle()
-                                passwordFocus = showPassword ? .visiblePassword : .securePassword
-                            }
-                        )
+                    SecureField("Password", text: $store.password)
+                        .credentials()
+                        .onSubmit {
+                            store.send(.submitLogin)
+                        }
                 }
                 
                 Button("Login", action: {
@@ -120,27 +108,6 @@ struct LoginView: View {
         }
         .sheet(item: $store.scope(state: \.destination?.register, action: \.destination.register)) { store in
             RegisterView(store: store)
-        }
-    }
-    
-//    @ViewBuilder
-    var togglableSecureField: some View {
-//        ZStack {
-//            SecureField("Password", text: $store.password)
-//                .focused($passwordFocus, equals: .securePassword)
-//                .opacity(showPassword ? 0 : 1)
-//            TextField("Password", text: $store.password)
-//                .focused($passwordFocus, equals: .visiblePassword)
-//                .opacity(showPassword ? 1 : 0)
-//        }
-        Group {
-            if !showPassword {
-                SecureField("Password", text: $store.password)
-                    .focused($passwordFocus, equals: .securePassword)
-            } else {
-                TextField("Password", text: $store.password)
-                    .focused($passwordFocus, equals: .visiblePassword)
-            }
         }
     }
 }
