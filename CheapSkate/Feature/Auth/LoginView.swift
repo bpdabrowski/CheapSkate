@@ -69,6 +69,14 @@ struct Login {
 
 struct LoginView: View {
     @Bindable var store: StoreOf<Login>
+    @State var showPassword = false
+    @FocusState var passwordFocus: Field?
+    
+    enum Field: Hashable {
+        case username
+        case securePassword
+        case visiblePassword
+    }
     
     var body: some View {
         ZStack {
@@ -76,12 +84,31 @@ struct LoginView: View {
                 .foregroundColor(.white)
             
             VStack {
-                TextField("Username", text: $store.username)
-                    .disableAutocorrection(true)
-                    .textInputAutocapitalization(TextInputAutocapitalization.never)
-                SecureField("Password", text: $store.password)
-                    .disableAutocorrection(true)
-                    .textInputAutocapitalization(TextInputAutocapitalization.never)
+                Text("Email")
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .init(horizontal: .leading, vertical: .center)
+                    )
+                TextField("Email", text: $store.username)
+                    .credentials()
+                    .focused($passwordFocus, equals: .username)
+                    .padding(.bottom, 15)
+                Text("Password")
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .init(horizontal: .leading, vertical: .center)
+                    )
+                ZStack {
+                    togglableSecureField
+                        .secureCredentials(
+                            showPassword: showPassword,
+                            visibilityAction: {
+                                showPassword.toggle()
+                                passwordFocus = showPassword ? .visiblePassword : .securePassword
+                            }
+                        )
+                }
+                
                 Button("Login", action: {
                     store.send(.submitLogin)
                 })
@@ -95,4 +122,34 @@ struct LoginView: View {
             RegisterView(store: store)
         }
     }
+    
+//    @ViewBuilder
+    var togglableSecureField: some View {
+//        ZStack {
+//            SecureField("Password", text: $store.password)
+//                .focused($passwordFocus, equals: .securePassword)
+//                .opacity(showPassword ? 0 : 1)
+//            TextField("Password", text: $store.password)
+//                .focused($passwordFocus, equals: .visiblePassword)
+//                .opacity(showPassword ? 1 : 0)
+//        }
+        Group {
+            if !showPassword {
+                SecureField("Password", text: $store.password)
+                    .focused($passwordFocus, equals: .securePassword)
+            } else {
+                TextField("Password", text: $store.password)
+                    .focused($passwordFocus, equals: .visiblePassword)
+            }
+        }
+    }
+}
+
+#Preview {
+    LoginView(
+        store: .init(
+            initialState: .init(),
+            reducer: { Login() }
+        )
+    )
 }

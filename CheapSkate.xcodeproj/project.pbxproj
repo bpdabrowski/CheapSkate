@@ -62,6 +62,8 @@
 		F284F84E295D617D00EB7E7C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84D295D617D00EB7E7C /* ComposableArchitecture */; };
 		F284F850295D617D00EB7E7C /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84F295D617D00EB7E7C /* Dependencies */; };
 		F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIHelpers.swift */; };
+		F2C765002C9E75B300B87F00 /* CredentialsViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C764FF2C9E75AC00B87F00 /* CredentialsViewModifier.swift */; };
+		F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */; };
 		F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */; };
 		F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */; };
 		F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F01AC029EBA28D001A4709 /* AppView.swift */; };
@@ -107,6 +109,8 @@
 		F284F840295D5EC700EB7E7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F284F855295D653600EB7E7C /* APIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelpers.swift; sourceTree = "<group>"; };
+		F2C764FF2C9E75AC00B87F00 /* CredentialsViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsViewModifier.swift; sourceTree = "<group>"; };
+		F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedTextFieldStyle.swift; sourceTree = "<group>"; };
 		F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
 		F2F01AC029EBA28D001A4709 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 		F284F83B295D5EC500EB7E7C /* CheapSkate */ = {
 			isa = PBXGroup;
 			children = (
+				F2D3C13D2C9BB94B00114BBB /* Design */,
 				891C2C962C30C34D00A1F99E /* GoogleService-Info.plist */,
 				F21973A0296ABACE00EB8C62 /* Application */,
 				F219739F296ABABB00EB8C62 /* Feature */,
@@ -312,9 +317,18 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		F2D3C13D2C9BB94B00114BBB /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
 		F2F8591D29983B92004F4F96 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				F2C764FF2C9E75AC00B87F00 /* CredentialsViewModifier.swift */,
 				F2F8592229983C12004F4F96 /* Auth+Keychain.swift */,
 				F2F8592429983ED2004F4F96 /* LoginView.swift */,
 				89F482DA2B3F4D5800C6CB1A /* RegisterView.swift */,
@@ -483,11 +497,13 @@
 				89ECF7B32B6D8B3600BC4EFD /* RequestManager.swift in Sources */,
 				F284F7B92C87F451002DD619 /* ExpenseSummaryView.swift in Sources */,
 				89ECF7AF2B6D89CC00BC4EFD /* RequestProtocol.swift in Sources */,
+				F2C765002C9E75B300B87F00 /* CredentialsViewModifier.swift in Sources */,
 				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
 				F2F8592129983BD8004F4F96 /* Token.swift in Sources */,
 				F284F7AE2C856AB3002DD619 /* Array+Extensions.swift in Sources */,
 				89ECF7BC2B6D921600BC4EFD /* DataParser.swift in Sources */,
 				F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */,
+				F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */,
