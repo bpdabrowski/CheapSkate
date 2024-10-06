@@ -21,12 +21,15 @@ struct Login {
         @Presents var destination: Destination.State?
         var username: String = ""
         var password: String = ""
+        var loginError: Bool = false
+        var loginAttempts: CGFloat = 0
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case submitLogin
         case handleLoginResult
+        case handleLoginError
         case destination(PresentationAction<Destination.Action>)
         case registerButtonTapped
     }
@@ -45,9 +48,13 @@ struct Login {
                         try await auth.signIn(state.username, state.password)
                         await send(.handleLoginResult)
                     } catch {
-                        
+                        await send(.handleLoginError)
                     }
                 }
+            case .handleLoginError:
+                state.loginError = true
+                state.loginAttempts += 1
+                return .none
             case .handleLoginResult:
                 return .none
             case .registerButtonTapped:
@@ -69,44 +76,50 @@ struct Login {
 
 struct LoginView: View {
     @Bindable var store: StoreOf<Login>
+    @FocusState private var focusedField: Bool?
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.white)
+        VStack {
+            LargeHeader(text: "Sign into your account")
+            SubHeader(text: "Login now to keep budgeting")
             
-            VStack {
-                Text("Email")
-                    .frame(
-                        maxWidth: .infinity,
-                        alignment: .init(horizontal: .leading, vertical: .center)
-                    )
-                TextField("Email", text: $store.username)
-                    .credentials()
-                    .padding(.bottom, 15)
-                Text("Password")
-                    .frame(
-                        maxWidth: .infinity,
-                        alignment: .init(horizontal: .leading, vertical: .center)
-                    )
-                ZStack {
-                    SecureField("Password", text: $store.password)
-                        .credentials()
-                        .onSubmit {
-                            store.send(.submitLogin)
-                        }
-                }
-                
-                Button("Login", action: {
+            CredentialField(labelText: "Email", text: $store.username)
+                .focused($focusedField, equals: true)
+            
+            CredentialField(labelText: "Password", text: $store.password, isSecure: true)
+                .onSubmit {
                     store.send(.submitLogin)
-                })
-                Text("or")
-                Button("Sign up", action: {
+                }
+            
+            AuthErrorView(text: "Username or Password is incorrect")
+                .opacity(store.loginError ? 1 : 0)
+                .modifier(Shake(animatableData: store.loginAttempts))
+                .animation(.default, value: store.loginAttempts)
+
+            Button {
+                store.send(.submitLogin)
+            } label: {
+                Text("Login")
+                    .frame(maxWidth: .infinity, maxHeight: 20)
+            }
+            .buttonStyle(FullWidth())
+            .sensoryFeedback(.error, trigger: store.loginAttempts)
+            
+            HStack {
+                Text("Don't have an account?")
+                    .foregroundColor(.gray)
+                Button("Register here", action: {
                     store.send(.registerButtonTapped)
                 })
-            }.padding()
+                .foregroundColor(.black)
+                .fontWeight(.semibold)
+            }
         }
-        .sheet(item: $store.scope(state: \.destination?.register, action: \.destination.register)) { store in
+        .onAppear {
+            focusedField = true
+        }
+        .padding()
+        .fullScreenCover(item: $store.scope(state: \.destination?.register, action: \.destination.register)) { store in
             RegisterView(store: store)
         }
     }
@@ -119,4 +132,19 @@ struct LoginView: View {
             reducer: { Login() }
         )
     )
+}
+
+struct Shake: GeometryEffect {
+    var amount: CGFloat = 10
+    var shakesPerUnit = 3
+    var animatableData: CGFloat
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        ProjectionTransform(
+            CGAffineTransform(
+                translationX: amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+                y: 0
+            )
+        )
+    }
 }
