@@ -5,6 +5,8 @@
 //  Created by Brendyn Dabrowski on 10/6/24.
 //
 
+import SwiftUI
+
 struct CredentialField: View {
     var labelText: String
     var text: Binding<String>

@@ -64,7 +64,8 @@ struct AppReducer {
                 }
                 
                 state.login = nil
-                return .send(.expense(.getExpenses(Date())))
+                state.expense = .init()
+                return .none
             case .expense,
                 .login:
                 return .none
