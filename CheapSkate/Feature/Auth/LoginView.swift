@@ -17,7 +17,7 @@ struct Login {
     }
     
     @ObservableState
-    struct State {
+    struct State: Equatable {
         @Presents var destination: Destination.State?
         var username: String = ""
         var password: String = ""
@@ -125,6 +125,8 @@ struct LoginView: View {
     }
 }
 
+extension Login.Destination.State: Equatable {}
+
 #Preview {
     LoginView(
         store: .init(
@@ -132,19 +134,4 @@ struct LoginView: View {
             reducer: { Login() }
         )
     )
-}
-
-struct Shake: GeometryEffect {
-    var amount: CGFloat = 10
-    var shakesPerUnit = 3
-    var animatableData: CGFloat
-
-    func effectValue(size: CGSize) -> ProjectionTransform {
-        ProjectionTransform(
-            CGAffineTransform(
-                translationX: amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
-                y: 0
-            )
-        )
-    }
 }

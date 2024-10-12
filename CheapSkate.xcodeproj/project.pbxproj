@@ -52,6 +52,9 @@
 		F26C1E782CB3469600C08E16 /* AuthErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E772CB3469300C08E16 /* AuthErrorView.swift */; };
 		F26C1E7A2CB347F100C08E16 /* LargeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E792CB347ED00C08E16 /* LargeHeader.swift */; };
 		F26C1E7C2CB347F800C08E16 /* SubHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E7B2CB347F600C08E16 /* SubHeader.swift */; };
+		F26C1E822CBAF9DE00C08E16 /* LoginReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E812CBAF9DE00C08E16 /* LoginReducerTests.swift */; };
+		F26C1E842CBB00B000C08E16 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E832CBB00AE00C08E16 /* Shake.swift */; };
+		F26C1E862CBB020200C08E16 /* RegisterReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E852CBB020200C08E16 /* RegisterReducerTests.swift */; };
 		F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */; };
 		F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryTests.swift */; };
 		F284F7AE2C856AB3002DD619 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F7AD2C856AA8002DD619 /* Array+Extensions.swift */; };
@@ -104,6 +107,9 @@
 		F26C1E772CB3469300C08E16 /* AuthErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrorView.swift; sourceTree = "<group>"; };
 		F26C1E792CB347ED00C08E16 /* LargeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeHeader.swift; sourceTree = "<group>"; };
 		F26C1E7B2CB347F600C08E16 /* SubHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubHeader.swift; sourceTree = "<group>"; };
+		F26C1E812CBAF9DE00C08E16 /* LoginReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReducerTests.swift; sourceTree = "<group>"; };
+		F26C1E832CBB00AE00C08E16 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
+		F26C1E852CBB020200C08E16 /* RegisterReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReducerTests.swift; sourceTree = "<group>"; };
 		F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheapSkateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateTests.swift; sourceTree = "<group>"; };
 		F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryTests.swift; sourceTree = "<group>"; };
@@ -249,6 +255,15 @@
 			path = Expense;
 			sourceTree = "<group>";
 		};
+		F26C1E802CBAF9C700C08E16 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F26C1E812CBAF9DE00C08E16 /* LoginReducerTests.swift */,
+				F26C1E852CBB020200C08E16 /* RegisterReducerTests.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		F27CE0E02C445DA0007B4C1E /* CheapSkateTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +276,7 @@
 		F27CE0E82C445DAB007B4C1E /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				F26C1E802CBAF9C700C08E16 /* Auth */,
 				F27CE0E92C445DBC007B4C1E /* Expense */,
 			);
 			path = Feature;
@@ -330,6 +346,7 @@
 		F2D3C13D2C9BB94B00114BBB /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				F26C1E832CBB00AE00C08E16 /* Shake.swift */,
 				F26C1E7B2CB347F600C08E16 /* SubHeader.swift */,
 				F26C1E792CB347ED00C08E16 /* LargeHeader.swift */,
 				F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */,
@@ -494,6 +511,8 @@
 				F284F7BB2C87FD11002DD619 /* ExpenseSummaryTests.swift in Sources */,
 				F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */,
 				F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */,
+				F26C1E822CBAF9DE00C08E16 /* LoginReducerTests.swift in Sources */,
+				F26C1E862CBB020200C08E16 /* RegisterReducerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +546,7 @@
 				F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */,
 				F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */,
 				F26C1E7C2CB347F800C08E16 /* SubHeader.swift in Sources */,
+				F26C1E842CBB00B000C08E16 /* Shake.swift in Sources */,
 				F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */,
 				F284F7B42C856C56002DD619 /* Double+Extensions.swift in Sources */,
 				F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */,
@@ -552,7 +572,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2T6B5WZ44S;
+				DEVELOPMENT_TEAM = KY8M8BQ9MX;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -576,7 +596,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2T6B5WZ44S;
+				DEVELOPMENT_TEAM = KY8M8BQ9MX;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;

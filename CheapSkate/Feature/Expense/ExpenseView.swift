@@ -52,7 +52,7 @@ struct Expense {
     }
     
     @ObservableState
-    struct State {
+    struct State: Equatable {
         var data: ExpenseData = ExpenseData()
         var viewState: ExpenseViewState = .idle
         var chartData: [ExpenseData] = []
@@ -148,6 +148,8 @@ struct Expense {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension Expense.Destination.State: Equatable {}
 
 struct ExpenseView: View {
     @Bindable var store: StoreOf<Expense>

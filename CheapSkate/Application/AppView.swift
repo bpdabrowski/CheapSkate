@@ -12,7 +12,7 @@ import SwiftUI
 @Reducer
 struct AppReducer {
     @ObservableState
-    struct State {
+    struct State: Equatable {
         var expense: Expense.State?
         var login: Login.State?
         

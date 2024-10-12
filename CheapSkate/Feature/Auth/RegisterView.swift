@@ -25,7 +25,7 @@ struct Register {
         var email: String = ""
         var password: String = ""
         var confirmPassword: String = ""
-        fileprivate var registrationError: [RegistrationError]?
+        var registrationError: [RegistrationError]? = nil
     }
     
     enum Action: BindableAction {
@@ -106,22 +106,24 @@ struct Register {
     }
     
     private func invalid(password: String) -> [RegistrationError]? {
-        var registrationErrors: [RegistrationError]?
+        var registrationErrors: [RegistrationError] = []
         // Ensure string has one special case letter.
         let specialCharacter = Regex {
             Lookahead {
                 Regex {
-                    One(CharacterClass.anyOf("!@#$&*").inverted)
+                    // Inverted didn't seem to work here.
+                    One(CharacterClass.anyOf("!@$#%&?_-"))
                 }
             }
         }
         
         if password.count < 8 {
-            registrationErrors?.append(.passwordTooShort)
-        } else if let _ = try? specialCharacter.firstMatch(in: password) {
-            registrationErrors?.append(.specialCharacter)
+            registrationErrors.append(.passwordTooShort)
+        } else if (try? specialCharacter.firstMatch(in: password) == nil) == true {
+            // If there is not a special character in the password, then we want to throw an error.
+            registrationErrors.append(.specialCharacter)
         }
-        return registrationErrors
+        return registrationErrors == [] ? nil : registrationErrors
     }
 }
 
@@ -176,7 +178,7 @@ struct RegisterView: View {
     })
 }
 
-fileprivate enum RegistrationError: Error, Identifiable {
+enum RegistrationError: Error, Identifiable, Equatable {
     var id: UUID { UUID() }
     
     case passwordsNotMatching
