@@ -12,12 +12,33 @@ import ComposableArchitecture
 struct ExpenseHistory {
     @ObservableState
     struct State: Equatable {
-        let chartData: [ExpenseData]
+        var chartData: [ExpenseData]
         
         var monthlyExpenses: [(key: DateComponents, value: [Array<ExpenseData>.Element])] {
             return Dictionary(grouping: chartData, by: { $0.date.date.monthAndYear })
                 .sorted { $0.key.month ?? 0 > $1.key.month ?? 0 }
                 .sorted { $0.key.year ?? 0 > $1.key.year ?? 0 }
+        }
+    }
+    
+    enum Action {
+        case onAppear
+        case handleAllExpensesResult([ExpenseData])
+    }
+    
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                return .run { send in
+                    @Dependency(\.requestManager) var requestManager
+                    let allExpenses = try await requestManager.perform(ExpenseRequest.all)
+                    await send(.handleAllExpensesResult(allExpenses))
+                }
+            case let .handleAllExpensesResult(expenses):
+                state.chartData = expenses
+                return .none
+            }
         }
     }
 }
@@ -33,6 +54,13 @@ struct ExpenseHistoryView: View {
                         .font(.title)
                         .padding(.leading, 20)
                     expenseList(value.sorted(by: { $0.date > $1.date }))
+                    HistoricalExpenseSummaryView(
+                        store: Store(
+                            initialState: ExpenseSummary.State(chartData: value),
+                            reducer: { ExpenseSummary() }
+                        )
+                    )
+                    
                     Spacer()
                 }
             }
@@ -79,6 +107,10 @@ struct ExpenseHistoryView: View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 10)
+            
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
 }

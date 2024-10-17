@@ -10,12 +10,15 @@ import Foundation
 enum ExpenseRequest: RequestProtocol {
     case save(ExpenseData)
     case getByMonth(Date? = nil)
+    case all
     
     var path: String {
         switch self {
         case .save:
             return "expenses"
         case .getByMonth:
+            return "expenses"
+        case .all:
             return "expenses"
         }
     }
@@ -43,6 +46,8 @@ enum ExpenseRequest: RequestProtocol {
             if let date {
                 params = ["month": String(Calendar.current.component(.month, from: date))]
             }
+        case .all:
+            break
         }
         
         return params
@@ -53,6 +58,8 @@ enum ExpenseRequest: RequestProtocol {
         case .save:
             return .POST
         case .getByMonth:
+            return .GET
+        case .all:
             return .GET
         }
     }

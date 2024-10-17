@@ -23,12 +23,13 @@ actor APIManager: APIManagerProtocol {
     @discardableResult
     func perform(_ request: RequestProtocol, userId: String) async throws -> Data {
         let databaseRef = createFirebaseRequest(userId: userId).child(request.path)
+        let expenseRequest = request as? ExpenseRequest
         do {
             // TODO: See if we can make this cleaner.
-            switch request.requestType {
-            case .POST:
+            switch expenseRequest {
+            case .save:
                 try await databaseRef.childByAutoId().setValue(request.params)
-            case .GET:
+            case .getByMonth:
                 let snapshot = try await databaseRef
                     .queryOrdered(byChild: "date")
                     .queryStarting(
@@ -46,6 +47,18 @@ actor APIManager: APIManagerProtocol {
                 }
 
                 return try! JSONSerialization.data(withJSONObject: json)
+            case .all:
+                let snapshot = try await databaseRef
+                    .queryOrdered(byChild: "date")
+                    .getData()
+                
+                guard let json = snapshot.value as? [String: Any] else {
+                    throw NSError()
+                }
+
+                return try! JSONSerialization.data(withJSONObject: json)
+            case .none:
+                break
             }
             
         } catch {
