@@ -47,6 +47,7 @@
 		F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */; };
 		F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */; };
 		F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2203398296E854700027B5F /* ExpenseHistoryView.swift */; };
+		F231DC8A2CCD9C5C000482DA /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F231DC892CCD9C58000482DA /* SignUpFlow.swift */; };
 		F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */; };
 		F26C1E762CB3467900C08E16 /* CredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E752CB3467600C08E16 /* CredentialField.swift */; };
 		F26C1E782CB3469600C08E16 /* AuthErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E772CB3469300C08E16 /* AuthErrorView.swift */; };
@@ -70,10 +71,14 @@
 		F284F84E295D617D00EB7E7C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84D295D617D00EB7E7C /* ComposableArchitecture */; };
 		F284F850295D617D00EB7E7C /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = F284F84F295D617D00EB7E7C /* Dependencies */; };
 		F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F855295D653600EB7E7C /* APIHelpers.swift */; };
+		F2C67CD42D04F47E00CA6E8D /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C67CD32D04F47E00CA6E8D /* BudgetView.swift */; };
+		F2C67CD62D04F69100CA6E8D /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C67CD52D04F68E00CA6E8D /* CategoryView.swift */; };
+		F2C67CD82D05006500CA6E8D /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C67CD72D05006300CA6E8D /* SummaryView.swift */; };
 		F2C765002C9E75B300B87F00 /* CredentialsViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C764FF2C9E75AC00B87F00 /* CredentialsViewModifier.swift */; };
 		F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */; };
 		F2D6A32329602B8D0078A5B2 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */; };
 		F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */; };
+		F2D7FB482CC74E0100E2FD6C /* ValuePropositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D7FB472CC74E0100E2FD6C /* ValuePropositionView.swift */; };
 		F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F01AC029EBA28D001A4709 /* AppView.swift */; };
 		F2F8592129983BD8004F4F96 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592029983BD8004F4F96 /* Token.swift */; };
 		F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592229983C12004F4F96 /* Auth+Keychain.swift */; };
@@ -102,6 +107,7 @@
 		F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartTests.swift; sourceTree = "<group>"; };
 		F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
 		F2203398296E854700027B5F /* ExpenseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryView.swift; sourceTree = "<group>"; };
+		F231DC892CCD9C58000482DA /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
 		F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonStyle.swift; sourceTree = "<group>"; };
 		F26C1E752CB3467600C08E16 /* CredentialField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialField.swift; sourceTree = "<group>"; };
 		F26C1E772CB3469300C08E16 /* AuthErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrorView.swift; sourceTree = "<group>"; };
@@ -125,10 +131,14 @@
 		F284F840295D5EC700EB7E7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F284F843295D5EC700EB7E7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F284F855295D653600EB7E7C /* APIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelpers.swift; sourceTree = "<group>"; };
+		F2C67CD32D04F47E00CA6E8D /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
+		F2C67CD52D04F68E00CA6E8D /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		F2C67CD72D05006300CA6E8D /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		F2C764FF2C9E75AC00B87F00 /* CredentialsViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsViewModifier.swift; sourceTree = "<group>"; };
 		F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedTextFieldStyle.swift; sourceTree = "<group>"; };
 		F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		F2D7FB472CC74E0100E2FD6C /* ValuePropositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropositionView.swift; sourceTree = "<group>"; };
 		F2F01AC029EBA28D001A4709 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		F2F8592029983BD8004F4F96 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F2F8592229983C12004F4F96 /* Auth+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Keychain.swift"; sourceTree = "<group>"; };
@@ -217,6 +227,7 @@
 		F219739F296ABABB00EB8C62 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				F2D7FB462CC74DDD00E2FD6C /* Onboarding */,
 				F2F8591D29983B92004F4F96 /* Auth */,
 				F21973A2296ABB1900EB8C62 /* Expense */,
 			);
@@ -353,6 +364,18 @@
 				F2D3C13E2C9BB95500114BBB /* OutlinedTextFieldStyle.swift */,
 			);
 			path = Design;
+			sourceTree = "<group>";
+		};
+		F2D7FB462CC74DDD00E2FD6C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F2C67CD72D05006300CA6E8D /* SummaryView.swift */,
+				F2C67CD52D04F68E00CA6E8D /* CategoryView.swift */,
+				F231DC892CCD9C58000482DA /* SignUpFlow.swift */,
+				F2D7FB472CC74E0100E2FD6C /* ValuePropositionView.swift */,
+				F2C67CD32D04F47E00CA6E8D /* BudgetView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		F2F8591D29983B92004F4F96 /* Auth */ = {
@@ -525,6 +548,7 @@
 				F26C1E762CB3467900C08E16 /* CredentialField.swift in Sources */,
 				F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */,
 				F284F7B02C856AC9002DD619 /* Date+Extensions.swift in Sources */,
+				F2C67CD42D04F47E00CA6E8D /* BudgetView.swift in Sources */,
 				89ECF7B12B6D8A5C00BC4EFD /* APIManager.swift in Sources */,
 				89F482DB2B3F4D5800C6CB1A /* RegisterView.swift in Sources */,
 				F2D6A32529602BA40078A5B2 /* CurrencyUITextField.swift in Sources */,
@@ -536,16 +560,20 @@
 				89ECF7AF2B6D89CC00BC4EFD /* RequestProtocol.swift in Sources */,
 				F2C765002C9E75B300B87F00 /* CredentialsViewModifier.swift in Sources */,
 				F284F83F295D5EC500EB7E7C /* ExpenseView.swift in Sources */,
+				F2C67CD82D05006500CA6E8D /* SummaryView.swift in Sources */,
 				F2F8592129983BD8004F4F96 /* Token.swift in Sources */,
 				F284F7AE2C856AB3002DD619 /* Array+Extensions.swift in Sources */,
 				89ECF7BC2B6D921600BC4EFD /* DataParser.swift in Sources */,
+				F2D7FB482CC74E0100E2FD6C /* ValuePropositionView.swift in Sources */,
 				F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */,
+				F231DC8A2CCD9C5C000482DA /* SignUpFlow.swift in Sources */,
 				F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */,
 				F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */,
 				F26C1E7C2CB347F800C08E16 /* SubHeader.swift in Sources */,
+				F2C67CD62D04F69100CA6E8D /* CategoryView.swift in Sources */,
 				F26C1E842CBB00B000C08E16 /* Shake.swift in Sources */,
 				F2F01AC129EBA28D001A4709 /* AppView.swift in Sources */,
 				F284F7B42C856C56002DD619 /* Double+Extensions.swift in Sources */,
