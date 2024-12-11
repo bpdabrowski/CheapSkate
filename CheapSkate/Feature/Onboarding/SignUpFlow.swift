@@ -18,7 +18,7 @@ struct SignUpData: Equatable {
 }
 
 @Reducer
-struct SignUp {
+struct Onboarding {
     @Reducer
     enum Path {
         case budget(Budget)
@@ -40,6 +40,7 @@ struct SignUp {
         
         enum Delegate {
             case skipTapped
+            case completeTapped
         }
     }
 
@@ -52,15 +53,20 @@ struct SignUp {
                     switch budgetDelegate {
                     case .skipTapped:
                         return .send(.delegate(.skipTapped))
-                    case .nextButtonTapped:
+                    case .nextTapped:
                         state.path.append(.category(.init(signUpData: state.$signUpData)))
                     }
                 case .category(.delegate(let categoryDelegate)):
                     switch categoryDelegate {
                     case .skipTapped:
                         return .send(.delegate(.skipTapped))
-                    case .nextButtonTapped:
+                    case .nextTapped:
                         state.path.append(.summary(.init(signUpData: state.$signUpData)))
+                    }
+                case .summary(.delegate(let summaryDelegate)):
+                    switch summaryDelegate {
+                    case .completeTapped:
+                        return .send(.delegate(.completeTapped))
                     }
                 case .budget,
                     .category,
@@ -70,7 +76,7 @@ struct SignUp {
                 return .none
             case .path:
                 return .none
-            case .valueProposition(.delegate(.nextButtonTapped)):
+            case .valueProposition(.delegate(.nextTapped)):
                 state.path.append(.budget(.init(signUpData: state.$signUpData)))
                 return .none
             case .valueProposition:
@@ -83,21 +89,14 @@ struct SignUp {
     }
 }
 
-struct SignUpFlow: View {
-    @Bindable var store: StoreOf<SignUp>
+struct OnboardingFlow: View {
+    @Bindable var store: StoreOf<Onboarding>
 
     var body: some View {
         NavigationStack(
             path: $store.scope(state: \.path, action: \.path)
         ) {
             ValuePropositionView(store: store.scope(state: \.valueProposition, action: \.valueProposition))
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Skip") {
-                            store.send(.delegate(.skipTapped))
-                        }
-                    }
-                }
         } destination: { store in
             switch store.case {
             case .budget(let store):
@@ -129,10 +128,10 @@ struct SignUpFlow: View {
 }
 
 #Preview {
-    SignUpFlow(
+    OnboardingFlow(
         store: Store(
-            initialState: SignUp.State(signUpData: Shared(SignUpData())),
-            reducer: { SignUp() }
+            initialState: Onboarding.State(signUpData: Shared(SignUpData())),
+            reducer: { Onboarding() }
         )
     )
 }

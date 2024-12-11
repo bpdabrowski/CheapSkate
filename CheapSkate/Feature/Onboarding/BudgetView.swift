@@ -17,10 +17,10 @@ struct Budget {
     
     enum Action {
         case delegate(Delegate)
-        case backButtonTapped
+        case backTapped
         
         enum Delegate {
-            case nextButtonTapped
+            case nextTapped
             case skipTapped
         }
     }
@@ -28,7 +28,7 @@ struct Budget {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .backButtonTapped:
+            case .backTapped:
                 return .run { _ in
                     @Dependency(\.dismiss) var dismiss
                     await dismiss()
@@ -49,7 +49,7 @@ struct BudgetView: View {
                 Text("BudgetView")
                 Spacer()
                 OnboardingNavigationButtons(nextAction: {
-                    store.send(.delegate(.nextButtonTapped))
+                    store.send(.delegate(.nextTapped))
                 })
             }
             .safeAreaPadding(20)

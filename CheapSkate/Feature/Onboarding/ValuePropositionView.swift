@@ -20,7 +20,7 @@ struct ValueProposition {
         case delegate(Delegate)
         
         enum Delegate {
-            case nextButtonTapped
+            case nextTapped
             case skipTapped
         }
     }
@@ -40,23 +40,57 @@ struct ValuePropositionView: View {
     
     var body: some View {
             VStack {
-                Text("ValuePropositionView")
+                LargeHeader(text: "Welcome to CheapSkate!")
+                SubHeader(text: "The fastest and most accurate way to track your expenses.")
+                valueItem(
+                    title: "Fast & Easy Tracking",
+                    description: "Quick entry expense logging, we’ve got you covered.",
+                    image: Image(systemName: "gauge.with.dots.needle.100percent"),
+                    imageColor: .purple
+                )
+                .padding(.top, 20)
+                valueItem(
+                    title: "Accurate Historical Data",
+                    description: "View all of your historical expenses in one place.",
+                    image: Image(systemName: "checkmark.seal"),
+                    imageColor: .green
+                )
+                valueItem(
+                    title: "Spending Metrics",
+                    description: "Understand your expenses on a deeper level.",
+                    image: Image(systemName: "chart.bar"),
+                    imageColor: .orange
+                )
                 Spacer()
                 HStack {
                     Spacer()
 
-                    Button(action: {
-                        store.send(.delegate(.nextButtonTapped))
-                    }, label: {
-                        Image(systemName: "arrow.right")
-                            .foregroundColor(.white)
-                    })
-                    .padding()
-                    .background(Color.mint)
-                    .clipShape(Circle())
+                    Button {
+                        store.send(.delegate(.nextTapped))
+                    } label: {
+                        Text("Sign up with Apple")
+                            .frame(maxWidth: .infinity, maxHeight: 20)
+                    }
+                    .buttonStyle(FullWidth())
                 }
             }
             .safeAreaPadding(20)
+    }
+    
+    private func valueItem(title: String, description: String, image: Image, imageColor: Color) -> some View {
+        HStack(alignment: .top) {
+            image
+                .font(.title)
+                .foregroundStyle(imageColor)
+            VStack {
+                Text(title)
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                SubHeader(text: description)
+            }
+        }
+        .padding(.bottom, 10)
     }
 }
 

@@ -17,18 +17,17 @@ struct Summary {
     
     enum Action {
         case delegate(Delegate)
-        case backButtonTapped
+        case backTapped
         
         enum Delegate {
-            case nextButtonTapped
-            case skipTapped
+            case completeTapped
         }
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .backButtonTapped:
+            case .backTapped:
                 return .run { _ in
                     @Dependency(\.dismiss) var dismiss
                     await dismiss()
@@ -48,9 +47,13 @@ struct SummaryView: View {
             VStack {
                 Text("SummaryView")
                 Spacer()
-                OnboardingNavigationButtons(nextAction: {
-                    store.send(.delegate(.nextButtonTapped))
-                })
+                Button {
+                    store.send(.delegate(.completeTapped))
+                } label: {
+                    Text("Let's Go!")
+                        .frame(maxWidth: .infinity, maxHeight: 20)
+                }
+                .buttonStyle(FullWidth())
             }
             .safeAreaPadding(20)
     }

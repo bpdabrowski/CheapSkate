@@ -17,10 +17,10 @@ struct Category {
     
     enum Action {
         case delegate(Delegate)
-        case backButtonTapped
+        case backTapped
         
         enum Delegate {
-            case nextButtonTapped
+            case nextTapped
             case skipTapped
         }
     }
@@ -28,7 +28,7 @@ struct Category {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .backButtonTapped:
+            case .backTapped:
                 return .run { _ in
                     @Dependency(\.dismiss) var dismiss
                     await dismiss()
