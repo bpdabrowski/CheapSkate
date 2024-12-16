@@ -9,12 +9,8 @@ import ComposableArchitecture
 import SwiftUI
 
 struct SignUpData: Equatable {
-    var email = ""
-    var firstName = ""
-    var lastName = ""
-    var password = ""
-    var passwordConfirmation = ""
-    var phoneNumber = ""
+    var categories: [ExpenseCategory] = []
+    var budgetGoal: Int = 5_000
 }
 
 @Reducer
@@ -74,14 +70,12 @@ struct Onboarding {
                     return .none
                 }
                 return .none
-            case .path:
-                return .none
             case .valueProposition(.delegate(.nextTapped)):
                 state.path.append(.budget(.init(signUpData: state.$signUpData)))
                 return .none
-            case .valueProposition:
-                return .none
-            case .delegate:
+            case .valueProposition,
+                .path,
+                .delegate:
                 return .none
             }
         }
@@ -97,33 +91,54 @@ struct OnboardingFlow: View {
             path: $store.scope(state: \.path, action: \.path)
         ) {
             ValuePropositionView(store: store.scope(state: \.valueProposition, action: \.valueProposition))
+                .padding(.top, 40)
         } destination: { store in
             switch store.case {
             case .budget(let store):
                 BudgetView(store: store)
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Skip") {
-                                store.send(.delegate(.skipTapped))
-                            }
-                        }
-                    }
+                    .onboardingNavBar(action: { store.send(.delegate(.skipTapped)) })
             case .category(let store):
                 CategoryView(store: store)
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Skip") {
-                                store.send(.delegate(.skipTapped))
-                            }
-                        }
-                    }
+                    .onboardingNavBar(action: { store.send(.delegate(.skipTapped)) })
             case .summary(let store):
                 SummaryView(store: store)
                     .navigationBarBackButtonHidden(true)
+                    .padding(.top, 40)
             }
         }
+    }
+}
+
+extension View {
+    public func onboardingNavBar(action: @escaping () -> Void) -> some View {
+        modifier(OnboardingNavBarViewModifier(action: action))
+    }
+}
+
+struct OnboardingNavBarViewModifier: ViewModifier {
+    let action: () -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        action()
+                    } label: {
+                        Text("Skip")
+                            .padding(10)
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.gray)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                    .fill(.gray)
+                                    .opacity(0.2)
+                            )
+                    }
+                }
+            }
     }
 }
 

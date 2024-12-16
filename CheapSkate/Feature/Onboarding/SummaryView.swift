@@ -43,14 +43,37 @@ struct SummaryView: View {
     @Bindable var store: StoreOf<Summary>
     @Environment(\.dismiss) var dismiss
     
+    private let adaptiveColumn = [
+        GridItem(.adaptive(minimum: 110))
+    ]
+    
     var body: some View {
             VStack {
-                Text("SummaryView")
+                LargeHeader(text: "Lets get trackin' 🙌")
+                SubHeader(text: "Below is your budgetting goal and categories.")
+                Text("Budget Goal")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 20)
+                Text(store.state.signUpData.budgetGoal.currency)
+                    .budgetStyle()
+                Text("Selected Categories")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 20)
+                LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+                    ForEach(store.state.signUpData.categories, id: \.self) { category in
+                        CategoryCell(title: category.rawValue, color: category.color, selected: true)
+                        .disabled(true)
+                    }
+                }
                 Spacer()
                 Button {
                     store.send(.delegate(.completeTapped))
                 } label: {
-                    Text("Let's Go!")
+                    Text("Start Tracking")
                         .frame(maxWidth: .infinity, maxHeight: 20)
                 }
                 .buttonStyle(FullWidth())
@@ -62,7 +85,7 @@ struct SummaryView: View {
 #Preview("Summary") {
     SummaryView(
         store: .init(
-            initialState: .init(signUpData: Shared(SignUpData())),
+            initialState: .init(signUpData: Shared(SignUpData(categories: ExpenseCategory.allCases.sorted(by: { $0.rawValue < $1.rawValue })))),
             reducer: { Summary() }
         )
     )
