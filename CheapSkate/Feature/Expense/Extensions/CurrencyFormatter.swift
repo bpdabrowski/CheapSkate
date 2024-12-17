@@ -17,3 +17,14 @@ extension Double {
         return formatter.format(self)
     }
 }
+
+extension Int {
+    var currency: String {
+        let locale = Locale.current
+        let formatter = IntegerFormatStyle<Int>.Currency(
+            code: locale.currency?.identifier ?? "USD",
+            locale: locale
+        ).precision(.fractionLength(0))
+        return formatter.format(self)
+    }
+}
