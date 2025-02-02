@@ -36,7 +36,6 @@
 		891C2C912C30815500A1F99E /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 891C2C902C30815500A1F99E /* FirebaseStorageCombine-Community */; };
 		891C2C932C30815500A1F99E /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = 891C2C922C30815500A1F99E /* FirebaseVertexAI-Preview */; };
 		891C2C952C3089C000A1F99E /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891C2C942C3089C000A1F99E /* FirebaseAuth.swift */; };
-		891C2C972C30C34D00A1F99E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 891C2C962C30C34D00A1F99E /* GoogleService-Info.plist */; };
 		8923C8FD2B6F7F950076CC7C /* ExpenseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8923C8FC2B6F7F950076CC7C /* ExpenseRequest.swift */; };
 		89DEE4412B537CC600976F2C /* URLRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 89DEE4402B537CC600976F2C /* URLRouting */; };
 		89ECF7AF2B6D89CC00BC4EFD /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7AE2B6D89CC00BC4EFD /* RequestProtocol.swift */; };
@@ -47,6 +46,7 @@
 		F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */; };
 		F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */; };
 		F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2203398296E854700027B5F /* ExpenseHistoryView.swift */; };
+		F2276ABC2D4FF67500886823 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2276ABB2D4FF67500886823 /* GoogleService-Info.plist */; };
 		F231DC8A2CCD9C5C000482DA /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F231DC892CCD9C58000482DA /* SignUpFlow.swift */; };
 		F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */; };
 		F26C1E762CB3467900C08E16 /* CredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E752CB3467600C08E16 /* CredentialField.swift */; };
@@ -99,7 +99,6 @@
 
 /* Begin PBXFileReference section */
 		891C2C942C3089C000A1F99E /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
-		891C2C962C30C34D00A1F99E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8923C8FC2B6F7F950076CC7C /* ExpenseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRequest.swift; sourceTree = "<group>"; };
 		89ECF7AE2B6D89CC00BC4EFD /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		89ECF7B02B6D8A5C00BC4EFD /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -109,6 +108,7 @@
 		F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartTests.swift; sourceTree = "<group>"; };
 		F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
 		F2203398296E854700027B5F /* ExpenseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryView.swift; sourceTree = "<group>"; };
+		F2276ABB2D4FF67500886823 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F231DC892CCD9C58000482DA /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
 		F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonStyle.swift; sourceTree = "<group>"; };
 		F26C1E752CB3467600C08E16 /* CredentialField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialField.swift; sourceTree = "<group>"; };
@@ -339,8 +339,8 @@
 		F284F83B295D5EC500EB7E7C /* CheapSkate */ = {
 			isa = PBXGroup;
 			children = (
+				F2276ABB2D4FF67500886823 /* GoogleService-Info.plist */,
 				F2D3C13D2C9BB94B00114BBB /* Design */,
-				891C2C962C30C34D00A1F99E /* GoogleService-Info.plist */,
 				F21973A0296ABACE00EB8C62 /* Application */,
 				F219739F296ABABB00EB8C62 /* Feature */,
 				F219739E296ABAB200EB8C62 /* Domain */,
@@ -525,7 +525,7 @@
 			files = (
 				F284F844295D5EC700EB7E7C /* Preview Assets.xcassets in Resources */,
 				F284F841295D5EC700EB7E7C /* Assets.xcassets in Resources */,
-				891C2C972C30C34D00A1F99E /* GoogleService-Info.plist in Resources */,
+				F2276ABC2D4FF67500886823 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,7 +774,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheapSkate/Preview Content\"";
-				DEVELOPMENT_TEAM = KY8M8BQ9MX;
+				DEVELOPMENT_TEAM = 2T6B5WZ44S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -789,7 +789,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-enable-upcoming-feature InferSendableFromCaptures";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bpdabrowski.CheapSkate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bdabrowski.CheapSkate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -806,7 +806,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheapSkate/Preview Content\"";
-				DEVELOPMENT_TEAM = KY8M8BQ9MX;
+				DEVELOPMENT_TEAM = 2T6B5WZ44S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -821,7 +821,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-enable-upcoming-feature InferSendableFromCaptures";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bpdabrowski.CheapSkate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bdabrowski.CheapSkate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
