@@ -6,10 +6,12 @@
 //
 
 import ComposableArchitecture
-import XCTest
+import Foundation
+import Testing
 @testable import CheapSkate
 
-final class ExpenseSummaryTests: XCTestCase {
+@MainActor
+struct ExpenseSummaryTests {
     private static let id = UUID(uuidString: "1")
     private static let date = Date()
     private static let data = [
@@ -23,23 +25,23 @@ final class ExpenseSummaryTests: XCTestCase {
         reducer: { ExpenseSummary() }
     )
     
-    func testExpenseSums() {
-        XCTAssertEqual(store.state.chartData.sum.currency, "$10.00")
+    @Test func expenseSums() {
+        #expect(store.state.chartData.sum.currency == "$10.00")
     }
     
-    func testPlusMinus() {
-        XCTAssertEqual(store.state.plusMinus.currency, "$4,990.00")
+    @Test func plusMinus() {
+        #expect(store.state.plusMinus.currency == "$4,990.00")
     }
     
-    func testPlusMinusDailyAverage() {
-        XCTAssertEqual(store.state.plusMinusDailyAverage.currency, "$163.33")
+    @Test func plusMinusDailyAverage() {
+        #expect(store.state.plusMinusDailyAverage.currency == "$163.33")
     }
     
-    func testAverageDailySpend() {
-        XCTAssertEqual(store.state.averageDailySpend(dayOfMonth: Date(timeIntervalSince1970: 200)).currency, "$0.32")
+    @Test func averageDailySpend() {
+        #expect(store.state.averageDailySpend(dayOfMonth: Date(timeIntervalSince1970: 200)).currency == "$0.32")
     }
     
-    func testExtrapolatedSpend() {
-        XCTAssertEqual(store.state.extrapolatedSpend(date: Date(timeIntervalSince1970: 200)).currency, "$10.00")
+    @Test func extrapolatedSpend() {
+        #expect(store.state.extrapolatedSpend(date: Date(timeIntervalSince1970: 200)).currency == "$10.00")
     }
 }

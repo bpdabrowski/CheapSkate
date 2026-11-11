@@ -6,11 +6,13 @@
 //
 
 import ComposableArchitecture
-import XCTest
+import Foundation
+import Testing
 @testable import CheapSkate
 
-final class ExpenseChartTests: XCTestCase {
-    var store = TestStore(initialState: ExpenseChart.State(chartData: [
+@MainActor
+struct ExpenseChartTests {
+    let store = TestStore(initialState: ExpenseChart.State(chartData: [
         ExpenseData(id: UUID(), category: .food, amount: 6.00, date: 1722160922),
         ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: 1722420122),
         ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: 1721556122),
@@ -21,19 +23,19 @@ final class ExpenseChartTests: XCTestCase {
         ExpenseChart()
     }
 
-    func testXAxisDomain() throws {
+    @Test func xAxisDomain() {
         let date = Date(timeIntervalSince1970: 1722160922)
-        XCTAssertEqual(date.startOfMonth...date.endOfMonth, store.state.xAxisDomain)
+        #expect(date.startOfMonth...date.endOfMonth == store.state.xAxisDomain)
     }
     
-    func testTotalForCategory_Empty() {
-        store = TestStore(initialState: ExpenseChart.State(chartData: [])) {
+    @Test func totalForCategory_Empty() {
+        let store = TestStore(initialState: ExpenseChart.State(chartData: [])) {
             ExpenseChart()
         }
         
-        XCTAssertEqual("Food - $0.00", store.state.total(for: .food))
-        XCTAssertEqual("Groceries - $0.00", store.state.total(for: .groceries))
-        XCTAssertEqual("Gas - $0.00", store.state.total(for: .gas))
-        XCTAssertEqual("Misc - $0.00", store.state.total(for: .misc))
+        #expect(store.state.total(for: .food) == "Food - $0.00")
+        #expect(store.state.total(for: .groceries) == "Groceries - $0.00")
+        #expect(store.state.total(for: .gas) == "Gas - $0.00")
+        #expect(store.state.total(for: .misc) == "Misc - $0.00")
     }
 }
