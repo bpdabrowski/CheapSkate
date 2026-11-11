@@ -16,7 +16,7 @@ struct ExpenseSummaryTests {
     private static let date = Date()
     private static let data = [
         ExpenseData(id: id, category: .food, amount: 1.00, date: date.timeIntervalSince1970),
-        ExpenseData(id: id, category: .gas, amount: 2.00, date: date.timeIntervalSince1970),
+        ExpenseData(id: id, category: .transportation, amount: 2.00, date: date.timeIntervalSince1970),
         ExpenseData(id: id, category: .groceries, amount: 3.00, date: date.timeIntervalSince1970),
         ExpenseData(id: id, category: .misc, amount: 4.00, date: date.timeIntervalSince1970)
     ]

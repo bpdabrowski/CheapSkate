@@ -20,7 +20,7 @@ struct ExpenseHistoryTests {
         let store = TestStore(
             initialState: ExpenseHistory.State(chartData: [
                 ExpenseData(id: id, category: .food, amount: 1.00, date: earlyDate.timeIntervalSince1970),
-                ExpenseData(id: id, category: .gas, amount: 2.00, date: earlyDate.timeIntervalSince1970),
+                ExpenseData(id: id, category: .transportation, amount: 2.00, date: earlyDate.timeIntervalSince1970),
                 ExpenseData(id: id, category: .groceries, amount: 3.00, date: lateDate.timeIntervalSince1970),
                 ExpenseData(id: id, category: .misc, amount: 4.00, date: lateDate.timeIntervalSince1970)
             ]),
@@ -39,7 +39,7 @@ struct ExpenseHistoryTests {
         #expect(
             monthlyExpenses.last?.value == [
                 ExpenseData(id: id, category: .food, amount: 1.00, date: earlyDate.timeIntervalSince1970),
-                ExpenseData(id: id, category: .gas, amount: 2.00, date: earlyDate.timeIntervalSince1970)
+                ExpenseData(id: id, category: .transportation, amount: 2.00, date: earlyDate.timeIntervalSince1970)
             ]
         )
     }
@@ -48,7 +48,7 @@ struct ExpenseHistoryTests {
         let date = Date(timeIntervalSinceReferenceDate: 100_000).timeIntervalSince1970
         let id = UUID()
         let kept = ExpenseData(id: id, category: .food, amount: 1.00, date: date, remoteId: "kept")
-        let deleted = ExpenseData(id: id, category: .gas, amount: 2.00, date: date, remoteId: "deleted")
+        let deleted = ExpenseData(id: id, category: .transportation, amount: 2.00, date: date, remoteId: "deleted")
         let requestManager = SpyRequestManager()
         let store = TestStore(
             initialState: ExpenseHistory.State(chartData: [kept, deleted]),
@@ -75,8 +75,8 @@ struct ExpenseHistoryTests {
         await store.send(.editButtonTapped(expense)) {
             $0.editExpense = EditExpense.State(expense: expense)
         }
-        await store.send(.editExpense(.presented(.selectCategory(.gas)))) {
-            $0.editExpense?.expense.category = .gas
+        await store.send(.editExpense(.presented(.selectCategory(.transportation)))) {
+            $0.editExpense?.expense.category = .transportation
         }
         await store.send(.editExpense(.presented(.amountChanged(12.50)))) {
             $0.editExpense?.expense.amount = 12.50
@@ -88,7 +88,7 @@ struct ExpenseHistoryTests {
         let kept = ExpenseData(id: id, category: .food, amount: 1.00, date: 0, remoteId: "kept")
         let original = ExpenseData(id: id, category: .food, amount: 2.00, date: 0, remoteId: "edited")
         var edited = original
-        edited.category = .gas
+        edited.category = .transportation
         edited.amount = 12.50
         let requestManager = SpyRequestManager()
         let store = TestStore(

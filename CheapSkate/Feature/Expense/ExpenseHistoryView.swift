@@ -193,7 +193,7 @@ extension Calendar {
         initialState: .init(
             chartData: [
                 ExpenseData(id: UUID(), category: .food, amount: 6.00, date: Date().timeIntervalSince1970),
-                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: Date().timeIntervalSince1970),
+                ExpenseData(id: UUID(), category: .transportation, amount: 2.00, date: Date().timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: Date().timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date().timeIntervalSince1970),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: Date(timeIntervalSinceNow: -200_000).timeIntervalSince1970)

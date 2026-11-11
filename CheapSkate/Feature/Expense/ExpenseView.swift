@@ -28,15 +28,26 @@ struct ExpenseData: Equatable, Codable {
 
 enum ExpenseCategory: String, CaseIterable, Codable {
     case food
-    case gas
     case groceries
     case misc
-    
+    case transportation
+
+    // Expenses saved before the rename, or by older app builds, store "gas".
+    init(from decoder: Decoder) throws {
+        let rawValue = try decoder.singleValueContainer().decode(String.self)
+        guard let category = rawValue == "gas" ? .transportation : ExpenseCategory(rawValue: rawValue) else {
+            throw DecodingError.dataCorrupted(
+                .init(codingPath: decoder.codingPath, debugDescription: "Unknown expense category \(rawValue)")
+            )
+        }
+        self = category
+    }
+
     var color: Color {
         switch self {
         case .food:
             return .blue
-        case .gas:
+        case .transportation:
             return .green
         case .groceries:
             return .orange
@@ -306,14 +317,14 @@ struct CategoryPicker: View {
         initialState: .init(
             chartData: [
                 ExpenseData(id: UUID(), category: .food, amount: 6.00, date: 1722160922),
-                ExpenseData(id: UUID(), category: .gas, amount: 2.00, date: 1722420122),
+                ExpenseData(id: UUID(), category: .transportation, amount: 2.00, date: 1722420122),
                 ExpenseData(id: UUID(), category: .groceries, amount: 3.00, date: 1721556122),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720951322),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1720346522),
                 ExpenseData(id: UUID(), category: .misc, amount: 4.00, date: 1719828122),
                 ExpenseData(id: UUID(), category: .food, amount: 3.00, date: 1719828122),
                 ExpenseData(id: UUID(), category: .groceries, amount: 2.00, date: 1719828122),
-                ExpenseData(id: UUID(), category: .gas, amount: 1.00, date: 1719828122)
+                ExpenseData(id: UUID(), category: .transportation, amount: 1.00, date: 1719828122)
             ]
         )) {
         Expense()

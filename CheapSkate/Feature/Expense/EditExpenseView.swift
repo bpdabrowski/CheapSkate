@@ -91,7 +91,7 @@ struct EditExpenseView: View {
 #Preview {
     EditExpenseView(store: Store(
         initialState: .init(
-            expense: ExpenseData(id: UUID(), category: .gas, amount: 42.50, date: Date().timeIntervalSince1970)
+            expense: ExpenseData(id: UUID(), category: .transportation, amount: 42.50, date: Date().timeIntervalSince1970)
         )) {
         EditExpense()
     })
