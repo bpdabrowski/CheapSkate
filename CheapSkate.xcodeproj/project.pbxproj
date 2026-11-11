@@ -37,7 +37,6 @@
 		891C2C932C30815500A1F99E /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = 891C2C922C30815500A1F99E /* FirebaseVertexAI-Preview */; };
 		891C2C952C3089C000A1F99E /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891C2C942C3089C000A1F99E /* FirebaseAuth.swift */; };
 		8923C8FD2B6F7F950076CC7C /* ExpenseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8923C8FC2B6F7F950076CC7C /* ExpenseRequest.swift */; };
-		89DEE4412B537CC600976F2C /* URLRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 89DEE4402B537CC600976F2C /* URLRouting */; };
 		89ECF7AF2B6D89CC00BC4EFD /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7AE2B6D89CC00BC4EFD /* RequestProtocol.swift */; };
 		89ECF7B12B6D8A5C00BC4EFD /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7B02B6D8A5C00BC4EFD /* APIManager.swift */; };
 		89ECF7B32B6D8B3600BC4EFD /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ECF7B22B6D8B3600BC4EFD /* RequestManager.swift */; };
@@ -56,7 +55,6 @@
 		F26C1E822CBAF9DE00C08E16 /* LoginReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E812CBAF9DE00C08E16 /* LoginReducerTests.swift */; };
 		F26C1E842CBB00B000C08E16 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E832CBB00AE00C08E16 /* Shake.swift */; };
 		F26C1E862CBB020200C08E16 /* RegisterReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E852CBB020200C08E16 /* RegisterReducerTests.swift */; };
-		F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */; };
 		F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryTests.swift */; };
 		F284F7AE2C856AB3002DD619 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F7AD2C856AA8002DD619 /* Array+Extensions.swift */; };
 		F284F7B02C856AC9002DD619 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284F7AF2C856AC6002DD619 /* Date+Extensions.swift */; };
@@ -85,6 +83,7 @@
 		F2F8592129983BD8004F4F96 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592029983BD8004F4F96 /* Token.swift */; };
 		F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592229983C12004F4F96 /* Auth+Keychain.swift */; };
 		F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592429983ED2004F4F96 /* LoginView.swift */; };
+		F2A1C0DE0000000000000001 /* IssueReportingTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F2A1C0DE0000000000000002 /* IssueReportingTestSupport */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,7 +118,6 @@
 		F26C1E832CBB00AE00C08E16 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
 		F26C1E852CBB020200C08E16 /* RegisterReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReducerTests.swift; sourceTree = "<group>"; };
 		F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheapSkateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheapSkateTests.swift; sourceTree = "<group>"; };
 		F27CE0EA2C445DE1007B4C1E /* ExpenseHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryTests.swift; sourceTree = "<group>"; };
 		F284F7AD2C856AA8002DD619 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		F284F7AF2C856AC6002DD619 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -154,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2A1C0DE0000000000000001 /* IssueReportingTestSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +177,6 @@
 				891C2C932C30815500A1F99E /* FirebaseVertexAI-Preview in Frameworks */,
 				F284F84E295D617D00EB7E7C /* ComposableArchitecture in Frameworks */,
 				891C2C7F2C30815500A1F99E /* FirebaseInAppMessaging-Beta in Frameworks */,
-				89DEE4412B537CC600976F2C /* URLRouting in Frameworks */,
 				891C2C5F2C30815500A1F99E /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				891C2C8D2C30815500A1F99E /* FirebaseRemoteConfigSwift in Frameworks */,
 				891C2C6B2C30815500A1F99E /* FirebaseAuthCombine-Community in Frameworks */,
@@ -283,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				F27CE0E82C445DAB007B4C1E /* Feature */,
-				F27CE0E12C445DA0007B4C1E /* CheapSkateTests.swift */,
 			);
 			path = CheapSkateTests;
 			sourceTree = "<group>";
@@ -414,6 +411,9 @@
 				F27CE0E42C445DA0007B4C1E /* PBXTargetDependency */,
 			);
 			name = CheapSkateTests;
+			packageProductDependencies = (
+				F2A1C0DE0000000000000002 /* IssueReportingTestSupport */,
+			);
 			productName = CheapSkateTests;
 			productReference = F27CE0DF2C445DA0007B4C1E /* CheapSkateTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -434,7 +434,6 @@
 			packageProductDependencies = (
 				F284F84D295D617D00EB7E7C /* ComposableArchitecture */,
 				F284F84F295D617D00EB7E7C /* Dependencies */,
-				89DEE4402B537CC600976F2C /* URLRouting */,
 				891C2C5C2C30815500A1F99E /* FirebaseAnalytics */,
 				891C2C5E2C30815500A1F99E /* FirebaseAnalyticsOnDeviceConversion */,
 				891C2C602C30815500A1F99E /* FirebaseAnalyticsSwift */,
@@ -498,8 +497,8 @@
 			mainGroup = F284F830295D5EC500EB7E7C;
 			packageReferences = (
 				F284F84C295D617D00EB7E7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				89DEE43F2B537CC600976F2C /* XCRemoteSwiftPackageReference "swift-url-routing" */,
 				89E1E3C92C307DBA0075A6F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F2A1C0DE0000000000000003 /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */,
 			);
 			productRefGroup = F284F83A295D5EC500EB7E7C /* Products */;
 			projectDirPath = "";
@@ -539,7 +538,6 @@
 				F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryTests.swift in Sources */,
 				F284F7BB2C87FD11002DD619 /* ExpenseSummaryTests.swift in Sources */,
 				F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */,
-				F27CE0E22C445DA0007B4C1E /* CheapSkateTests.swift in Sources */,
 				F26C1E822CBAF9DE00C08E16 /* LoginReducerTests.swift in Sources */,
 				F26C1E862CBB020200C08E16 /* RegisterReducerTests.swift in Sources */,
 			);
@@ -863,14 +861,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		89DEE43F2B537CC600976F2C /* XCRemoteSwiftPackageReference "swift-url-routing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-url-routing.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
-			};
-		};
 		89E1E3C92C307DBA0075A6F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -885,6 +875,14 @@
 			requirement = {
 				kind = exactVersion;
 				version = 1.13.0;
+			};
+		};
+		F2A1C0DE0000000000000003 /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/xctest-dynamic-overlay";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1030,11 +1028,6 @@
 			package = 89E1E3C92C307DBA0075A6F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseVertexAI-Preview";
 		};
-		89DEE4402B537CC600976F2C /* URLRouting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 89DEE43F2B537CC600976F2C /* XCRemoteSwiftPackageReference "swift-url-routing" */;
-			productName = URLRouting;
-		};
 		F284F84D295D617D00EB7E7C /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F284F84C295D617D00EB7E7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
@@ -1044,6 +1037,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F284F84C295D617D00EB7E7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = Dependencies;
+		};
+		F2A1C0DE0000000000000002 /* IssueReportingTestSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2A1C0DE0000000000000003 /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */;
+			productName = IssueReportingTestSupport;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
