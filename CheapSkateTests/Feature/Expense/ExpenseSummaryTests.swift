@@ -34,7 +34,9 @@ struct ExpenseSummaryTests {
     }
     
     @Test func plusMinusDailyAverage() {
-        #expect(store.state.plusMinusDailyAverage.currency == "$163.33")
+        // Sept 3, 2024 (noon UTC): day 3 of a 30-day month.
+        let date = Date(timeIntervalSince1970: 1725364800)
+        #expect(store.state.plusMinusDailyAverage(date: date).currency == "$163.33")
     }
     
     @Test func averageDailySpend() {
