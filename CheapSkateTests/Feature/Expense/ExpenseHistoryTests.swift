@@ -64,6 +64,50 @@ struct ExpenseHistoryTests {
         let paths = await requestManager.paths
         #expect(paths == ["expenses/deleted"])
     }
+    
+    @Test func editButtonTapped() async {
+        let expense = ExpenseData(id: UUID(), category: .food, amount: 1.00, date: 0, remoteId: "edited")
+        let store = TestStore(
+            initialState: ExpenseHistory.State(chartData: [expense]),
+            reducer: { ExpenseHistory() }
+        )
+        
+        await store.send(.editButtonTapped(expense)) {
+            $0.editExpense = EditExpense.State(expense: expense)
+        }
+        await store.send(.editExpense(.presented(.selectCategory(.gas)))) {
+            $0.editExpense?.expense.category = .gas
+        }
+        await store.send(.editExpense(.presented(.amountChanged(12.50)))) {
+            $0.editExpense?.expense.amount = 12.50
+        }
+    }
+    
+    @Test func saveEditedExpense() async {
+        let id = UUID()
+        let kept = ExpenseData(id: id, category: .food, amount: 1.00, date: 0, remoteId: "kept")
+        let original = ExpenseData(id: id, category: .food, amount: 2.00, date: 0, remoteId: "edited")
+        var edited = original
+        edited.category = .gas
+        edited.amount = 12.50
+        let requestManager = SpyRequestManager()
+        let store = TestStore(
+            initialState: ExpenseHistory.State(
+                chartData: [kept, original],
+                editExpense: EditExpense.State(expense: edited)
+            ),
+            reducer: { ExpenseHistory() },
+            withDependencies: { $0.requestManager = requestManager }
+        )
+        
+        await store.send(.editExpense(.presented(.delegate(.save(edited))))) {
+            $0.chartData = [kept, edited]
+        }
+        await store.receive(\.delegate.expenseUpdated)
+        
+        let paths = await requestManager.paths
+        #expect(paths == ["expenses/edited"])
+    }
 }
 
 private actor SpyRequestManager: RequestManagerProtocol {

@@ -22,6 +22,8 @@ class CurrencyUITextField: UITextField {
     init(value: Binding<Double>) {
         self._value = value
         super.init(frame: .zero)
+        // Start from the bound value so editing an existing amount doesn't reset it to zero.
+        text = currency(from: Decimal(value.wrappedValue))
         setupViews()
     }
     

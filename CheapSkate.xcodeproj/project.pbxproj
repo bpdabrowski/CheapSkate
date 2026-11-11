@@ -45,6 +45,7 @@
 		F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */; };
 		F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */; };
 		F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2203398296E854700027B5F /* ExpenseHistoryView.swift */; };
+		F2A1C0DE0000000000000004 /* EditExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A1C0DE0000000000000005 /* EditExpenseView.swift */; };
 		F2276ABC2D4FF67500886823 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2276ABB2D4FF67500886823 /* GoogleService-Info.plist */; };
 		F231DC8A2CCD9C5C000482DA /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F231DC892CCD9C58000482DA /* SignUpFlow.swift */; };
 		F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */; };
@@ -107,6 +108,7 @@
 		F21265DA2C5F07430039DBE9 /* ExpenseChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartTests.swift; sourceTree = "<group>"; };
 		F219739A2962AB5D00EB8C62 /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
 		F2203398296E854700027B5F /* ExpenseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHistoryView.swift; sourceTree = "<group>"; };
+		F2A1C0DE0000000000000005 /* EditExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpenseView.swift; sourceTree = "<group>"; };
 		F2276ABB2D4FF67500886823 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F231DC892CCD9C58000482DA /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
 		F26C1E732CB3463800C08E16 /* FullWidthButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonStyle.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				F2D6A32229602B8D0078A5B2 /* CurrencyTextField.swift */,
 				F2D6A32429602BA40078A5B2 /* CurrencyUITextField.swift */,
 				F2203398296E854700027B5F /* ExpenseHistoryView.swift */,
+				F2A1C0DE0000000000000005 /* EditExpenseView.swift */,
 				F2F8592029983BD8004F4F96 /* Token.swift */,
 			);
 			path = Expense;
@@ -571,6 +574,7 @@
 				89ECF7BC2B6D921600BC4EFD /* DataParser.swift in Sources */,
 				F2D7FB482CC74E0100E2FD6C /* ValuePropositionView.swift in Sources */,
 				F2203399296E854700027B5F /* ExpenseHistoryView.swift in Sources */,
+				F2A1C0DE0000000000000004 /* EditExpenseView.swift in Sources */,
 				F231DC8A2CCD9C5C000482DA /* SignUpFlow.swift in Sources */,
 				F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,

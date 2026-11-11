@@ -148,6 +148,15 @@ struct Expense {
                 state.expenseChart = .init(chartData: state.chartData)
                 state.expenseSummary = .init(chartData: state.chartData)
                 return .none
+            case let .destination(.presented(.expenseHistory(.delegate(.expenseUpdated(expense))))):
+                guard let index = state.chartData.firstIndex(where: { $0.remoteId == expense.remoteId }) else {
+                    return .none
+                }
+                state.chartData[index] = expense
+                state.chartData.sort(by: { $0.category.rawValue < $1.category.rawValue })
+                state.expenseChart = .init(chartData: state.chartData)
+                state.expenseSummary = .init(chartData: state.chartData)
+                return .none
             case .destination:
                 return .none
             }
@@ -186,7 +195,9 @@ struct ExpenseView: View {
                     Spacer()
                     VStack {
                         ExpenseSummaryView(store: store.scope(state: \.expenseSummary, action: \.expenseSummary))
-                        categorySelector(store: store)
+                        CategoryPicker(selected: store.data.category) { category in
+                            store.send(.selectCategory(category))
+                        }
                         HStack {
                             CurrencyTextField(value: $store.data.amount.sending(\.amountChanged))
                             .frame(maxHeight: 50)
@@ -206,32 +217,6 @@ struct ExpenseView: View {
         }
     }
     
-    
-    private func categorySelector(store: StoreOf<Expense>) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
-                    ZStack {
-                        Capsule()
-                            .frame(width: 105, height: 35)
-                            .foregroundColor(category.color)
-                        Button(action: {
-                            store.send(.selectCategory(category))
-                        }, label: {
-                            Text(category.rawValue.capitalized)
-                                .foregroundColor(tabTextColor(selectedCategory: category))
-                                .font(.caption)
-                        })
-                        .frame(width: 100, height: 30)
-                        .background(tabFillColor(selectedCategory: category))
-                        .clipShape(Capsule())
-                    }
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 10)
-        }
-    }
     
     private func submitButton(store: StoreOf<Expense>) -> some View {
         Button(action: {
@@ -283,14 +268,36 @@ extension ExpenseView {
         
         return color
     }
+}
+
+struct CategoryPicker: View {
+    let selected: ExpenseCategory
+    let onSelect: (ExpenseCategory) -> Void
     
-    func tabTextColor(selectedCategory: ExpenseCategory) -> Color {
-        return store.data.category == selectedCategory ? .white : .black
-    }
-    
-    func tabFillColor(selectedCategory: ExpenseCategory) -> Color {
-        let cellCategory = store.data.category
-        return cellCategory == selectedCategory ? cellCategory.color : .white
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(ExpenseCategory.allCases, id: \.rawValue) { category in
+                    ZStack {
+                        Capsule()
+                            .frame(width: 105, height: 35)
+                            .foregroundColor(category.color)
+                        Button(action: {
+                            onSelect(category)
+                        }, label: {
+                            Text(category.rawValue.capitalized)
+                                .foregroundColor(category == selected ? .white : .black)
+                                .font(.caption)
+                        })
+                        .frame(width: 100, height: 30)
+                        .background(category == selected ? category.color : .white)
+                        .clipShape(Capsule())
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
+        }
     }
 }
 

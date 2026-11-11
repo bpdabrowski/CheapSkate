@@ -13,6 +13,7 @@ struct ExpenseHistory {
     @ObservableState
     struct State: Equatable {
         var chartData: [ExpenseData]
+        @Presents var editExpense: EditExpense.State?
         
         var monthlyExpenses: [(key: DateComponents, value: [Array<ExpenseData>.Element])] {
             return Dictionary(grouping: chartData, by: { $0.date.date.monthAndYear })
@@ -24,10 +25,14 @@ struct ExpenseHistory {
     enum Action {
         case onAppear
         case handleAllExpensesResult([ExpenseData])
+        case editButtonTapped(ExpenseData)
+        case editExpense(PresentationAction<EditExpense.Action>)
         case deleteExpense(ExpenseData)
         case delegate(Delegate)
 
+        @CasePathable
         enum Delegate {
+            case expenseUpdated(ExpenseData)
             case expenseDeleted(ExpenseData)
         }
     }
@@ -44,6 +49,22 @@ struct ExpenseHistory {
             case let .handleAllExpensesResult(expenses):
                 state.chartData = expenses
                 return .none
+            case let .editButtonTapped(expense):
+                state.editExpense = .init(expense: expense)
+                return .none
+            case let .editExpense(.presented(.delegate(.save(expense)))):
+                guard let remoteId = expense.remoteId,
+                      let index = state.chartData.firstIndex(where: { $0.remoteId == remoteId }) else {
+                    return .none
+                }
+                state.chartData[index] = expense
+                return .run { send in
+                    @Dependency(\.requestManager) var requestManager
+                    try await requestManager.fireAndForget(ExpenseRequest.update(remoteId, expense))
+                    await send(.delegate(.expenseUpdated(expense)))
+                }
+            case .editExpense:
+                return .none
             case let .deleteExpense(expense):
                 guard let remoteId = expense.remoteId else {
                     return .none
@@ -58,11 +79,14 @@ struct ExpenseHistory {
                 return .none
             }
         }
+        .ifLet(\.$editExpense, action: \.editExpense) {
+            EditExpense()
+        }
     }
 }
 
 struct ExpenseHistoryView: View {
-    let store: StoreOf<ExpenseHistory>
+    @Bindable var store: StoreOf<ExpenseHistory>
     
     var body: some View {
         ScrollView() {
@@ -84,6 +108,10 @@ struct ExpenseHistoryView: View {
             }
             
             Spacer(minLength: 10)
+        }
+        .sheet(item: $store.scope(state: \.editExpense, action: \.editExpense)) { store in
+            EditExpenseView(store: store)
+                .presentationDetents([.medium])
         }
     }
     
@@ -123,6 +151,9 @@ struct ExpenseHistoryView: View {
                     }
                     .contentShape(.contextMenuPreview, Capsule())
                     .contextMenu {
+                        Button("Edit", systemImage: "pencil") {
+                            store.send(.editButtonTapped(series))
+                        }
                         Button("Delete", systemImage: "trash", role: .destructive) {
                             store.send(.deleteExpense(series))
                         }

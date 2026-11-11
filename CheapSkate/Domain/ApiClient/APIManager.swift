@@ -29,6 +29,8 @@ actor APIManager: APIManagerProtocol {
             switch expenseRequest {
             case .save:
                 try await databaseRef.childByAutoId().setValue(request.params)
+            case .update:
+                try await databaseRef.updateChildValues(request.params as? [AnyHashable: Any] ?? [:])
             case .delete:
                 try await databaseRef.removeValue()
             case .getByMonth:

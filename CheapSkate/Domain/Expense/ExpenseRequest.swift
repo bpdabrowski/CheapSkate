@@ -9,6 +9,7 @@ import Foundation
 
 enum ExpenseRequest: RequestProtocol {
     case save(ExpenseData)
+    case update(String, ExpenseData)
     case delete(String)
     case getByMonth(Date? = nil)
     case all
@@ -17,7 +18,8 @@ enum ExpenseRequest: RequestProtocol {
         switch self {
         case .save:
             return "expenses"
-        case .delete(let remoteId):
+        case .update(let remoteId, _),
+            .delete(let remoteId):
             return "expenses/\(remoteId)"
         case .getByMonth:
             return "expenses"
@@ -33,17 +35,25 @@ enum ExpenseRequest: RequestProtocol {
     }
     
     var params: Any? {
-        guard case .save(let expenseData) = self else {
+        switch self {
+        case .save(let expenseData):
+            // TODO: See if we can adjust this to not use JSONSerialization and JSONEncoder.
+            return try! JSONSerialization.jsonObject(with: try! JSONEncoder().encode(expenseData))
+        case .update(_, let expenseData):
+            // Only the editable fields, so the stored id and date are left untouched.
+            return [
+                "category": expenseData.category.rawValue,
+                "amount": expenseData.amount
+            ]
+        case .delete, .getByMonth, .all:
             return nil
         }
-        // TODO: See if we can adjust this to not use JSONSerialization and JSONEncoder.
-        return try! JSONSerialization.jsonObject(with: try! JSONEncoder().encode(expenseData))
     }
     
     var urlParams: [String : String?] {
         var params = [String: String?]()
         switch self {
-        case .save, .delete:
+        case .save, .update, .delete:
             break
         case .getByMonth(let date):
             if let date {
@@ -60,6 +70,8 @@ enum ExpenseRequest: RequestProtocol {
         switch self {
         case .save:
             return .POST
+        case .update:
+            return .PATCH
         case .delete:
             return .DELETE
         case .getByMonth:
