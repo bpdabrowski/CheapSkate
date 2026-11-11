@@ -23,8 +23,8 @@ struct ExpenseSummary {
             monthlyGoal - chartData.sum
         }
         
-        var plusMinusDailyAverage: Double {
-            (monthlyGoal / Double(Date().daysInMonth)) - averageDailySpend()
+        func plusMinusDailyAverage(date: Date = Date()) -> Double {
+            (monthlyGoal / Double(date.daysInMonth)) - averageDailySpend(dayOfMonth: date)
         }
         
         func averageDailySpend(dayOfMonth: Date = Date()) -> Double {
@@ -47,7 +47,7 @@ struct ExpenseSummaryView: View {
                 SummaryCell(title: "Daily Average", data: store.state.averageDailySpend(), color: .green)
                 SummaryCell(title: "Projected", data: store.state.extrapolatedSpend(), color: .orange)
                 SummaryCell(title: "+/- Total", data: store.state.plusMinus, color: .purple)
-                SummaryCell(title: "+/- Daily Average", data: store.state.plusMinusDailyAverage, color: .blue)
+                SummaryCell(title: "+/- Daily Average", data: store.state.plusMinusDailyAverage(), color: .blue)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 10)

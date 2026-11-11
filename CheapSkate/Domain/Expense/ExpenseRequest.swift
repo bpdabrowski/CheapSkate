@@ -9,6 +9,7 @@ import Foundation
 
 enum ExpenseRequest: RequestProtocol {
     case save(ExpenseData)
+    case delete(String)
     case getByMonth(Date? = nil)
     case all
     
@@ -16,6 +17,8 @@ enum ExpenseRequest: RequestProtocol {
         switch self {
         case .save:
             return "expenses"
+        case .delete(let remoteId):
+            return "expenses/\(remoteId)"
         case .getByMonth:
             return "expenses"
         case .all:
@@ -40,7 +43,7 @@ enum ExpenseRequest: RequestProtocol {
     var urlParams: [String : String?] {
         var params = [String: String?]()
         switch self {
-        case .save:
+        case .save, .delete:
             break
         case .getByMonth(let date):
             if let date {
@@ -57,6 +60,8 @@ enum ExpenseRequest: RequestProtocol {
         switch self {
         case .save:
             return .POST
+        case .delete:
+            return .DELETE
         case .getByMonth:
             return .GET
         case .all:

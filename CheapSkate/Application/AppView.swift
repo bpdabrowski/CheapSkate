@@ -104,6 +104,9 @@ struct AppView: View {
                 LoginView.init(store: loginStore)
             } else if let onboardingStore = store.scope(state: \.onboarding, action: \.onboarding) {
                 OnboardingFlow.init(store: onboardingStore)
+            } else {
+                // Keeps the Group non-empty so onAppear fires and routes to a screen.
+                ProgressView()
             }
         }.onAppear {
             store.send(.onAppear)

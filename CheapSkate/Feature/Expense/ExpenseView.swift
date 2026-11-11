@@ -22,6 +22,8 @@ struct ExpenseData: Equatable, Codable {
     var category: ExpenseCategory = .food
     var amount: Double = 0.00
     var date: TimeInterval = Date().timeIntervalSince1970
+    // Firebase key the expense is stored under. Only set on fetched expenses, never written back.
+    var remoteId: String? = nil
 }
 
 enum ExpenseCategory: String, CaseIterable, Codable {
@@ -140,6 +142,11 @@ struct Expense {
                 state.destination = .expenseHistory(.init(chartData: state.chartData))
                 return .none
             case .expenseChart:
+                return .none
+            case let .destination(.presented(.expenseHistory(.delegate(.expenseDeleted(expense))))):
+                state.chartData.removeAll { $0.remoteId == expense.remoteId }
+                state.expenseChart = .init(chartData: state.chartData)
+                state.expenseSummary = .init(chartData: state.chartData)
                 return .none
             case .destination:
                 return .none

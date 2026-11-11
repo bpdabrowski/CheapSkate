@@ -29,6 +29,8 @@ actor APIManager: APIManagerProtocol {
             switch expenseRequest {
             case .save:
                 try await databaseRef.childByAutoId().setValue(request.params)
+            case .delete:
+                try await databaseRef.removeValue()
             case .getByMonth:
                 let snapshot = try await databaseRef
                     .queryOrdered(byChild: "date")

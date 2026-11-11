@@ -24,8 +24,14 @@ struct ExpenseHistory {
     enum Action {
         case onAppear
         case handleAllExpensesResult([ExpenseData])
+        case deleteExpense(ExpenseData)
+        case delegate(Delegate)
+
+        enum Delegate {
+            case expenseDeleted(ExpenseData)
+        }
     }
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -37,6 +43,18 @@ struct ExpenseHistory {
                 }
             case let .handleAllExpensesResult(expenses):
                 state.chartData = expenses
+                return .none
+            case let .deleteExpense(expense):
+                guard let remoteId = expense.remoteId else {
+                    return .none
+                }
+                state.chartData.removeAll { $0.remoteId == remoteId }
+                return .run { send in
+                    @Dependency(\.requestManager) var requestManager
+                    try await requestManager.fireAndForget(ExpenseRequest.delete(remoteId))
+                    await send(.delegate(.expenseDeleted(expense)))
+                }
+            case .delegate:
                 return .none
             }
         }
@@ -101,6 +119,12 @@ struct ExpenseHistoryView: View {
                                 .font(.system(size: 12))
                                 .frame(alignment: .trailing)
                                 .padding(.trailing, 10)
+                        }
+                    }
+                    .contentShape(.contextMenuPreview, Capsule())
+                    .contextMenu {
+                        Button("Delete", systemImage: "trash", role: .destructive) {
+                            store.send(.deleteExpense(series))
                         }
                     }
                 }

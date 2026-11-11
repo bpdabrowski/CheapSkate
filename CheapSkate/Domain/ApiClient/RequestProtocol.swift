@@ -51,4 +51,5 @@ extension RequestProtocol {
 enum RequestType: String {
     case GET
     case POST
+    case DELETE
 }

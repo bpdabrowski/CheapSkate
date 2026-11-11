@@ -41,8 +41,8 @@ final class RequestManager: RequestManagerProtocol {
         }
         let data = try await apiManager.perform(request, userId: userId)
         let decoded: [String: ExpenseData] = try parser.parse(data: data)
-        return decoded.map { _, value in
-            ExpenseData(category: value.category, amount: value.amount, date: value.date)
+        return decoded.map { key, value in
+            ExpenseData(category: value.category, amount: value.amount, date: value.date, remoteId: key)
         }
     }
 }
