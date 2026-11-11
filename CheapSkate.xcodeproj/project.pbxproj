@@ -85,6 +85,10 @@
 		F2F8592329983C12004F4F96 /* Auth+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592229983C12004F4F96 /* Auth+Keychain.swift */; };
 		F2F8592529983ED2004F4F96 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8592429983ED2004F4F96 /* LoginView.swift */; };
 		F2A1C0DE0000000000000001 /* IssueReportingTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F2A1C0DE0000000000000002 /* IssueReportingTestSupport */; };
+		F2A1C0DE0000000000000014 /* PlaidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A1C0DE0000000000000013 /* PlaidClient.swift */; };
+		F2A1C0DE0000000000000017 /* BankLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A1C0DE0000000000000016 /* BankLinkView.swift */; };
+		F2A1C0DE000000000000001A /* BankLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A1C0DE0000000000000019 /* BankLinkTests.swift */; };
+		F2A1C0DE0000000000000012 /* LinkKit in Frameworks */ = {isa = PBXBuildFile; productRef = F2A1C0DE0000000000000011 /* LinkKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +151,9 @@
 		F2F8592029983BD8004F4F96 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F2F8592229983C12004F4F96 /* Auth+Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Keychain.swift"; sourceTree = "<group>"; };
 		F2F8592429983ED2004F4F96 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F2A1C0DE0000000000000013 /* PlaidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaidClient.swift; sourceTree = "<group>"; };
+		F2A1C0DE0000000000000016 /* BankLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankLinkView.swift; sourceTree = "<group>"; };
+		F2A1C0DE0000000000000019 /* BankLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankLinkTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +196,7 @@
 				891C2C5D2C30815500A1F99E /* FirebaseAnalytics in Frameworks */,
 				891C2C6D2C30815500A1F99E /* FirebaseCrashlytics in Frameworks */,
 				F284F850295D617D00EB7E7C /* Dependencies in Frameworks */,
+				F2A1C0DE0000000000000012 /* LinkKit in Frameworks */,
 				891C2C672C30815500A1F99E /* FirebaseAppDistribution-Beta in Frameworks */,
 				891C2C732C30815500A1F99E /* FirebaseDynamicLinks in Frameworks */,
 				891C2C792C30815500A1F99E /* FirebaseFirestoreSwift in Frameworks */,
@@ -223,6 +231,7 @@
 				89ECF7B42B6D8BC400BC4EFD /* Auth */,
 				899843162B4A641E00C2FDCC /* ApiClient */,
 				F21973A1296ABB0900EB8C62 /* Expense */,
+				F2A1C0DE0000000000000015 /* Plaid */,
 				F284F855295D653600EB7E7C /* APIHelpers.swift */,
 			);
 			path = Domain;
@@ -232,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				F2D7FB462CC74DDD00E2FD6C /* Onboarding */,
+				F2A1C0DE0000000000000018 /* BankLink */,
 				F2F8591D29983B92004F4F96 /* Auth */,
 				F21973A2296ABB1900EB8C62 /* Expense */,
 			);
@@ -292,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				F26C1E802CBAF9C700C08E16 /* Auth */,
+				F2A1C0DE000000000000001B /* BankLink */,
 				F27CE0E92C445DBC007B4C1E /* Expense */,
 			);
 			path = Feature;
@@ -397,6 +408,30 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		F2A1C0DE0000000000000015 /* Plaid */ = {
+			isa = PBXGroup;
+			children = (
+				F2A1C0DE0000000000000013 /* PlaidClient.swift */,
+			);
+			path = Plaid;
+			sourceTree = "<group>";
+		};
+		F2A1C0DE0000000000000018 /* BankLink */ = {
+			isa = PBXGroup;
+			children = (
+				F2A1C0DE0000000000000016 /* BankLinkView.swift */,
+			);
+			path = BankLink;
+			sourceTree = "<group>";
+		};
+		F2A1C0DE000000000000001B /* BankLink */ = {
+			isa = PBXGroup;
+			children = (
+				F2A1C0DE0000000000000019 /* BankLinkTests.swift */,
+			);
+			path = BankLink;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -465,6 +500,7 @@
 				891C2C8E2C30815500A1F99E /* FirebaseStorage */,
 				891C2C902C30815500A1F99E /* FirebaseStorageCombine-Community */,
 				891C2C922C30815500A1F99E /* FirebaseVertexAI-Preview */,
+				F2A1C0DE0000000000000011 /* LinkKit */,
 			);
 			productName = CheapSkate;
 			productReference = F284F839295D5EC500EB7E7C /* CheapSkate.app */;
@@ -502,6 +538,7 @@
 				F284F84C295D617D00EB7E7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				89E1E3C92C307DBA0075A6F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F2A1C0DE0000000000000003 /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */,
+				F2A1C0DE0000000000000010 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */,
 			);
 			productRefGroup = F284F83A295D5EC500EB7E7C /* Products */;
 			projectDirPath = "";
@@ -541,6 +578,7 @@
 				F27CE0EB2C445DE1007B4C1E /* ExpenseHistoryTests.swift in Sources */,
 				F284F7BB2C87FD11002DD619 /* ExpenseSummaryTests.swift in Sources */,
 				F21265DB2C5F07430039DBE9 /* ExpenseChartTests.swift in Sources */,
+				F2A1C0DE000000000000001A /* BankLinkTests.swift in Sources */,
 				F26C1E822CBAF9DE00C08E16 /* LoginReducerTests.swift in Sources */,
 				F26C1E862CBB020200C08E16 /* RegisterReducerTests.swift in Sources */,
 			);
@@ -579,6 +617,8 @@
 				F2D3C13F2C9BB95E00114BBB /* OutlinedTextFieldStyle.swift in Sources */,
 				F219739B2962AB5D00EB8C62 /* ExpenseChartView.swift in Sources */,
 				F284F83D295D5EC500EB7E7C /* CheapSkateApp.swift in Sources */,
+				F2A1C0DE0000000000000014 /* PlaidClient.swift in Sources */,
+				F2A1C0DE0000000000000017 /* BankLinkView.swift in Sources */,
 				F284F856295D653600EB7E7C /* APIHelpers.swift in Sources */,
 				F26C1E742CB3463D00C08E16 /* FullWidthButtonStyle.swift in Sources */,
 				F2872ACE2D0F8E7A0022730D /* BudgetStyleViewModifier.swift in Sources */,
@@ -780,6 +820,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "CheapSkate uses the camera when your bank asks you to verify your identity.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -812,6 +853,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "CheapSkate uses the camera when your bank asks you to verify your identity.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -887,6 +929,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.9.0;
+			};
+		};
+		F2A1C0DE0000000000000010 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/plaid/plaid-link-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1046,6 +1096,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F2A1C0DE0000000000000003 /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */;
 			productName = IssueReportingTestSupport;
+		};
+		F2A1C0DE0000000000000011 /* LinkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2A1C0DE0000000000000010 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */;
+			productName = LinkKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

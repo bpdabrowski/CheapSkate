@@ -62,6 +62,7 @@ struct Expense {
     @Reducer
     enum Destination {
         case expenseHistory(ExpenseHistory)
+        case bankLink(BankLink)
     }
     
     @ObservableState
@@ -84,6 +85,7 @@ struct Expense {
         case getExpenses(Date? = nil)
         case handleGetExpenseResult(TaskResult<[ExpenseData]>)
         case logoutButtonTapped
+        case connectBankButtonTapped
         case expenseChart(ExpenseChart.Action)
         case expenseSummary(ExpenseSummary.Action)
         case destination(PresentationAction<Destination.Action>)
@@ -168,6 +170,11 @@ struct Expense {
                 state.expenseChart = .init(chartData: state.chartData)
                 state.expenseSummary = .init(chartData: state.chartData)
                 return .none
+            case .connectBankButtonTapped:
+                state.destination = .bankLink(BankLink.State())
+                return .none
+            case .destination(.presented(.bankLink(.delegate(.bankLinked)))):
+                return .send(.getExpenses(Date()))
             case .destination:
                 return .none
             }
@@ -192,6 +199,11 @@ struct ExpenseView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 34, height: 34)
                                 .frame(maxWidth: .infinity)
+                            Button(action: { store.send(.connectBankButtonTapped) }) {
+                              Image(systemName: "building.columns")
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityLabel("Connect bank")
                             Button(action: { store.send(.logoutButtonTapped) }) {
                               Image(systemName: "rectangle.portrait.and.arrow.right")
                             }.frame(maxWidth: .infinity, alignment: .trailing)
@@ -222,6 +234,9 @@ struct ExpenseView: View {
             }
             .navigationDestination(item: $store.scope(state: \.destination?.expenseHistory, action: \.destination.expenseHistory)) { store in
                 ExpenseHistoryView(store: store)
+            }
+            .sheet(item: $store.scope(state: \.destination?.bankLink, action: \.destination.bankLink)) { store in
+                BankLinkView(store: store)
             }
         }.onAppear {
             store.send(.onAppear)
